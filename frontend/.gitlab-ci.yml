@@ -21,9 +21,8 @@ stages: # List of stages for jobs, and their order of execution
   - test
   - deploy
 
-image: node:16.5.0
-
 build site:
+  image: node:16.5.0
   stage: build
   cache:
     key:

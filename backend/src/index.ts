@@ -1,5 +1,9 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from 'dotenv';
+import { Server as Httpserver } from "http";
+import {Server} from 'socket.io'
+
+import {ServerToClientEvents, ClientToServerEvents, SocketData} from './socketio/types'
 
 dotenv.config();
 
@@ -10,6 +14,17 @@ app.get("/", (req : Request,res : Response)=>{
     res.send("hello world");
 })
 
-app.listen(PORT, ()=>{
+const server : Httpserver = app.listen(PORT, ()=>{
     console.log(`Server is listening on port: ${PORT}`);
+})
+
+const io = new Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  SocketData
+>(server);
+
+io.on('connection', (socket)=>{
+    console.log(socket.id);
+    
 })

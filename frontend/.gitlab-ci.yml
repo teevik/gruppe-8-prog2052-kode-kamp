@@ -32,6 +32,7 @@ build site:
     paths:
       - node_modules/
   script:
+    - cd frontend
     - npm install
     - npm run build
   rules:

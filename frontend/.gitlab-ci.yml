@@ -4,8 +4,6 @@ stages: # List of stages for jobs, and their order of execution
   # - deploy
 
 image: node:16.5.0
-rules:
-  - when: always
 
 build site:
   stage: build
@@ -20,6 +18,8 @@ build site:
       prefix: npm
     paths:
       - ./frontend/node_modules/
+  rules:
+    - when: always
 
 test site:
   stage: test
@@ -34,3 +34,5 @@ test site:
       prefix: npm
     paths:
       - ./frontend/node_modules/
+  rules:
+    - when: always

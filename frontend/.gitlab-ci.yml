@@ -1,4 +1,3 @@
-
 stages: # List of stages for jobs, and their order of execution
   - build
   - test
@@ -7,13 +6,13 @@ stages: # List of stages for jobs, and their order of execution
 image: node:16.5.0
 rules:
   - when: always
-  cache:
-    key:
-      files:
-        - ./frontend/package-lock.json
-      prefix: npm
-    paths:
-      - ./frontend/node_modules/
+cache:
+  key:
+    files:
+      - ./frontend/package-lock.json
+    prefix: npm
+  paths:
+    - ./frontend/node_modules/
 
 build site:
   stage: build

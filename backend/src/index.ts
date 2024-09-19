@@ -1,9 +1,10 @@
-import express, { Express, Request, Response } from "express";
+import express from "express";
+import type { Express, Request, Response } from "express";
 import dotenv from 'dotenv';
 import { Server as Httpserver } from "http";
 import {Server} from 'socket.io'
 
-import {ServerToClientEvents, ClientToServerEvents, SocketData} from './socketio/types'
+import type { ServerToClientEvents, ClientToServerEvents, SocketData } from './socketio/types';
 
 dotenv.config();
 

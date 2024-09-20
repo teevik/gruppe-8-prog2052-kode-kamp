@@ -4,12 +4,16 @@ import dotenv from 'dotenv';
 import { Server as Httpserver } from "http";
 import {Server} from 'socket.io'
 
+import {socketAllowOrigin} from './middleware/socket'
+
 import type { ServerToClientEvents, ClientToServerEvents, SocketData } from './socketio/types';
 
 dotenv.config();
 
-const app : Express = express();
 const PORT = process.env.PORT || 3000;
+const app : Express = express();
+
+app.use(socketAllowOrigin);
 
 app.get("/", (req : Request,res : Response)=>{
     res.send("hello world");
@@ -23,9 +27,13 @@ const io = new Server<
   ClientToServerEvents,
   ServerToClientEvents,
   SocketData
->(server);
+>(server, {
+    cors: {
+        origin: "http://localhost:5173",  // Allow all origins, or specify a specific origin if needed
+        methods: ["GET", "POST"]
+    }
+});
 
 io.on('connection', (socket)=>{
-    console.log(socket.id);
-    
+    console.log("client with socket.id: ", socket.id, " connected!");
 })

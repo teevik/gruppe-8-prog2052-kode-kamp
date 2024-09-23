@@ -13,9 +13,33 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const MAX_PLAYERS_PR_GAME : number = 4;
 const COUNTDOWN_LENGTH_SECONDS : number = 5;
+const TIME_AT_ENDSCREEN_SECONDS : number = 60;
+const GAME_LENGTH_MINUTES : number = 15;
 
 const app : Express = express();
-const gameModes : string[] = ["First to finish", "Fastest code"];
+const gameModes : string[] = ["First to finish"];
+const randomUsernames: string[] = [
+    "ShadowHunter",
+    "LightningBolt",
+    "MaverickX",
+    "SilentStorm",
+    "NightWolf",
+    "PixelWizard",
+    "ThunderStrike",
+    "GhostRider",
+    "BlazePhoenix",
+    "IronHeart",
+    "CyberNinja",
+    "LunarEclipse",
+    "RapidFire",
+    "NeonTiger",
+    "WildCard",
+    "DarkPhantom",
+    "FrostByte",
+    "EpicSurge",
+    "StormBreaker",
+    "VortexMaster"
+  ];  
 
 let gameCount = 0;
 
@@ -44,10 +68,11 @@ interface Player extends Socket {
 
 }
 
-// interface Game extends Lobby {
-//     gameRoomID : string,
-// }
 
+
+interface Game {
+    scoreboard : SocketData[],
+}
 
 
 interface Lobby {
@@ -68,22 +93,25 @@ io.on('connection', (socket)=>{
 
     //TODO: call middleware function to validate jwt token and set socket.data.userID to the ID of the player
     //This is so that we can track the stats of the player
-
+    socket.data.userID = randomUsernames[Math.floor(Math.random() * randomUsernames.length)];
     
-    const rejoinGameRoom = socket.handshake.query.gameRoomID;
-    if(typeof rejoinGameRoom === "string"){
-        if(io.sockets.adapter.rooms.get(rejoinGameRoom)){
-            socket.join(rejoinGameRoom);
-        }
-    }
+    // const rejoinGameRoomID = socket.handshake.query.gameRoomID;
+    // if(typeof rejoinGameRoomID === "string"){
+    //     if(io.sockets.adapter.rooms.get(rejoinGameRoomID)){
+    //         socket.join(rejoinGameRoomID);
+    //         joinGame(socket);
+    //     }
+    // }
     
     // Add player to lobby
     lobby.players.push(socket);
     socket.join('lobby');
 
+    //Emit all players to the new player
+    socket.emit('lobbyJoined', lobby.players.map(player=>player.data.userID));
 
-    //Emit lobbyJoined event
-    socket.to('lobby').emit('lobbyJoined', lobby.gameMode);
+    //Emit to entire lobby that player has joined
+    io.to('lobby').emit('playerJoinedLobby', socket.data.userID);
 
     //Create game room if lobby is full createGameRoom()
     if(lobby.players.length == MAX_PLAYERS_PR_GAME){
@@ -94,6 +122,7 @@ io.on('connection', (socket)=>{
     socket.on('disconnect', ()=>{
         lobby.players = lobby.players.filter(player => player !== socket)
         console.log("client with socket.id", socket.id, " disconnected")
+        io.to('lobby').emit('playerLeftLobby', socket.data.userID);
     })
 })
 
@@ -107,14 +136,12 @@ function createGameRoom(){
     players.forEach((socket)=>{
         socket.leave('lobby');
         socket.join(gameRoomID);
-        socket.to(gameRoomID).emit('gameJoined', gameRoomID);
+        socket.emit('gameJoined', gameRoomID);
     })
 
     let countDown = COUNTDOWN_LENGTH_SECONDS;
     const countDownInterval = setInterval(()=>{
-        players.forEach((socket)=>{
-            socket.to(gameRoomID).emit('countdown', countDown)
-        })
+        io.to(gameRoomID).emit('countdown', countDown);
         countDown--;
     }, 1000);
 
@@ -123,17 +150,91 @@ function createGameRoom(){
         startGame(gameRoomID, players, lobby.gameMode);
     }, COUNTDOWN_LENGTH_SECONDS * 1000 + 1000)
 
-    //Change gamemode and task of lobby
+    //Change gamemode for the refreshed lobby
     lobby.gameMode = gameModes[Math.floor(Math.random() * gameModes.length)];
     
 }
 
 function startGame(gameRoomID : string, players : Socket[], gameMode : string){
-    //Choose a task for this game (task of the given gameMode)
 
-    //Emit the taskID so that the client can fetch the 
+    //Initialize som datastructure to hold gameresults ???
+    let game : Game = {scoreboard:[]};
+
+    //Choose a task for this game (task of the given gameMode)
+    let taskID = "123"; //Change to actual taskIDs 
+
+    //Emit the taskID so that the client can fetch the
+    io.to(gameRoomID).emit('gameStart', taskID);
+
+    players.forEach((socket)=>{
+        
+        socket.on('submitCode', async (code)=>{
+
+            //Server-side validation so that the user dont spam the scoreboard
+            if(socket.data.complete){
+                return
+            }
+            
+
+            switch (gameMode) {
+                case gameModes[0]:
+                    //Send code to code runner
+                    
+                    //Handle result (amount of tests passed/total amount of tests)
+                    let testsPassed = 100;
+                    let totalTests = 100;
+                    
+                    let result = `${testsPassed}/${totalTests}`
+                    
+                    //if all tests passed, push player onto scoreboard
+                    if(testsPassed == totalTests) {
+                        //Updating the scoreboard
+                        game.scoreboard.push(socket.data);
+
+                        //Emitting to the client that code ran successfully for all the tests
+                        socket.emit('success', result)
+                        socket.data.complete = true;
+
+                        //Emitting to all clients that the scoreboard is updated
+                        io.to(gameRoomID).emit('scoreboard', game.scoreboard)
+
+                        if(game.scoreboard.length == players.length){
+                            endGame(gameRoomID, players);
+                        }
+                    } else {
+                        socket.emit('fail', result)
+                    }                
+            }
+        })
+
+        socket.on('disconnect', ()=>{
+            
+        })
+    })
 
     //Listen for game events (and disconnect), and broadcast the events to the same room
+        //When code is submitted, pass the code to code runner, 
+        //if the code is accepted by the code runner
+            //emit to all sockets that a user has completed
     
-    //Start timeout to finish the game and 
+    //Start timeout to finish the game
+        //When the game is finished, emit gameOver event to all clients, together with data for scores and scoreboard
+        //Also register statistics for all sockets that has a userID, use the userID to update stats in the database
+        //Start new timeout for terminating the game by making all sockets to leave the current room
+    setTimeout(()=>{
+        endGame(gameRoomID, players);
+    }, GAME_LENGTH_MINUTES * 60 * 1000)
+}
+
+function endGame(gameRoomID : string, players: Socket[]) {
+
+    //TODO: update stats and give points
+
+    io.to(gameRoomID).emit('gameOver')
+
+    setTimeout(()=>{
+        players.forEach((socket)=>{
+            socket.disconnect(true);
+        })
+    }, TIME_AT_ENDSCREEN_SECONDS * 1000)
 }

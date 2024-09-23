@@ -2,10 +2,18 @@ import {io} from 'socket.io-client';
 
 function joinLobby(){
 
-    const socket = io("ws://localhost:3000");
+    const socket = io("http://localhost:3000");
     
-    socket.on("hello", (args)=>{
-        console.log(args);
+    socket.on("lobbyJoined", (args)=>{
+        console.log("Joined lobby!", args);
+    })
+
+    socket.on("gameJoined", (args)=>{
+        console.log("Joined game!", args);
+    })
+
+    socket.on("countdown", (args)=>{
+        console.log("countdown", args);
     })
 }
 

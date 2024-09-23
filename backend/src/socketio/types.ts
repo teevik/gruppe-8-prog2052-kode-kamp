@@ -4,7 +4,7 @@ interface Score{
 }
 
 interface ServerToClientEvents {
-    lobbyJoined: (lobbyID : string) => void;
+    lobbyJoined: (gameMode : string) => void;
     gameStarted: (gameRoomID : string) => void;
     gameOver: (gameRoomID : string, scores : [Score]) => void;
 }

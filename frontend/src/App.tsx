@@ -2,15 +2,10 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import {joinLobby} from './socket-client/socketClient'
+import {SocketClient} from './socket-client/SocketClient'
 
 function App() {
   const [count, setCount] = useState(0)
-
-  useEffect(()=>{
-    joinLobby();
-    console.log("join lobby is called from client")
-  }, [])
 
   return (
     <>

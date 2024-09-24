@@ -24,13 +24,8 @@ html, body {
     background-color: #1b1e25;
 }
 
-.landingPage .logo {
-    font-size: 24px;
-    color: white;
-    font-weight: bold;
-}
 
-.landingPage .signin-btn {
+.landingPage .signinButton {
     padding: 10px 20px;
     background-color: #eaeaea;
     border: none;
@@ -39,7 +34,7 @@ html, body {
     font-weight: bold;
 }
 
-/* Centered main content */
+/* Centered main content 
 .main-content {
     display: flex;
     flex-direction: column;
@@ -47,15 +42,16 @@ html, body {
     justify-content: center;
     flex-grow: 1;
 }
+*/
 
 /* Centered section with button and grid */
-.centered-content {
+.centeredContent {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.speed-coding-btn {
+.speedCodingButton {
     padding: 10px 30px;
     background-color: #1b1e25;
     color: white;

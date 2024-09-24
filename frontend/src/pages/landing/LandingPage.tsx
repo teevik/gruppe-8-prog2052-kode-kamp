@@ -6,8 +6,8 @@ const LandingPage: React.FC = () => {
   return (
     <div className="landingPage">
         <Nav />
-        <div className="centered-content">
-          <h2 className="speed-coding-btn">Speed Coding (?)</h2>
+        <div className="centeredContent">
+          <h2 className="speedCodingButton">Speed Coding (?)</h2>
           <p>Waiting for more players</p>
           <div className="landingUserLobby">
             {Array.from({ length: 10 }, (_, index) => (

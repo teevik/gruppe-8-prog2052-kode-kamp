@@ -11,11 +11,14 @@ interface ServerToClientEvents {
     gameOver: () => void;
     countdown : (counter : number) => void;
     task : (taskID : string) => void;
-    scoreboard : (scoreboard : SocketData[]) => void;
+    updateScoreboard : (scores : SocketData[]) => void;
+    lobbyUpdate : (amountPlayers : string) => void;
+    lobbyCountdown : (counter : string) => void;
 }
 
 interface ClientToServerEvents {
     submitCode: () => void;
+    joinLobby : () => void;
 }
 
 interface SocketData {

@@ -12,6 +12,9 @@ const Nav: FC = () => {
                 <Link to="/Sign-in" className="link">
                     <button>Sign in</button>
                 </Link>
+                <Link to="/GamePage" className="link">
+                    <button>Play</button>
+                </Link>
             </div>
         </nav>
     );

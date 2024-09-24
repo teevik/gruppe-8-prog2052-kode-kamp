@@ -1,0 +1,113 @@
+/* Ensure html and body fill the viewport */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif; /* You can adjust this to your preferred font */
+}
+
+/* The main container should take full height */
+.landingPage {
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+    justify-content: space-between;
+    text-align: center;
+    background-color: #ffffff; /* Set the background color of the entire page */
+}
+
+/* Header / Nav */
+.landingPage header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #1b1e25;
+}
+
+.landingPage .logo {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+
+.landingPage .signin-btn {
+    padding: 10px 20px;
+    background-color: #eaeaea;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Centered main content */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+/* Centered section with button and grid */
+.centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.speed-coding-btn {
+    padding: 10px 30px;
+    background-color: #1b1e25;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.centered-content p {
+    margin-bottom: 20px;
+}
+
+/* Player lobby grid */
+.landingUserLobby {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    grid-template-rows: repeat(2, 50px);
+    gap: 10px;
+}
+
+.landingPlayerSlot {
+    width: 50px;
+    height: 50px;
+    background-color: #eaeaea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+/* Footer with guest information */
+footer {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.landingUserInfo {
+    display: flex;
+    align-items: center;
+}
+
+.landingUserInfo span {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.landingUserInfo p {
+    margin: 0;
+}

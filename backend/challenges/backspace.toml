@@ -1,0 +1,39 @@
+title = "Backspace"
+
+license = "Creative Commons License (cc by)"
+attribution = [
+  { name = "Tómas Ken Magnússon", url = "https://open.kattis.com/problem-authors/T%C3%B3mas%20Ken%20Magn%C3%BAsson" },
+  { name = "Bjarki Ágúst Guðmundsson", url = "https://open.kattis.com/problem-authors/Bjarki%20%C3%81g%C3%BAst%20Gu%C3%B0mundsson" }
+]
+
+description = '''
+<p>
+  Shortly before the programming contest started, Bjarki decided to update his computer. He didn’t notice anything strange until he started coding in his favorite editor, Bim (Bjarki IMproved). Usually when he’s writing in an editor and presses the <em>backspace</em> key a single character is erased to the left. But after the update pressing that key outputs the character <b class="bfseries"><tt class="ttfamily">&lt;</tt></b>. He’s tested all the editors on his machine, Bmacs, Neobim, bjedit, NoteBjad++ and Subjark Text, but they all seem to have the same problem. He doesn’t have time to search the web for a solution, and instead decides to temporarily circumvent the issue with a simple program.
+</p>
+
+<p>
+  Help Bjarki write a program that takes as input the string that was written in the text editor, and outputs the string as Bjarki intended to write it. You can assume that Bjarki never intended to write the character <b class="bfseries"><tt class="ttfamily">&lt;</tt></b>, and that Bjarki never pressed the backspace key in an empty line.
+</p>
+'''
+
+input = '''
+<p>
+  One line containing the string that was written in the text editor. The length of the string is at most <span class= "tex2jax_process">$10^6$</span>, and it will only contain lowercase letters from the English alphabet as well as the character <b class="bfseries"><tt class="ttfamily">&lt;</tt></b>.
+</p>
+'''
+
+output = '''
+One line containing the string as Bjarki intended to write it.
+'''
+
+template = '''
+const input = readline();
+
+// console.log(output);
+'''
+
+tests = [
+  { input = ["a<bc<"], output = ["b"] },
+  { input = ["foss<<rritun"], output = ["forritun"] },
+  { input = ["a<a<a<aa<<"], output = [""] },
+]

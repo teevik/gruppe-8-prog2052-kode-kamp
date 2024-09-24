@@ -5,6 +5,7 @@ import { Server as Httpserver } from "http";
 import {Server, Socket} from 'socket.io'
 
 import {socketAllowOrigin} from './middleware/socket'
+import {randomUsernames} from './socketio/usernames'
 
 import type { ServerToClientEvents, ClientToServerEvents, SocketData } from './socketio/types';
 
@@ -15,31 +16,10 @@ const MAX_PLAYERS_PR_GAME : number = 4;
 const COUNTDOWN_LENGTH_SECONDS : number = 5;
 const TIME_AT_ENDSCREEN_SECONDS : number = 60;
 const GAME_LENGTH_MINUTES : number = 15;
+const LOBBY_TIMER_SECONDS : number = 30;
 
 const app : Express = express();
 const gameModes : string[] = ["First to finish"];
-const randomUsernames: string[] = [
-    "ShadowHunter",
-    "LightningBolt",
-    "MaverickX",
-    "SilentStorm",
-    "NightWolf",
-    "PixelWizard",
-    "ThunderStrike",
-    "GhostRider",
-    "BlazePhoenix",
-    "IronHeart",
-    "CyberNinja",
-    "LunarEclipse",
-    "RapidFire",
-    "NeonTiger",
-    "WildCard",
-    "DarkPhantom",
-    "FrostByte",
-    "EpicSurge",
-    "StormBreaker",
-    "VortexMaster"
-  ];  
 
 let gameCount = 0;
 
@@ -88,9 +68,50 @@ let lobby : Lobby = {
     // taskID : "1"
 };
 
+let lobbyCountdownCounter : number = LOBBY_TIMER_SECONDS;
+
+let lobbyInterval : any = null;
+
+function lobbyCountdown (){
+    //Emit countdown event to all cients
+    let countDownValue = `${lobbyCountdownCounter}s`;
+    
+
+    //Check if there are any players in the lobby, if not, clear this interval and reset lobbyCountdownCounter
+    if(lobby.players.length == 0){
+        lobbyInterval = null;
+        lobbyCountdownCounter = LOBBY_TIMER_SECONDS;
+        countDownValue = ""
+    } else {
+        lobbyCountdownCounter--;
+    }
+
+    if(lobbyCountdownCounter == 0){
+        createGameRoom()
+        lobbyInterval = null;
+        lobbyCountdownCounter = LOBBY_TIMER_SECONDS;
+        countDownValue = ""
+    }
+    io.emit('lobbyCountdown', countDownValue)
+}
+
 io.on('connection', (socket)=>{
     console.log("client with socket.id: ", socket.id, " connected!");
+    emitLobbyUpdate()
 
+    socket.on('joinLobby', ()=>{
+        if (!lobbyInterval){
+            lobbyInterval = setInterval(lobbyCountdown, 1000);
+        }
+        joinLobby(socket)
+    })
+    
+    socket.on('disconnect', ()=>{
+        console.log("client with socket.id: ", socket.id, " disconnected");
+    })
+})
+
+function joinLobby(socket : Socket){
     //TODO: call middleware function to validate jwt token and set socket.data.userID to the ID of the player
     //This is so that we can track the stats of the player
     socket.data.userID = randomUsernames[Math.floor(Math.random() * randomUsernames.length)];
@@ -107,11 +128,14 @@ io.on('connection', (socket)=>{
     lobby.players.push(socket);
     socket.join('lobby');
 
-    //Emit all players to the new player
+    //Confirmation to user that lobby was joined successfully and returning the name of all the players
     socket.emit('lobbyJoined', lobby.players.map(player=>player.data.userID));
 
     //Emit to entire lobby that player has joined
     io.to('lobby').emit('playerJoinedLobby', socket.data.userID);
+
+    //Emit to all clients that amount of players in lobby is updated
+    emitLobbyUpdate()
 
     //Create game room if lobby is full createGameRoom()
     if(lobby.players.length == MAX_PLAYERS_PR_GAME){
@@ -123,8 +147,13 @@ io.on('connection', (socket)=>{
         lobby.players = lobby.players.filter(player => player !== socket)
         console.log("client with socket.id", socket.id, " disconnected")
         io.to('lobby').emit('playerLeftLobby', socket.data.userID);
+        emitLobbyUpdate()
     })
-})
+}
+
+function emitLobbyUpdate(){
+    io.emit('lobbyUpdate', `${lobby.players.length}/${MAX_PLAYERS_PR_GAME}`)
+}
 
 function createGameRoom(){
     
@@ -132,6 +161,7 @@ function createGameRoom(){
     
     //Move players into gameroom
     let players : Socket[] = lobby.players.splice(0, MAX_PLAYERS_PR_GAME);
+    emitLobbyUpdate()
     
     players.forEach((socket)=>{
         socket.leave('lobby');
@@ -176,6 +206,7 @@ function startGame(gameRoomID : string, players : Socket[], gameMode : string){
             }
             
 
+            //Handling code submission differently based on gamemode
             switch (gameMode) {
                 case gameModes[0]:
                     //Send code to code runner
@@ -196,7 +227,7 @@ function startGame(gameRoomID : string, players : Socket[], gameMode : string){
                         socket.data.complete = true;
 
                         //Emitting to all clients that the scoreboard is updated
-                        io.to(gameRoomID).emit('scoreboard', game.scoreboard)
+                        io.to(gameRoomID).emit('updateScoreboard', game.scoreboard)
 
                         if(game.scoreboard.length == players.length){
                             endGame(gameRoomID, players);

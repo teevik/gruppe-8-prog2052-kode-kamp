@@ -1,8 +1,7 @@
 /* Global styles */
 body {
   margin: 0;
-  padding: 0;
-  
+  padding: 0;  
   font-family: Arial, sans-serif;
   background-color: #f4f7fa;
   color: #333;
@@ -43,10 +42,7 @@ body {
   opacity: 0.8;
 }
 
-/* Ensure that content below the nav is spaced correctly */
-main {
-  flex: 1;
-}
+
 
 /* Footer styles if needed */
 footer {

@@ -32,8 +32,21 @@ const input = readline();
 // console.log(output);
 '''
 
+sample_tests = [
+  { input = ["a<bc<"], output = ["b"] },
+  { input = ["foss<<rritun"], output = ["forritun"] },
+  { input = ["a<a<a<aa<<"], output = [""] },
+]
+
 tests = [
   { input = ["a<bc<"], output = ["b"] },
   { input = ["foss<<rritun"], output = ["forritun"] },
   { input = ["a<a<a<aa<<"], output = [""] },
+  { input = ["a<bc<"], output = ["b"] },
+  { input = ["foss<<rritun"], output = ["forritun"] },
+  { input = ["a<a<a<aa<<"], output = [""] },
+  { input = ["h<al<la"], output = ["ala"] },
+  { input = ["abcd<<efg<hi<<j"], output = ["abefj"] },
+  { input = ["abcdefghijkl<<<<<<"], output = ["abcdef"] },
+  { input = ["a<b<c<d<e<f<g<"], output = [""] },
 ]

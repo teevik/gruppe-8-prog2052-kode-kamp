@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+//import {useState} from 'react'
 import CodeEditor from '../../components/CodeEditor';
 import './GamePage.css'; // Import the CSS file
 
@@ -15,7 +15,7 @@ interface GameProps {
  */
 export default function SpeedCodingPage({taskID, gameMode} : GameProps) {
 
-  const [code, setCode] = useState<string>("");
+  //const [code, setCode] = useState<string>("");
 
   return (
     <div className="gamePageContainer">

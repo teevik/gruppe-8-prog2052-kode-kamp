@@ -6,104 +6,111 @@ html, body {
     font-family: Arial, sans-serif; /* You can adjust this to your preferred font */
 }
 
-/* The main container should take full height */
+/* Main container styling */
 .landingPage {
+    display: flex;
     flex-direction: column;
-    height: 100vh; /* Full viewport height */
+    height: 100vh;
     justify-content: space-between;
     text-align: center;
-    background-color: #ffffff; /* Set the background color of the entire page */
+    background-color: #ffffff;
 }
 
-/* Header / Nav */
-.landingPage header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Header styling */
+header {
+    margin-top: 20px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 0;
+}
+
+header p {
+    font-size: 1.1em;
+    color: #777;
+}
+
+/* Lobby container */
+.lobbyContainer {
+    background-color: #e6e6e6;
+    width: 300px;
+    margin: 0 auto;
     padding: 20px;
-    background-color: #1b1e25;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-
-.landingPage .signinButton {
-    padding: 10px 20px;
-    background-color: #eaeaea;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* Centered main content 
-.main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-}
-*/
-
-/* Centered section with button and grid */
-.centeredContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.speedCodingButton {
-    padding: 10px 30px;
-    background-color: #1b1e25;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
+/* Lobby header */
+.lobbyHeader {
     margin-bottom: 20px;
 }
 
-.centered-content p {
-    margin-bottom: 20px;
+.lobbyHeader h3 {
+    font-size: 1.2em;
+    margin: 0;
 }
 
-/* Player lobby grid */
-.landingUserLobby {
+.lobbyHeader p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Player grid layout */
+.playerGrid {
     display: grid;
-    grid-template-columns: repeat(5, 50px);
-    grid-template-rows: repeat(2, 50px);
-    gap: 10px;
+    grid-template-columns: repeat(4, 50px); /* 4 columns */
+    grid-gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
-.landingPlayerSlot {
+/* Individual player slot */
+.playerSlot {
     width: 50px;
     height: 50px;
-    background-color: #eaeaea;
+    background-color: #f0f0f0;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
 }
 
-/* Footer with guest information */
+/* Empty slot styling */
+.emptySlot {
+    width: 50px;
+    height: 50px;
+    background-color: #d3d3d3;
+    border-radius: 5px;
+}
+
+/* Join button styling */
+.joinButton {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.joinButton:hover {
+    background-color: #b3b3b3;
+}
+
+/* Footer styling */
 footer {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #777;
 }
 
-.landingUserInfo {
-    display: flex;
-    align-items: center;
+footer a {
+    color: #777;
+    text-decoration: none;
 }
 
-.landingUserInfo span {
-    font-size: 20px;
-    margin-right: 10px;
-}
-
-.landingUserInfo p {
-    margin: 0;
+footer a:hover {
+    text-decoration: underline;
 }

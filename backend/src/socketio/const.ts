@@ -1,4 +1,12 @@
-export const randomUsernames: string[] = [
+const PORT = process.env.PORT || 3000;
+const MAX_PLAYERS_PR_GAME : number = 4;
+const COUNTDOWN_LENGTH_SECONDS : number = 5;
+const TIME_AT_ENDSCREEN_SECONDS : number = 60;
+const GAME_LENGTH_MINUTES : number = 15;
+const LOBBY_TIMER_SECONDS : number = 30;
+const GAME_MODES : string[] = ["First to finish"];
+
+const randomUsernames: string[] = [
     "ShadowHunter",
     "LightningBolt",
     "MaverickX",
@@ -80,3 +88,14 @@ export const randomUsernames: string[] = [
     "WildPhantom",
     "StormViper"
 ];
+
+export {
+    randomUsernames,
+    PORT,
+    MAX_PLAYERS_PR_GAME,
+    COUNTDOWN_LENGTH_SECONDS,
+    TIME_AT_ENDSCREEN_SECONDS,
+    GAME_LENGTH_MINUTES,
+    LOBBY_TIMER_SECONDS,
+    GAME_MODES
+}

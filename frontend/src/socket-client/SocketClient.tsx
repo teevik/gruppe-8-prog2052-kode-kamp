@@ -1,19 +1,26 @@
 import {useEffect, useState} from 'react'
 import {socket} from '../socket'
+//import {SocketData} from '@backend/socketio/types'
+
+interface SocketData {
+    userID : string;
+    userName : string;
+}
 
 function SocketClient(){
-    const [inLobby, setInLobby] = useState(false);
-    const [players, setPlayers] = useState([""]);
-    const [player, setPlayer] = useState("");
+    const [inLobby, setInLobby] = useState<boolean>(false);
+    const [players, setPlayers] = useState<SocketData[]>([]);
+    const [player, setPlayer] = useState<SocketData | undefined>(undefined);
 
     const [countdownLobby, setCountdownLobby] = useState("");
-    const [amountPlayersLobby, setAmountPlayersLobby] = useState("0/8");
+    const [amountPlayersLobby, setAmountPlayersLobby] = useState(0);
+    const [totalPlayersLobby, setTotalPlayersLobby] = useState(0);
 
-    function updatePlayers(p : string[]){
+    function updatePlayers(p : SocketData[]){
         setPlayers(p);
     }
 
-    function updatePlayer(p : string){
+    function updatePlayer(p : SocketData){
         setPlayer(p);
     }
 
@@ -23,14 +30,14 @@ function SocketClient(){
 
     useEffect(()=>{
 
-        function playerJoinedLobby(args : string){
+        function playerJoinedLobby(args : SocketData){
             {
-                if (player === "") {
+                if (player === undefined) {
                     console.log("You have joined the lobby, userID: ", args)
                     updatePlayer(args)
                 } else {
                     console.log("Player joined the lobby: ", args);
-                    let playersUpdated : string[] = [...players];
+                    let playersUpdated : SocketData[] = [...players];
                     playersUpdated.push(args)
                     console.log("updated players: ", playersUpdated)
                     updatePlayers(playersUpdated)
@@ -39,16 +46,20 @@ function SocketClient(){
             }
         }
 
-        function playerLeftLobby(player : string) {
+        function playerLeftLobby(player : SocketData) {
             console.log("Player left the lobby: ", player);
-            updatePlayers(players.filter(player=> player!=player));
+            let playersUpdated = [...players];
+            playersUpdated = playersUpdated.filter(p=> player.userID !== p.userID)
+            console.log("player.userID ", player.userID);
+            console.log("updated players: ", playersUpdated)
+            updatePlayers(playersUpdated);
         }
 
         function gameJoined(gameRoomID : string){
             console.log("Joined game with ID: ", gameRoomID);
         }
 
-        function lobbyJoined(players : string[]){
+        function lobbyJoined(players : SocketData[]){
             console.log("You have joined the lobby, here are the players: ", players);
             updatePlayers(players);
             setInLobby(true);
@@ -82,8 +93,9 @@ function SocketClient(){
             setCountdownLobby(counter);
         }
 
-        function lobbyUpdate(amountPlayers : string){
+        function lobbyUpdate(amountPlayers : number, totalPlayers : number){
             setAmountPlayersLobby(amountPlayers);
+            setTotalPlayersLobby(totalPlayers);
         }
     
         socket.on("lobbyJoined", lobbyJoined)
@@ -122,10 +134,10 @@ function SocketClient(){
 
     return (
         <>
-            <p>Amount of players in lobby: {amountPlayersLobby}</p>
+            <p>Amount of players in lobby: {amountPlayersLobby}/{totalPlayersLobby}</p>
             {countdownLobby != "" && <p>Lobby starts in {countdownLobby}</p>}
             {players.length > 0 && players.map(player=>{
-                return <p key={player}>{player}</p>
+                return <p key={player.userID}>{player.userName}</p>
             })}
             {/*inLobby ? <Lobby/>:<Game/> */}
             {inLobby ? 

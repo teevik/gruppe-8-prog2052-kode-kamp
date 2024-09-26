@@ -1,58 +1,134 @@
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import "./LandingPage.css"; // Ensure this path is correct
+import {socket} from '../../socket'
+import { SocketData } from "./types";
+
+import GamePage from "../game/GamePage";
+import Lobby from "../lobby/Lobby";
 
 const LandingPage: FC = () => {
-  const players = 3; // Number of current players in the lobby
-  const maxPlayers = 8; // Max players in the lobby
-  const timeLeft = 42; // Time left for the game to start
 
+  
 
-  const emojiList = ["🧑", "🐸", "🐱", "🐶", "🦄", "🐼", "🐧", "🦁", "🐝", "🐢"];
+  
 
-    // Function to randomly pick an emoji
-    const getRandomEmoji = () => {
-      return emojiList[Math.floor(Math.random() * emojiList.length)];
-    };
+  const [inGame, setInGame] = useState<boolean>(false);
+    const [players, setPlayers] = useState<SocketData[]>([]);
+    const [player, setPlayer] = useState<SocketData | undefined>(undefined);
+  const [taskID, setTaskID] = useState<string>("");
+  const [gameMode, setGameMode] = useState<string>("");
+    
+
+    function updatePlayers(p : SocketData[]){
+        setPlayers(p);
+    }
+
+    function updatePlayer(p : SocketData){
+        setPlayer(p);
+    }
+
+    useEffect(()=>{
+        socket.connect();
+    }, [])
+
+    useEffect(()=>{
+
+        function playerJoinedLobby(p : SocketData){
+            {
+                if (player === undefined) {
+                  console.log("You have joined the lobby, userID: ", p)
+                  updatePlayer(p)
+                } else {
+                  console.log("Player joined the lobby: ", p);
+                  let playersUpdated : SocketData[] = [...players];
+                  console.log("playerJoinedLobby ", updatePlayers)
+                  playersUpdated.push(p)
+                  console.log("updated players: ", playersUpdated)
+                  updatePlayers(playersUpdated)
+                }
+                
+            }
+        }
+
+        function playerLeftLobby(player : SocketData) {
+          console.log("Player left the lobby: ", player);
+          let playersUpdated = [...players];
+          playersUpdated = playersUpdated.filter(p=> player.userID !== p.userID)
+          console.log("player.userID ", player.userID);
+          console.log("updated players: ", playersUpdated)
+          updatePlayers(playersUpdated);
+        }
+
+        function gameJoined(gameRoomID : string){
+          console.log("Joined game with ID: ", gameRoomID);
+        }
+
+        function lobbyJoined(players : SocketData[]){
+          console.log("You have joined the lobby, here are the players: ", players);
+          updatePlayers(players);
+            
+        }
+
+        function gameStart(taskID : string, gameMode : string){
+          console.log("Game started! Task ID: ", taskID);
+          setTaskID(taskID);
+          setGameMode(gameMode);
+          setInGame(true);
+        }
+
+        
+
+        function updateScoreboard(scores : string[]){
+            console.log("Scoreboard is updated", scores)
+        }
+
+        function success(result : string){
+            console.log("Success! Results: ", result)
+        }
+
+        function fail(result : string){
+            console.log("Fail... Results: ", result)
+        }
+
+        function gameOver(){
+            //Display end screen with scoreboard and such
+        }
+    
+        socket.on("lobbyJoined", lobbyJoined)
+        socket.on("playerJoinedLobby", playerJoinedLobby)
+        socket.on("playerLeftLobby", playerLeftLobby)
+        socket.on("gameJoined", gameJoined)
+        socket.on("gameStart", gameStart)
+        
+        socket.on("updateScoreboard", updateScoreboard)
+        // Event to emit when code is to be submitted
+        // socket.emit("submitCode", code);
+        socket.on("success", success)
+        socket.on("fail", fail)
+        socket.on("gameOver", gameOver)
+
+        
+        
+
+        return () => {
+            socket.off("lobbyJoined", lobbyJoined)
+            socket.off("playerJoinedLobby", playerJoinedLobby)
+            socket.off("playerLeftLobby", playerLeftLobby)
+            socket.off("gameJoined", gameJoined)
+            socket.off("gameStart", gameStart)
+            
+            socket.off("updateScoreboard", updateScoreboard)
+            socket.off("success", success)
+            socket.off("fail", fail)
+            socket.off("gameOver", gameOver)
+        };
+    }, [player, players, inGame])
 
 
   return (
-    <div className="landingPage">
-      <header>
-        <h1>KodeKamp Lobby</h1>
-        <p>Compete together, grow together</p>
-      </header>
-      {/* Lobby section, placeholder for real one for now, fix some way of adding the game mode and mby showing some other info, like difficulty, if there is time */}
-      <div className="lobbyContainer">
-        <div className="lobbyHeader">
-          <h3>🧑‍🤝‍🧑 Public lobby</h3>
-          <p>Join the upcoming challenge and compete with others</p>
-        </div>
-        {/* Players section, placeholder for real one for now, here we see how many players are in the lobby, could just be a number out of 4 or 8 based on lobby size for now */}
-        <div className="playerGrid">
-          {Array.from({ length: maxPlayers }, (_, index) => (
-            <div key={index} className="playerSlot">
-              {index < players ? (
-                <span role="img" aria-label="Player icon">{getRandomEmoji()}</span>
-              ) : (
-                <div className="emptySlot" />
-              )}
-            </div>
-          ))}
-        </div>
-        
-        <p>{players}/{maxPlayers} players</p>
-        <p>Starting in {timeLeft}s</p>
-
-        {/* Join button, fix this so that this sends you to the correct game based on gameID */}
-        <button className="joinButton">Join</button>
-
-      </div>
-
-      <footer>
-        <p>© 2020 Your Company, Inc. All rights reserved.</p>
-        <a href="#terms">Terms of Service</a>
-      </footer>
-    </div>
+    <>
+      {inGame ? <GamePage taskID={taskID} gameMode={gameMode} /> : <Lobby player={player} players={players}/>}
+    </>
   );
 };
 

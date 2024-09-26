@@ -1,6 +1,11 @@
-import { FC } from "react";
+import {useState, useEffect} from 'react'
 import CodeEditor from '../../components/CodeEditor';
 import './GamePage.css'; // Import the CSS file
+
+interface GameProps {
+  taskID : string;
+  gameMode : string;
+}
 
 /**
  * SpeedCodingPage is a React component for the Speed Coding page
@@ -8,13 +13,17 @@ import './GamePage.css'; // Import the CSS file
  * The main content section contains a task description and a code editor.
  * The footer contains buttons for running test cases and submitting code.
  */
-const SpeedCodingPage: FC = () => {
+export default function SpeedCodingPage({taskID, gameMode} : GameProps) {
+
+  const [code, setCode] = useState<string>("");
+
   return (
     <div className="gamePageContainer">
       {/* Header Section */}
       <div className="gamePageHeader">
         <div className="gamePageHeaderTitle">KodeKamp</div>
-        <div className="gamePageHeaderMode">(Gamemode) Speedcoding</div>
+        <div className="gamePageHeaderMode">game mode: {gameMode}</div>
+        <p>Task ID: {taskID}</p>
       </div>
 
       {/* Main Content Section */}
@@ -46,5 +55,3 @@ const SpeedCodingPage: FC = () => {
     </div>
   );
 };
-
-export default SpeedCodingPage;

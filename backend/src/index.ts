@@ -77,6 +77,13 @@ function lobbyCountdown (){
     
 }
 
+const emojiList = ["🧑", "🐸", "🐱", "🐶", "🦄", "🐼", "🐧", "🦁", "🐝", "🐢"];
+
+// Function to randomly pick an emoji
+const getRandomEmoji = () => {
+    return emojiList[Math.floor(Math.random() * emojiList.length)];
+};
+
 io.on('connection', (socket)=>{
     console.log("client with socket.id: ", socket.id, " connected!");
     emitLobbyUpdate()
@@ -111,6 +118,7 @@ function joinLobby(socket : Socket){
     //This is so that we can track the stats of the player
     socket.data.userID = uuidv4();
     socket.data.userName = randomUsernames[Math.floor(Math.random() * randomUsernames.length)];
+    socket.data.emoji = getRandomEmoji();
     
     // const rejoinGameRoomID = socket.handshake.query.gameRoomID;
     // if(typeof rejoinGameRoomID === "string"){
@@ -191,7 +199,7 @@ function startGame(gameRoomID : string, players : Socket[], gameMode : string){
     let taskID = "123"; //Change to actual taskIDs 
 
     //Emit the taskID so that the client can fetch the
-    io.to(gameRoomID).emit('gameStart', taskID);
+    io.to(gameRoomID).emit('gameStart', taskID, gameMode);
 
     players.forEach((socket)=>{
         

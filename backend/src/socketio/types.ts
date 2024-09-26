@@ -9,7 +9,7 @@ interface ServerToClientEvents {
     lobbyJoined : (playerIDs : string[]) => void;
     playerJoinedLobby: (playerData : SocketData) => void;
     playerLeftLobby : (playerData : SocketData) => void;
-    gameStart: (taskID : string) => void;
+    gameStart: (taskID : string, gameMode : string) => void;
     gameOver: () => void;
     countdown : (counter : number) => void;
     task : (taskID : string) => void;
@@ -27,6 +27,7 @@ interface SocketData {
     userID : string;
     userName : string;
     complete : boolean;
+    emoji : string;
 }
 
 interface Game {

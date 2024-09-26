@@ -1,0 +1,116 @@
+/* Ensure html and body fill the viewport */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif; /* You can adjust this to your preferred font */
+}
+
+/* Main container styling */
+.landingPage {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+/* Header styling */
+header {
+    margin-top: 20px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 0;
+}
+
+header p {
+    font-size: 1.1em;
+    color: #777;
+}
+
+/* Lobby container */
+.lobbyContainer {
+    background-color: #e6e6e6;
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Lobby header */
+.lobbyHeader {
+    margin-bottom: 20px;
+}
+
+.lobbyHeader h3 {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.lobbyHeader p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Player grid layout */
+.playerGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 50px); /* 4 columns */
+    grid-gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+/* Individual player slot */
+.playerSlot {
+    width: 50px;
+    height: 50px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+/* Empty slot styling */
+.emptySlot {
+    width: 50px;
+    height: 50px;
+    background-color: #d3d3d3;
+    border-radius: 5px;
+}
+
+/* Join button styling */
+.joinButton {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.joinButton:hover {
+    background-color: #b3b3b3;
+}
+
+/* Footer styling */
+footer {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+footer a {
+    color: #777;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

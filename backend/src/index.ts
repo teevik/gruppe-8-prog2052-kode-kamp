@@ -89,8 +89,12 @@ io.on('connection', (socket)=>{
     emitLobbyUpdate()
 
     socket.on('joinLobby', ()=>{
-        joinLobby(socket)
-        handleLobbyCountdown()
+
+        //Makes sure that each user can only fill one spot in the lobby
+        if(lobby.players.find(p=>socket.id == p.id) == undefined){
+            joinLobby(socket)
+            handleLobbyCountdown()
+        }
     })
     
     socket.on('disconnect', ()=>{
@@ -114,6 +118,7 @@ function resetLobbyCountdown(){
 }
 
 function joinLobby(socket : Socket){
+
     //TODO: call middleware function to validate jwt token and set socket.data.userID to the ID of the player
     //This is so that we can track the stats of the player
     socket.data.userID = uuidv4();
@@ -133,10 +138,10 @@ function joinLobby(socket : Socket){
     socket.join('lobby');
 
     //Confirmation to user that lobby was joined successfully and returning the name of all the players
-    socket.emit('lobbyJoined', lobby.players.map(player=>player.data));
+    socket.emit('lobbyJoined', socket.data, lobby.players.map(player=>player.data));
 
-    //Emit to entire lobby that player has joined
-    io.to('lobby').emit('playerJoinedLobby', socket.data);
+    //Emit to entire lobby that player has joined (does not emit to itself)
+    socket.broadcast.to('lobby').emit('playerJoinedLobby', socket.data);
 
     //Emit to all clients that amount of players in lobby is updated
     emitLobbyUpdate()
@@ -146,14 +151,22 @@ function joinLobby(socket : Socket){
         createGameRoom();
     }
 
+    socket.on('leaveLobby', ()=>{
+        leaveLobby(socket);
+    })
+
     //Listen for disconnect event and remove from lobby
     socket.on('disconnect', ()=>{
-        lobby.players = lobby.players.filter(player => player !== socket)
+        leaveLobby(socket);
         console.log("client with socket.id", socket.id, " disconnected")
-        io.to('lobby').emit('playerLeftLobby', socket.data);
-        emitLobbyUpdate()
-        handleLobbyCountdown()
     })
+}
+
+function leaveLobby(socket : Socket){
+    lobby.players = lobby.players.filter(player => player !== socket)
+    io.to('lobby').emit('playerLeftLobby', socket.data);
+    emitLobbyUpdate()
+    handleLobbyCountdown()
 }
 
 function emitLobbyUpdate(){

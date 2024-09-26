@@ -21,6 +21,7 @@ interface ServerToClientEvents {
 interface ClientToServerEvents {
     submitCode: () => void;
     joinLobby : () => void;
+    leaveLobby : ()=>void;
 }
 
 interface SocketData {

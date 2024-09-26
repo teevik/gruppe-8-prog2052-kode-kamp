@@ -3,11 +3,12 @@ import {socket} from '../../socket'
 import { SocketData } from '../landing/types'
 
 interface LobbyProps {
+    updatePlayer : (p: SocketData | undefined) => void;
     players : SocketData[];
     player : SocketData | undefined;
 }
 
-export default function Lobby({players, player} : LobbyProps){
+export default function Lobby({updatePlayer, players, player} : LobbyProps){
     const [countdownLobby, setCountdownLobby] = useState<string>("");
     const [countdownStartGame, setCountdownStartGame] = useState<string>("");
 
@@ -41,6 +42,11 @@ export default function Lobby({players, player} : LobbyProps){
         socket.emit("joinLobby");
     }
 
+    function leaveLobby(){
+        socket.emit("leaveLobby")
+        updatePlayer(undefined);
+    }
+
     function lobbyUpdate(amountPlayers : number, totalPlayers : number){
         setAmountPlayersLobby(amountPlayers);
         setTotalPlayersLobby(totalPlayers);
@@ -71,7 +77,7 @@ export default function Lobby({players, player} : LobbyProps){
                     </div>
                     {/* Players section, placeholder for real one for now, here we see how many players are in the lobby, could just be a number out of 4 or 8 based on lobby size for now */}
                     <div className="playerGrid">
-                    {Array.from({ length: totalPlayersLobby }, (_, index) => (
+                    {player !== undefined && Array.from({ length: totalPlayersLobby }, (_, index) => (
                         <div key={index} className="playerSlot">
                         {index < amountPlayersLobby && players[index] ? (
                             <span role="img" aria-label="Player icon">
@@ -91,14 +97,13 @@ export default function Lobby({players, player} : LobbyProps){
                     
 
                     {/* Join button, fix this so that this sends you to the correct game based on gameID */}
-                    <button className="joinButton" onClick={()=>{joinLobby()}}>Join</button>
+                    {player == undefined ? <button className="joinButton" onClick={()=>{joinLobby()}}>Join</button>:
+                    <button className="leaveButton" onClick={()=>{leaveLobby()}}>Leave</button>
+                    }
 
                 </div>
 
-                <footer>
-                    <p>© 2020 Your Company, Inc. All rights reserved.</p>
-                    <a href="#terms">Terms of Service</a>
-                </footer>
+                
             
             </>)}
         </div>

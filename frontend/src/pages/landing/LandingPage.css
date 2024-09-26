@@ -11,7 +11,7 @@ html, body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    justify-content: space-between;
+    justify-content: space-evenly;
     text-align: center;
     background-color: #ffffff;
 }
@@ -85,7 +85,7 @@ header p {
 }
 
 /* Join button styling */
-.joinButton {
+.joinButton, .leaveButton {
     margin-top: 10px;
     padding: 10px 20px;
     font-size: 1em;
@@ -93,6 +93,10 @@ header p {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.leaveButton {
+    background-color: rgb(143, 68, 68);
 }
 
 .joinButton:hover {

@@ -13,39 +13,34 @@ const LandingPage: FC = () => {
   
 
   const [inGame, setInGame] = useState<boolean>(false);
-    const [players, setPlayers] = useState<SocketData[]>([]);
-    const [player, setPlayer] = useState<SocketData | undefined>(undefined);
+  const [players, setPlayers] = useState<SocketData[]>([]);
+  const [player, setPlayer] = useState<SocketData | undefined>(undefined);
   const [taskID, setTaskID] = useState<string>("");
   const [gameMode, setGameMode] = useState<string>("");
     
 
-    function updatePlayers(p : SocketData[]){
-        setPlayers(p);
-    }
+  function updatePlayers(p : SocketData[]){
+    setPlayers(p);
+  }
 
-    function updatePlayer(p : SocketData){
-        setPlayer(p);
-    }
+  function updatePlayer(p : SocketData | undefined){
+    setPlayer(p);
+  }
 
-    useEffect(()=>{
-        socket.connect();
-    }, [])
+  useEffect(()=>{
+      socket.connect();
+  }, [])
 
     useEffect(()=>{
 
         function playerJoinedLobby(p : SocketData){
             {
-                if (player === undefined) {
-                  console.log("You have joined the lobby, userID: ", p)
-                  updatePlayer(p)
-                } else {
-                  console.log("Player joined the lobby: ", p);
-                  let playersUpdated : SocketData[] = [...players];
-                  console.log("playerJoinedLobby ", updatePlayers)
-                  playersUpdated.push(p)
-                  console.log("updated players: ", playersUpdated)
-                  updatePlayers(playersUpdated)
-                }
+              console.log("Player joined the lobby: ", p);
+              let playersUpdated : SocketData[] = [...players];
+              console.log("playerJoinedLobby ", updatePlayers)
+              playersUpdated.push(p)
+              console.log("updated players: ", playersUpdated)
+              updatePlayers(playersUpdated)
                 
             }
         }
@@ -63,10 +58,10 @@ const LandingPage: FC = () => {
           console.log("Joined game with ID: ", gameRoomID);
         }
 
-        function lobbyJoined(players : SocketData[]){
-          console.log("You have joined the lobby, here are the players: ", players);
-          updatePlayers(players);
-            
+        function lobbyJoined(p : SocketData, ps : SocketData[]){
+          console.log("You have joined the lobby, here are the players: ", ps);
+          updatePlayer(p);
+          updatePlayers(ps);
         }
 
         function gameStart(taskID : string, gameMode : string){
@@ -127,7 +122,11 @@ const LandingPage: FC = () => {
 
   return (
     <>
-      {inGame ? <GamePage taskID={taskID} gameMode={gameMode} /> : <Lobby player={player} players={players}/>}
+      {inGame ? <GamePage taskID={taskID} gameMode={gameMode} /> : <Lobby updatePlayer={updatePlayer} player={player} players={players}/>}
+      <footer>
+        <p>© 2020 Your Company, Inc. All rights reserved.</p>
+        <a href="#terms">Terms of Service</a>
+      </footer>
     </>
   );
 };

@@ -42,6 +42,14 @@ interface Lobby {
     // taskID : string
 }
 
+
+interface TestResults {
+    totalTests : number;
+    passedTests : number;
+    executionTimeUs : number;
+}
+
+
 interface Challenge {
     title : string;
     license : string;
@@ -66,5 +74,6 @@ export type {
     Game,
     Lobby,
     Challenge,
-    Test
+    Test,
+    TestResults
 }

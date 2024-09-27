@@ -2,6 +2,7 @@ interface SocketData {
     userID : string;
     userName : string;
     emoji : string;
+    complete : boolean;
 }
 
 interface Test {

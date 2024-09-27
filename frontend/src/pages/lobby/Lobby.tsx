@@ -78,11 +78,10 @@ export default function Lobby({updatePlayer, players, player} : LobbyProps){
                     {/* Players section, placeholder for real one for now, here we see how many players are in the lobby, could just be a number out of 4 or 8 based on lobby size for now */}
                     <div className="playerGrid">
                     {player !== undefined && Array.from({ length: totalPlayersLobby }, (_, index) => (
-                        <div key={index} className="playerSlot">
+                        <div key={index} >
                         {index < amountPlayersLobby && players[index] ? (
-                            <span role="img" aria-label="Player icon">
+                            <span role="img" aria-label="Player icon" className={player.userID == players[index].userID ? "playerYou":"playerSlot"}>
                             {players[index].emoji}
-                                <p>{players[index].userName}</p>
                             </span>
                             
                         ) : (

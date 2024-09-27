@@ -29,12 +29,6 @@ const ResultsPage: FC = () => {
       </section>
 
       <button className="resultsPlayAgain">Play again</button> {/* TODO: add link to the "/"" page (landing) */} 
-
-      {/* Footer section if we decide to add it later, placeholder for real one for now*/}    
-      <footer>
-        <p>© 2020 Your Company, Inc. All rights reserved.</p>
-        <a href="#terms">Terms of Service</a>
-      </footer>
     </div>
   );
 };

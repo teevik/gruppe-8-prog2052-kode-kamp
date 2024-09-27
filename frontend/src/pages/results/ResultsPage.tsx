@@ -1,28 +1,29 @@
-import { FC } from 'react';
+import { Participant } from '../../types';
 import './ResultsPage.css';
 
-const ResultsPage: FC = () => {
-  const results = [
-    { name: 'John Doe', time: '2:30', color: 'red' }, //  Format for the result
-  ];
+interface ResultPageProps {
+  scoreboard : Participant[] | undefined;
+  gameMode : string;
+}
 
+export default function ResultsPage({scoreboard, gameMode} : ResultPageProps) {
   return (
     <div className="resultsPage">
       <header>
         <h1>KodeKamp</h1>
         <p>Compete together, grow together</p>
-        <h2>(Gamemode) Speedcoding</h2>
       </header>
       
       {/* Results section, placeholder for real one for now*/}
       <section className="resultsContainer">
         <h3>Results</h3>
+        <h2>(Gamemode) {gameMode}</h2>
         <ul className="resultsList">
-          {results.map((result, index) => (
+           {scoreboard && scoreboard.map((score, index) => (
             <li key={index} className="resultsItem">
-              <span className="colorBox" style={{ backgroundColor: result.color }}></span>
-              <span className="resultsName">{result.name}</span>
-              <span className="resultsTime">{result.time}</span>
+              <span className="colorBox">{index+1}</span>
+              <span className="resultsName">{score.socket.userName}{score.socket.emoji}</span>
+              <span className='resultsTime'>{score.stats.usedTime}</span>
             </li>
           ))}
         </ul>
@@ -32,5 +33,3 @@ const ResultsPage: FC = () => {
     </div>
   );
 };
-
-export default ResultsPage;

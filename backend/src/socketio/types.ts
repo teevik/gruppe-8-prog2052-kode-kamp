@@ -13,7 +13,7 @@ interface ServerToClientEvents {
     gameOver: () => void;
     countdown : (counter : number) => void;
     task : (taskID : string) => void;
-    updateScoreboard : (scores : SocketData[]) => void;
+    updateScoreboard : (scores : Participant[]) => void;
     lobbyUpdate : (amountPlayers : number, totalPlayers : number) => void;
     lobbyCountdown : (counter : string) => void;
 }
@@ -32,7 +32,17 @@ interface SocketData {
 }
 
 interface Game {
-    scoreboard : SocketData[],
+    scoreboard : Participant[],
+}
+
+interface Participant {
+    socket: SocketData;
+    stats: Stats
+}
+
+interface Stats {
+    executionTime : number;
+    usedTime : number;
 }
 
 

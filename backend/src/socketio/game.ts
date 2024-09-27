@@ -43,6 +43,8 @@ function createGameRoom(){
 
 function startGame(gameRoomID : string, players : Socket[], gameMode : string){
 
+    let timeOfStart : number = performance.now();
+
     //Initialize som datastructure to hold gameresults ???
     let game : Game = {scoreboard:[]};
 
@@ -72,8 +74,9 @@ function startGame(gameRoomID : string, players : Socket[], gameMode : string){
                             
                             //if all tests passed, push player onto scoreboard
                             if(testResults.passedTests == testResults.totalTests) {
+                                let now : number = performance.now();
                                 //Updating the scoreboard
-                                game.scoreboard.push(socket.data);
+                                game.scoreboard.push({socket: socket.data, stats: {executionTime: testResults.executionTimeUs, usedTime: (now - timeOfStart)}});
     
                                 //Emitting to the client that code ran successfully for all the tests
                                 socket.emit('success', result)

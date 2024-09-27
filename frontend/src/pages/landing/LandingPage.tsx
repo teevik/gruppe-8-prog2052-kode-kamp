@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import "./LandingPage.css"; // Ensure this path is correct
 import {socket} from '../../socket'
-import { SocketData, Challenge } from "./types";
+import { SocketData, Challenge } from "../../types";
 
 import GamePage from "../game/GamePage";
 import Lobby from "../lobby/Lobby";

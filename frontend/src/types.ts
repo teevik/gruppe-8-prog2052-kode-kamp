@@ -5,6 +5,17 @@ interface SocketData {
     complete : boolean;
 }
 
+
+interface Participant {
+  socket: SocketData;
+  stats: Stats
+}
+
+interface Stats {
+  executionTime : number;
+  usedTime : number;
+}
+
 interface Test {
     input : string[];
     output : string[];
@@ -24,5 +35,6 @@ interface Test {
 
 export type {
     SocketData,
-    Challenge
+    Challenge,
+    Participant
 }

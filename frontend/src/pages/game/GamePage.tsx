@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import CodeEditor from '../../components/CodeEditor';
 import './GamePage.css'; // Import the CSS file
 import ResultPage from '../results/ResultsPage'
-import {Challenge, SocketData} from '../landing/types'
+import {Challenge, Participant} from '../../types'
 import {socket} from '../../socket'   
 
 
@@ -20,6 +20,7 @@ interface GameProps {
 export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
 
   const [code, setCode] = useState<string | undefined>(challenge?.template);
+  const [scoreboard, setScoreboard] = useState<Participant[]>();
 
   const [showResultPage, setShowResultPage] = useState<boolean>(false);
 
@@ -28,8 +29,9 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
     socket.emit("submitCode", code)
   }
 
-  function updateScoreboard(scores : SocketData[]){
+  function updateScoreboard(scores : Participant[]){
     console.log("Scoreboard is updated", scores)
+    setScoreboard(scores);
   }
 
   function success(result : string){
@@ -60,7 +62,7 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
   return (
     
     <div className="gamePageContainer">
-      {showResultPage && <ResultPage/>}
+      {showResultPage && <ResultPage scoreboard={scoreboard} gameMode={gameMode}/>}
       {challenge && !showResultPage && <>
         {/* Header Section */}
         <div className="gamePageHeader">

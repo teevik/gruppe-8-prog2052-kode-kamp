@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import "./LandingPage.css"; // Ensure this path is correct
 import {socket} from '../../socket'
-import { SocketData } from "./types";
+import { SocketData, Challenge } from "./types";
 
 import GamePage from "../game/GamePage";
 import Lobby from "../lobby/Lobby";
@@ -15,7 +15,7 @@ const LandingPage: FC = () => {
   const [inGame, setInGame] = useState<boolean>(false);
   const [players, setPlayers] = useState<SocketData[]>([]);
   const [player, setPlayer] = useState<SocketData | undefined>(undefined);
-  const [taskID, setTaskID] = useState<string>("");
+  const [challenge, setChallenge] = useState<Challenge | undefined>();
   const [gameMode, setGameMode] = useState<string>("");
     
 
@@ -26,6 +26,7 @@ const LandingPage: FC = () => {
   function updatePlayer(p : SocketData | undefined){
     setPlayer(p);
   }
+
 
   useEffect(()=>{
       socket.connect();
@@ -64,26 +65,16 @@ const LandingPage: FC = () => {
           updatePlayers(ps);
         }
 
-        function gameStart(taskID : string, gameMode : string){
-          console.log("Game started! Task ID: ", taskID);
-          setTaskID(taskID);
+        function gameStart(ch : Challenge, gameMode : string){
+          console.log("Game started! Task: ", ch);
+          setChallenge(ch);
           setGameMode(gameMode);
           setInGame(true);
         }
 
         
 
-        function updateScoreboard(scores : string[]){
-            console.log("Scoreboard is updated", scores)
-        }
-
-        function success(result : string){
-            console.log("Success! Results: ", result)
-        }
-
-        function fail(result : string){
-            console.log("Fail... Results: ", result)
-        }
+        
 
         function gameOver(){
             //Display end screen with scoreboard and such
@@ -95,11 +86,7 @@ const LandingPage: FC = () => {
         socket.on("gameJoined", gameJoined)
         socket.on("gameStart", gameStart)
         
-        socket.on("updateScoreboard", updateScoreboard)
-        // Event to emit when code is to be submitted
-        // socket.emit("submitCode", code);
-        socket.on("success", success)
-        socket.on("fail", fail)
+        
         socket.on("gameOver", gameOver)
 
         
@@ -112,9 +99,7 @@ const LandingPage: FC = () => {
             socket.off("gameJoined", gameJoined)
             socket.off("gameStart", gameStart)
             
-            socket.off("updateScoreboard", updateScoreboard)
-            socket.off("success", success)
-            socket.off("fail", fail)
+            
             socket.off("gameOver", gameOver)
         };
     }, [player, players, inGame])
@@ -122,7 +107,7 @@ const LandingPage: FC = () => {
 
   return (
     <>
-      {inGame ? <GamePage taskID={taskID} gameMode={gameMode} /> : <Lobby updatePlayer={updatePlayer} player={player} players={players}/>}
+      {inGame ? <GamePage challenge={challenge} gameMode={gameMode} /> : <Lobby updatePlayer={updatePlayer} player={player} players={players}/>}
       <footer>
         <p>© 2020 Your Company, Inc. All rights reserved.</p>
         <a href="#terms">Terms of Service</a>

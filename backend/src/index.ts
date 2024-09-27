@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import { Server as Httpserver } from "http";
 import {Server, Socket} from 'socket.io'
 import {v4 as uuidv4} from 'uuid';
+import * as toml from 'toml';
+import * as fs from 'fs'
 
 import {socketAllowOrigin} from './middleware/socket'
 
@@ -14,10 +16,11 @@ import {randomUsernames,
     TIME_AT_ENDSCREEN_SECONDS, 
     GAME_LENGTH_MINUTES,
     LOBBY_TIMER_SECONDS,
-    GAME_MODES
+    GAME_MODES,
+    CODE_RUNNER_URL
 } from './socketio/const'
 
-import type { ServerToClientEvents, ClientToServerEvents, SocketData, Game, Lobby} from './socketio/types';
+import type { ServerToClientEvents, ClientToServerEvents, SocketData, Game, Lobby, Challenge, Test} from './socketio/types';
 
 dotenv.config();
 
@@ -44,11 +47,15 @@ const io = new Server<
 
 
 
+
 let lobby : Lobby = {
     players : [],
     gameMode: GAME_MODES[0],
     // taskID : "1"
 };
+
+let challenges : Challenge[] = [];
+parseAllChallenges();
 
 let lobbyCountdownCounter : number = LOBBY_TIMER_SECONDS;
 
@@ -203,56 +210,96 @@ function createGameRoom(){
     
 }
 
+interface TestResults {
+    totalTests : number;
+    passedTests : number;
+    executionTimeUs : number;
+}
+
+async function submitCode(code : string, tests: Test[]) : Promise<TestResults | undefined> {
+    //Send code
+    try {
+        
+        const req = await fetch(CODE_RUNNER_URL, {
+            method:"POST",
+            body: JSON.stringify({code: code, tests: tests}),
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+
+        const res = await req.json();
+        
+    
+        if(res) {
+            
+            const testResults : TestResults = {
+                totalTests: res.totalTests, 
+                passedTests : res.passedTests, 
+                executionTimeUs : res.executionTimeUs
+            };
+            return testResults
+        }
+    } catch (e) {
+        console.log(e)
+        return undefined
+    }
+    //Parse results
+}
+
 function startGame(gameRoomID : string, players : Socket[], gameMode : string){
 
     //Initialize som datastructure to hold gameresults ???
     let game : Game = {scoreboard:[]};
 
-    //Choose a task for this game (task of the given gameMode)
-    let taskID = "123"; //Change to actual taskIDs 
+    const challenge : Challenge = getRandomChallenge();
 
     //Emit the taskID so that the client can fetch the
-    io.to(gameRoomID).emit('gameStart', taskID, gameMode);
+    io.to(gameRoomID).emit('gameStart', challenge, gameMode);
 
     players.forEach((socket)=>{
         
-        socket.on('submitCode', async (code)=>{
+        socket.on('submitCode', async (code : string)=>{
 
             //Server-side validation so that the user dont spam the scoreboard
             if(socket.data.complete){
                 return
             }
             
-
             //Handling code submission differently based on gamemode
             switch (gameMode) {
                 case GAME_MODES[0]:
                     //Send code to code runner
-                    
-                    //Handle result (amount of tests passed/total amount of tests)
-                    let testsPassed = 100;
-                    let totalTests = 100;
-                    
-                    let result = `${testsPassed}/${totalTests}`
-                    
-                    //if all tests passed, push player onto scoreboard
-                    if(testsPassed == totalTests) {
-                        //Updating the scoreboard
-                        game.scoreboard.push(socket.data);
-
-                        //Emitting to the client that code ran successfully for all the tests
-                        socket.emit('success', result)
-                        socket.data.complete = true;
-
-                        //Emitting to all clients that the scoreboard is updated
-                        io.to(gameRoomID).emit('updateScoreboard', game.scoreboard)
-
-                        if(game.scoreboard.length == players.length){
-                            endGame(gameRoomID, players);
+                    try {
+                        const testResults : TestResults | undefined = await submitCode(code, challenge.tests);
+                        if(testResults) {
+                            
+                            let result = `${testResults.passedTests}/${testResults.totalTests}`
+                            
+                            //if all tests passed, push player onto scoreboard
+                            if(testResults.passedTests == testResults.totalTests) {
+                                //Updating the scoreboard
+                                game.scoreboard.push(socket.data);
+    
+                                //Emitting to the client that code ran successfully for all the tests
+                                socket.emit('success', result)
+                                socket.data.complete = true;
+    
+                                //Emitting to all clients that the scoreboard is updated
+                                io.to(gameRoomID).emit('updateScoreboard', game.scoreboard)
+    
+                                if(game.scoreboard.length == players.length){
+                                    endGame(gameRoomID, players);
+                                }
+                            } else {
+                                socket.emit('fail', result)
+                            }
                         }
-                    } else {
-                        socket.emit('fail', result)
-                    }                
+                    } catch {
+
+                        console.error("Failed when submitting code")
+                    }
+                                    
             }
         })
 
@@ -273,6 +320,23 @@ function startGame(gameRoomID : string, players : Socket[], gameMode : string){
     setTimeout(()=>{
         endGame(gameRoomID, players);
     }, GAME_LENGTH_MINUTES * 60 * 1000)
+}
+
+
+
+function parseAllChallenges() {
+    const challengePath = "./challenges";
+    //Function that parses all the challenges and stores them in memory
+    fs.readdirSync(challengePath).forEach(file=>{
+        const fileContents = fs.readFileSync(challengePath + "/" + file, "utf-8");
+        const challenge : Challenge = toml.parse(fileContents);
+        challenges.push(challenge);
+    })
+}
+
+function getRandomChallenge() : Challenge {
+    //Function that returns a randomly chosen challenge
+    return challenges[Math.floor(Math.random() * challenges.length)]
 }
 
 function endGame(gameRoomID : string, players: Socket[]) {

@@ -9,7 +9,7 @@ interface ServerToClientEvents {
     lobbyJoined : (playerIDs : string[]) => void;
     playerJoinedLobby: (playerData : SocketData) => void;
     playerLeftLobby : (playerData : SocketData) => void;
-    gameStart: (taskID : string, gameMode : string) => void;
+    gameStart: (challenge : Challenge, gameMode : string) => void;
     gameOver: () => void;
     countdown : (counter : number) => void;
     task : (taskID : string) => void;
@@ -42,10 +42,29 @@ interface Lobby {
     // taskID : string
 }
 
+interface Challenge {
+    title : string;
+    license : string;
+    attribution : {name : string, url : string}[];
+    description : string;
+    input : string;
+    output : string;
+    template : string;
+    sample_tests : Test[];
+    tests : Test[];
+}
+
+interface Test {
+    input : string[];
+    output : string[];
+}
+
 export type {
     ServerToClientEvents,
     ClientToServerEvents,
     SocketData,
     Game,
-    Lobby
+    Lobby,
+    Challenge,
+    Test
 }

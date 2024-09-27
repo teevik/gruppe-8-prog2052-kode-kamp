@@ -114,3 +114,31 @@
     text-decoration: underline;
   }
   
+
+  .io{
+    border-radius: 5px;
+    border: solid 1px #2d3748;
+    padding: 14px 13px;
+    font-family: Courier, monospace;
+    font-variant-ligatures: none;
+    max-width: 410px;
+    position: relative;
+    overflow: auto;
+    background-color: #333;
+    color:white;
+  }
+
+  .io p {
+    margin : 0;
+    display: inline;
+  }
+
+  .examples {
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: left;
+    gap:2rem;
+  }
+  .examples * {
+    flex-grow: 1;
+  }

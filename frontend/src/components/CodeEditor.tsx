@@ -1,15 +1,20 @@
-import { FC, useState } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 
+
+interface CodeEditorProps {
+    template : string;
+    code : string | undefined;
+    setCode : (c : string)=>void;
+}
 /**
  * CodeEditor is a React component for a code editor
  * with a Monaco Editor and action buttons (Save, Reset)
  * for handling code changes and saving the content.
  * @returns {JSX.Element}
  */
-const CodeEditor: FC = () => {
-    const [code, setCode] = useState('// Write your JavaScript code here');
+export default function CodeEditor({code, setCode, template} : CodeEditorProps) {
+    
 
     /**
      * Handles code changes from the Monaco Editor
@@ -25,7 +30,7 @@ const CodeEditor: FC = () => {
     return (
         <Box>
             {/* Action buttons like Reset, mby have test cases here?*/}
-            <Button colorScheme="gray" onClick={() => setCode('// Resetting to default')}>
+            <Button colorScheme="gray" onClick={() => setCode(template)}>
                 Reset
             </Button>
             
@@ -50,6 +55,3 @@ const CodeEditor: FC = () => {
         </Box>
     );
 };
-
-
-export default CodeEditor;

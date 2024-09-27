@@ -5,6 +5,7 @@ import { SocketData, Challenge } from "./types";
 
 import GamePage from "../game/GamePage";
 import Lobby from "../lobby/Lobby";
+import Footer from "../../components/Footer"
 
 const LandingPage: FC = () => {
 
@@ -108,10 +109,7 @@ const LandingPage: FC = () => {
   return (
     <>
       {inGame ? <GamePage challenge={challenge} gameMode={gameMode} /> : <Lobby updatePlayer={updatePlayer} player={player} players={players}/>}
-      <footer>
-        <p>© 2020 Your Company, Inc. All rights reserved.</p>
-        <a href="#terms">Terms of Service</a>
-      </footer>
+      <Footer/>
     </>
   );
 };

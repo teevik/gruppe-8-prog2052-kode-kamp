@@ -115,6 +115,10 @@ header p {
 .joinButton:hover {
     background-color: #b3b3b3;
 }
+.code{
+    font-family: monospace !important;
+    line-height: 0;
+}
 
 /* Footer styling */
 footer {

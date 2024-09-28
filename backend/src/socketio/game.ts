@@ -77,7 +77,11 @@ function startGame(gameRoomID : string, players : Socket[], gameMode : string){
                             if(testResults.passedTests == testResults.totalTests) {
                                 let now : number = performance.now();
                                 //Updating the scoreboard
-                                game.scoreboard.push({socket: socket.data, stats: {executionTime: testResults.executionTimeUs, usedTime: (now - timeOfStart)}});
+                                game.scoreboard.push({
+                                    socket: socket.data, 
+                                    stats: {executionTime: testResults.executionTimeUs, usedTime: (now - timeOfStart)},
+                                    solution: code
+                                });
     
                                 //Emitting to the client that code ran successfully for all the tests
                                 socket.emit('success', result)

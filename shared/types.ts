@@ -11,7 +11,8 @@ interface SocketData {
 
 interface Participant {
     socket: SocketData;
-    stats: Stats
+    stats: Stats;
+    solution: string;
 }
   
 interface Stats {

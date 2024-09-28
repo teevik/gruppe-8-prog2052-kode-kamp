@@ -46,9 +46,13 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
   }
 
   function fail(result : string){
-      console.log("Fail... Results: ", result)
-      setAmountTestsPassed(result);
-      setSubmittedCode(false);
+    setAmountTestsPassed(result);
+    setSubmittedCode(false);
+  }
+
+  function runResults(result : string){
+    setAmountTestsPassed(result);
+    setSubmittedCode(false);
   }
 
   function gameOver(countdownResultPage : number){
@@ -67,6 +71,7 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
     // socket.emit("submitCode", code);
     socket.on("success", success)
     socket.on("fail", fail)
+    socket.on("runResults", runResults)
 
     socket.on("gameOver", gameOver)
 
@@ -75,6 +80,7 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
       socket.off("success", success)
       socket.off("fail", fail)
       socket.off("gameOver", gameOver)
+      socket.off("runResults", runResults)
     }
   }, [])
 
@@ -144,9 +150,7 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
 
         {/* Footer Section */}
         <div className="gamePageFooter">
-          <button className="primaryButton" onClick={() => console.log("Running test cases...")}>
-            Kjør test cases
-          </button>
+          
         </div>
       </>}
     </div>

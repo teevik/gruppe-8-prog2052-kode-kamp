@@ -55,6 +55,18 @@ function startGame(gameRoomID : string, players : Socket[], gameMode : string){
     io.to(gameRoomID).emit('gameStart', challenge, gameMode, GAME_LENGTH_MINUTES*60);
 
     players.forEach((socket)=>{
+
+        socket.on('runCode', async(code : string)=>{
+            try {
+                const testResults : TestResults | undefined = await submitCode(code, challenge.sample_tests);
+                if(testResults){
+                    let result = `${testResults.passedTests}/${testResults.totalTests}`
+                    socket.emit('runResults', result);
+                }
+            } catch (_) {
+                console.error("Failed when running code")
+            }
+        })
         
         socket.on('submitCode', async (code : string)=>{
 

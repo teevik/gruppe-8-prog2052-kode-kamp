@@ -34,17 +34,27 @@ export default function CodeEditor({code, setCode, template, submittedCode, setS
         socket.emit("submitCode", code)
     }
 
+    function runCode(code : string){
+        socket.emit("runCode", code);
+    }
+
     return (
         <Box>
             {/* Action buttons like Reset, mby have test cases here?*/}
             <Button colorScheme="gray" onClick={() => setCode(template)}>
                 Reset
             </Button>
+            <Button disabled={submittedCode} onClick={()=>{
+                if(code){
+                    setSubmittedCode(true);
+                    runCode(code);
+                }
+            }}>Run</Button>
             <Button className="submitButton" disabled={submittedCode} onClick={() => {
-              if(code) {
-                setSubmittedCode(true);
-                submitCode(code);
-              }
+                if(code) {
+                    setSubmittedCode(true);
+                    submitCode(code);
+                }
             }}>Submit</Button>
             
             {/* Monaco Editor */}

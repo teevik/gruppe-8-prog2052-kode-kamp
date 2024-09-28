@@ -90,7 +90,7 @@ const LandingPage: FC = () => {
   return (
     <>
       {inGame ? <GamePage challenge={challenge} gameMode={gameMode} gameTime={gameTime} /> : <Lobby updatePlayer={updatePlayer} player={player} players={players}/>}
-      <Footer/>
+      {!inGame && <Footer/>}
     </>
   );
 };

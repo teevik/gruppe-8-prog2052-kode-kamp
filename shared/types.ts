@@ -1,3 +1,6 @@
+/**
+ * Contains all type interfaces that are used on both frontend and backend
+ */
 interface SocketData {
     userID : string;
     userName : string;

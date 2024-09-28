@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import CodeEditor from '../../components/CodeEditor';
 import './GamePage.css'; // Import the CSS file
 import ResultPage from '../results/ResultsPage'
+import CountDown from '../../components/CountDown'
 //import {Challenge, Participant} from '../../types'
 import {Challenge, Participant} from '../../../../shared/types'
 import {socket} from '../../socket'   
@@ -10,6 +11,7 @@ import {socket} from '../../socket'
 interface GameProps {
   challenge : Challenge | undefined;
   gameMode : string;
+  gameTime : number;
 }
 
 /**
@@ -18,12 +20,15 @@ interface GameProps {
  * The main content section contains a task description and a code editor.
  * The footer contains buttons for running test cases and submitting code.
  */
-export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
+export default function SpeedCodingPage({challenge, gameMode, gameTime} : GameProps) {
 
   const [code, setCode] = useState<string | undefined>(challenge?.template);
   const [scoreboard, setScoreboard] = useState<Participant[]>();
 
   const [showResultPage, setShowResultPage] = useState<boolean>(false);
+  const [gameIsOver, setGameIsOver] = useState<boolean>(false);
+
+  const [timeAtResultPage, setTimeAtResultPage] = useState<number>(0);
 
   
   function submitCode(code : string){
@@ -44,6 +49,16 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
       console.log("Fail... Results: ", result)
   }
 
+  function gameOver(countdownResultPage : number){
+    //Display end screen with scoreboard
+    setShowResultPage(true);
+    setTimeAtResultPage(countdownResultPage)
+    setGameIsOver(true);
+    setTimeout(()=>{
+      location.reload()
+    }, countdownResultPage*1000)
+  }
+
   useEffect(()=>{
     socket.on("updateScoreboard", updateScoreboard)
     // Event to emit when code is to be submitted
@@ -51,10 +66,13 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
     socket.on("success", success)
     socket.on("fail", fail)
 
+    socket.on("gameOver", gameOver)
+
     return ()=>{
       socket.off("updateScoreboard", updateScoreboard)
       socket.off("success", success)
       socket.off("fail", fail)
+      socket.off("gameOver", gameOver)
     }
   }, [])
 
@@ -63,13 +81,14 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
   return (
     
     <div className="gamePageContainer">
-      {showResultPage && <ResultPage scoreboard={scoreboard} gameMode={gameMode}/>}
+      {showResultPage && <ResultPage scoreboard={scoreboard} gameMode={gameMode} initialTimer={timeAtResultPage} gameIsOver={gameIsOver} />}
       {challenge && !showResultPage && <>
         {/* Header Section */}
         <div className="gamePageHeader">
           <div className="gamePageHeaderTitle">KodeKamp</div>
           <div className="gamePageHeaderMode">game mode: {gameMode}</div>
-          <p>Task title: {challenge.title}</p>
+          <CountDown initialCounter={gameTime} />
+
         </div>
 
         {/* Main Content Section */}
@@ -85,7 +104,7 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
             <div dangerouslySetInnerHTML={{__html: challenge.output}}></div>
             
             <h2>Examples:</h2>
-            <section>{challenge.sample_tests.map((test, index)=>(<>
+            <section>{challenge.sample_tests.map((test, index)=>(
             <div key={index}>
             
               <section className='examples'>
@@ -93,7 +112,7 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
                     <p>Samle input {index+1}:</p>
                     <div className='io'>
                       {test.input.map(input=>(
-                          <p >{input}</p>
+                          <p key={input}>{input}</p>
                         ))}
                     </div>
                   </div>
@@ -102,7 +121,7 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
                   <p>Sample output {index+1}:</p>
                   <div className='io'>
                     {test.output.map(output=>(
-                        <p >{output}</p>
+                        <p key={output}>{output}</p>
                       ))}
                   </div>
                 </div>
@@ -110,8 +129,7 @@ export default function SpeedCodingPage({challenge, gameMode} : GameProps) {
               </section>
 
             </div>
-              
-            </>))}</section>
+            ))}</section>
           </div>
 
           {/* Right Section: Code Editor */}

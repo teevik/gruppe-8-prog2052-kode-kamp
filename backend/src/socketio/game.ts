@@ -52,7 +52,7 @@ function startGame(gameRoomID : string, players : Socket[], gameMode : string){
     const challenge : Challenge = getRandomChallenge();
 
     //Emit the taskID so that the client can fetch the
-    io.to(gameRoomID).emit('gameStart', challenge, gameMode);
+    io.to(gameRoomID).emit('gameStart', challenge, gameMode, GAME_LENGTH_MINUTES*60);
 
     players.forEach((socket)=>{
         
@@ -122,13 +122,13 @@ function endGame(gameRoomID : string, players: Socket[]) {
 
     //TODO: update stats and give points
 
-    io.to(gameRoomID).emit('gameOver')
+    io.to(gameRoomID).emit('gameOver', TIME_AT_ENDSCREEN_SECONDS)
 
-    setTimeout(()=>{
-        players.forEach((socket)=>{
-            socket.disconnect(true);
-        })
-    }, TIME_AT_ENDSCREEN_SECONDS * 1000)
+    // setTimeout(()=>{
+    //     players.forEach((socket)=>{
+    //         socket.disconnect(true);
+    //     })
+    // }, TIME_AT_ENDSCREEN_SECONDS * 1000)
 }
 
 export {

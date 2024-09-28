@@ -120,6 +120,7 @@ header p {
 footer {
     font-size: 0.9em;
     color: #777;
+    padding-top: 4rem;
 }
 
 footer a {

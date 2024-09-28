@@ -1,7 +1,7 @@
 const MAX_PLAYERS_PR_GAME : number = 4;
 const COUNTDOWN_LENGTH_SECONDS : number = 5;
 const TIME_AT_ENDSCREEN_SECONDS : number = 60;
-const GAME_LENGTH_MINUTES : number = 15;
+const GAME_LENGTH_MINUTES : number = 1;
 const LOBBY_TIMER_SECONDS : number = 30;
 const GAME_MODES : string[] = ["First to finish"];
 const CODE_RUNNER_URL : string = "https://code-runner-small-sky-5409.fly.dev/execute";

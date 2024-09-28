@@ -1,12 +1,15 @@
-import { Participant } from '../../types';
+import CountDown from '../../components/CountDown';
+import { Participant } from '../../../../shared/types';
 import './ResultsPage.css';
 
 interface ResultPageProps {
   scoreboard : Participant[] | undefined;
   gameMode : string;
+  initialTimer : number;
+  gameIsOver : boolean;
 }
 
-export default function ResultsPage({scoreboard, gameMode} : ResultPageProps) {
+export default function ResultsPage({scoreboard, gameMode, initialTimer, gameIsOver} : ResultPageProps) {
   return (
     <div className="resultsPage">
       <header>
@@ -18,6 +21,7 @@ export default function ResultsPage({scoreboard, gameMode} : ResultPageProps) {
       <section className="resultsContainer">
         <h3>Results</h3>
         <h2>(Gamemode) {gameMode}</h2>
+        {gameIsOver && <CountDown initialCounter={initialTimer} />}
         <ul className="resultsList">
            {scoreboard && scoreboard.map((score, index) => (
             <li key={index} className="resultsItem">
@@ -29,7 +33,9 @@ export default function ResultsPage({scoreboard, gameMode} : ResultPageProps) {
         </ul>
       </section>
 
-      <button className="resultsPlayAgain">Play again</button> {/* TODO: add link to the "/"" page (landing) */} 
+      <button className="resultsPlayAgain" onClick={()=>{
+        location.reload()
+      }}>Play again</button> {/* TODO: add link to the "/"" page (landing) */} 
     </div>
   );
 };

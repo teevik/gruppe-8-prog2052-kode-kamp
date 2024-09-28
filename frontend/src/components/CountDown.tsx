@@ -12,7 +12,7 @@ export default function CountDown({initialCounter} : CountDownProps){
         //Interval to update countdown (initialCounter is the amount of seconds)
         const countdownInterval = setInterval(()=>{
             setCountdown((prev)=>{
-                setTimer(getTimer(prev-1))
+                setTimer(formatSeconds(prev-1))
                 return prev - 1
             });
             
@@ -29,7 +29,7 @@ export default function CountDown({initialCounter} : CountDownProps){
     )
 }
 
-function getTimer(countdownSeconds : number) : string {
+function formatSeconds(countdownSeconds : number) : string {
     const minutes = Math.floor(countdownSeconds / 60);
     const seconds = countdownSeconds - minutes * 60;
 
@@ -40,4 +40,4 @@ function getTimer(countdownSeconds : number) : string {
     }
 }
 
-export {getTimer}
+export {formatSeconds}

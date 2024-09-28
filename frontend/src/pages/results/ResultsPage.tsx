@@ -1,4 +1,4 @@
-import CountDown from '../../components/CountDown';
+import CountDown, {formatSeconds} from '../../components/CountDown';
 import { Participant } from '../../../../shared/types';
 import './ResultsPage.css';
 
@@ -27,7 +27,7 @@ export default function ResultsPage({scoreboard, gameMode, initialTimer, gameIsO
             <li key={index} className="resultsItem">
               <span className="colorBox">{index+1}</span>
               <span className="resultsName">{score.socket.userName}{score.socket.emoji}</span>
-              <span className='resultsTime'>{score.stats.usedTime}</span>
+              <span className='resultsTime'>{formatSeconds(Math.floor(score.stats.usedTime/1000))}</span>
             </li>
           ))}
         </ul>

@@ -102,7 +102,7 @@ header p {
     margin-top: 10px;
     padding: 10px 20px;
     font-size: 1em;
-    background-color: #ccc;
+    background-color: #4f913d;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -118,6 +118,10 @@ header p {
 .code{
     font-family: monospace !important;
     line-height: 0;
+}
+.code span {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 /* Footer styling */

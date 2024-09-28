@@ -25,51 +25,48 @@ const LandingPage: FC = () => {
     setPlayer(p);
   }
 
+  function playerJoinedLobby(p : SocketData){
+    console.log("Player joined the lobby: ", p);
+    let playersUpdated : SocketData[] = [...players];
+    console.log("playerJoinedLobby ", updatePlayers)
+    playersUpdated.push(p)
+    console.log("updated players: ", playersUpdated)
+    updatePlayers(playersUpdated)
+  }
+
+  function playerLeftLobby(player : SocketData) {
+    console.log("Player left the lobby: ", player);
+    let playersUpdated = [...players];
+    playersUpdated = playersUpdated.filter(p=> player.userID !== p.userID)
+    console.log("player.userID ", player.userID);
+    console.log("updated players: ", playersUpdated)
+    updatePlayers(playersUpdated);
+  }
+
+  function gameJoined(gameRoomID : string){
+    console.log("Joined game with ID: ", gameRoomID);
+  }
+
+  function lobbyJoined(p : SocketData, ps : SocketData[]){
+    console.log("You have joined the lobby, here are the players: ", ps);
+    updatePlayer(p);
+    updatePlayers(ps);
+  }
+
+  function gameStart(ch : Challenge, gameMode : string, gameTime : number){
+    console.log("Game started! Task: ", ch);
+    setChallenge(ch);
+    setGameMode(gameMode);
+    setGameTime(gameTime);
+    setInGame(true);
+  }
+
 
   useEffect(()=>{
       socket.connect();
   }, [])
 
     useEffect(()=>{
-
-        function playerJoinedLobby(p : SocketData){
-            {
-              console.log("Player joined the lobby: ", p);
-              let playersUpdated : SocketData[] = [...players];
-              console.log("playerJoinedLobby ", updatePlayers)
-              playersUpdated.push(p)
-              console.log("updated players: ", playersUpdated)
-              updatePlayers(playersUpdated)
-                
-            }
-        }
-
-        function playerLeftLobby(player : SocketData) {
-          console.log("Player left the lobby: ", player);
-          let playersUpdated = [...players];
-          playersUpdated = playersUpdated.filter(p=> player.userID !== p.userID)
-          console.log("player.userID ", player.userID);
-          console.log("updated players: ", playersUpdated)
-          updatePlayers(playersUpdated);
-        }
-
-        function gameJoined(gameRoomID : string){
-          console.log("Joined game with ID: ", gameRoomID);
-        }
-
-        function lobbyJoined(p : SocketData, ps : SocketData[]){
-          console.log("You have joined the lobby, here are the players: ", ps);
-          updatePlayer(p);
-          updatePlayers(ps);
-        }
-
-        function gameStart(ch : Challenge, gameMode : string, gameTime : number){
-          console.log("Game started! Task: ", ch);
-          setChallenge(ch);
-          setGameMode(gameMode);
-          setGameTime(gameTime);
-          setInGame(true);
-        }
 
         socket.on("lobbyJoined", lobbyJoined)
         socket.on("playerJoinedLobby", playerJoinedLobby)
@@ -96,3 +93,4 @@ const LandingPage: FC = () => {
 };
 
 export default LandingPage;
+ 

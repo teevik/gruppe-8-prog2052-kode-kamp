@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import {socket} from '../../socket'
-import { SocketData } from '../../types'
+import { SocketData } from '../../../../shared/types'
 
 interface LobbyProps {
     updatePlayer : (p: SocketData | undefined) => void;

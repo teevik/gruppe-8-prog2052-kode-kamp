@@ -26,27 +26,33 @@ export default function ResultsPage({scoreboard, gameMode, initialTimer, gameIsO
       
       {/* Results section, placeholder for real one for now*/}
       <section className="resultsContainer">
-        <h3>Results</h3>
-        <h2>(Gamemode) {gameMode}</h2>
+        <h2>Results</h2>
+        <h3>(Gamemode) {gameMode}</h3>
         {gameIsOver && <CountDown initialCounter={initialTimer} />}
         <ul className="resultsList">
            {scoreboard && scoreboard.map((score, index) => (
             <>
-            <li key={index} className="resultsItem">
-              <span className="colorBox">{index+1}</span>
-              <span className="resultsName">{score.socket.userName}{score.socket.emoji}</span>
-              <button onClick={()=>{
-                setSolution(score.solution);
-                setSolutionNumber(index);
-                setDisplaySolution(true);
-              }}>Solution</button>
-              <span className='resultsTime'>{formatSeconds(Math.floor(score.stats.usedTime/1000))}</span>
-            </li>
-
-            {showSolution && solutionNumber == index && <div className="code">
+            <li key={index} className={index == 0 ? "resultsItem winnerResultsItem" : "resultsItem"}>
+              <div className="resultData">
+                <span className="colorBox">{index+1}</span>
+                {index == 0 && <span>🏆</span>}
+                <span className="resultsName">{score.socket.userName}{score.socket.emoji}</span>
+                <span className='resultsTime'>{formatSeconds(Math.floor(score.stats.usedTime/1000))}</span>
+                <button className='solutionButton' onClick={()=>{
+                  setSolution(score.solution);
+                  setSolutionNumber(index);
+                  setDisplaySolution(true);
+                }}
+                >Solution</button>
+                
+              </div>
+              {showSolution && solutionNumber == index && <div className="code">
               <CodeBlock text={solution} theme={atomOneDark} language="javascript" wrapLongLines/> 
               
             </div>}
+            </li>
+
+            
 
             </>
           ))}

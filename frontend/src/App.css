@@ -43,6 +43,10 @@ body {
 }
 
 
+h1, h2, h3 {
+  text-transform: uppercase;
+}
+
 
 /* Footer styles if needed */
 footer {

@@ -3,7 +3,6 @@ import CodeEditor from '../../components/CodeEditor';
 import './GamePage.css'; // Import the CSS file
 import ResultPage from '../results/ResultsPage'
 import CountDown from '../../components/CountDown'
-//import {Challenge, Participant} from '../../types'
 import {Challenge, Participant} from '../../../../shared/types'
 import {socket} from '../../socket'   
 
@@ -34,9 +33,7 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
   const [timeAtResultPage, setTimeAtResultPage] = useState<number>(0);
 
   
-  function submitCode(code : string){
-    socket.emit("submitCode", code)
-  }
+  
 
   function updateScoreboard(scores : Participant[]){
     console.log("Scoreboard is updated", scores)
@@ -139,7 +136,9 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
 
           {/* Right Section: Code Editor */}
           <div className="gamePageEditor">
-            <CodeEditor code={code} setCode={setCode} template={challenge.template} />
+          <p className="testResults" >{amountTestsPassed !== "" && `Tests passed: ${amountTestsPassed}`}</p>
+            
+            <CodeEditor code={code} setCode={setCode} template={challenge.template} submittedCode={submittedCode} setSubmittedCode={setSubmittedCode} />
           </div>
         </div>
 
@@ -148,18 +147,6 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
           <button className="primaryButton" onClick={() => console.log("Running test cases...")}>
             Kjør test cases
           </button>
-
-          <div>
-            <p>{amountTestsPassed !== "" && `Tests passed: ${amountTestsPassed}`}</p>
-            <button disabled={submittedCode} className="secondaryButton" onClick={() => {
-              if(code) {
-                setSubmittedCode(true);
-                submitCode(code);
-              }
-            }}>
-              Send inn
-            </button>
-          </div>
         </div>
       </>}
     </div>

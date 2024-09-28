@@ -23,6 +23,9 @@ interface GameProps {
 export default function SpeedCodingPage({challenge, gameMode, gameTime} : GameProps) {
 
   const [code, setCode] = useState<string | undefined>(challenge?.template);
+  const [amountTestsPassed, setAmountTestsPassed] = useState<string>("");
+  const [submittedCode, setSubmittedCode] = useState<boolean>(false);
+
   const [scoreboard, setScoreboard] = useState<Participant[]>();
 
   const [showResultPage, setShowResultPage] = useState<boolean>(false);
@@ -47,6 +50,8 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
 
   function fail(result : string){
       console.log("Fail... Results: ", result)
+      setAmountTestsPassed(result);
+      setSubmittedCode(false);
   }
 
   function gameOver(countdownResultPage : number){
@@ -143,13 +148,18 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
           <button className="primaryButton" onClick={() => console.log("Running test cases...")}>
             Kjør test cases
           </button>
-          <button className="secondaryButton" onClick={() => {
-            if(code) {
-              submitCode(code);
-            }
-          }}>
-            Send inn
-          </button>
+
+          <div>
+            <p>{amountTestsPassed !== "" && `Tests passed: ${amountTestsPassed}`}</p>
+            <button disabled={submittedCode} className="secondaryButton" onClick={() => {
+              if(code) {
+                setSubmittedCode(true);
+                submitCode(code);
+              }
+            }}>
+              Send inn
+            </button>
+          </div>
         </div>
       </>}
     </div>

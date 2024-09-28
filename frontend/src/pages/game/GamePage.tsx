@@ -2,7 +2,8 @@ import {useState, useEffect} from 'react'
 import CodeEditor from '../../components/CodeEditor';
 import './GamePage.css'; // Import the CSS file
 import ResultPage from '../results/ResultsPage'
-import {Challenge, Participant} from '../../types'
+//import {Challenge, Participant} from '../../types'
+import {Challenge, Participant} from '../../../../shared/types'
 import {socket} from '../../socket'   
 
 

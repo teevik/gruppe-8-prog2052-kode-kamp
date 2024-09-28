@@ -1,7 +1,8 @@
 import {Socket} from 'socket.io'
 import {v4 as uuidv4} from 'uuid'
 import { MAX_PLAYERS_PR_GAME, COUNTDOWN_LENGTH_SECONDS, GAME_MODES, GAME_LENGTH_MINUTES, TIME_AT_ENDSCREEN_SECONDS } from './const';
-import type { Challenge, Game, TestResults } from './types';
+import type { Game, TestResults } from './types';
+import type {Challenge} from '../../../shared/types'
 import {lobby, emitLobbyUpdate} from './lobby'
 import {getRandomChallenge} from './challenge'
 import { submitCode } from '../consumers/coderunner';

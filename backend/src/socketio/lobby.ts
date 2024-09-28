@@ -136,7 +136,6 @@ function resetLobbyCountdown(){
 }
 
 export {
-    getRandomEmoji,
     emitLobbyUpdate,
     initLobby,
     lobby

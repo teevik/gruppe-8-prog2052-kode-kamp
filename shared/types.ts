@@ -7,21 +7,21 @@ interface SocketData {
 
 
 interface Participant {
-  socket: SocketData;
-  stats: Stats
+    socket: SocketData;
+    stats: Stats
 }
-
+  
 interface Stats {
-  executionTime : number;
-  usedTime : number;
+    executionTime : number;
+    usedTime : number;
 }
-
+  
 interface Test {
     input : string[];
     output : string[];
-  }
-  
-  interface Challenge {
+}
+    
+interface Challenge {
     title : string;
     license : string;
     attribution : {name : string, url : string}[];
@@ -31,8 +31,8 @@ interface Test {
     template : string;
     sample_tests : Test[];
     tests : Test[];
-  }
-
+}
+  
 export type {
     SocketData,
     Challenge,

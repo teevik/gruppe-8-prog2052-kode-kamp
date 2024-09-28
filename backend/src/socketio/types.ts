@@ -1,4 +1,5 @@
 import {Socket} from 'socket.io'
+import type {SocketData, Challenge, Participant} from '../../../shared/types'
 
 interface Score{
     userID : string;
@@ -24,25 +25,8 @@ interface ClientToServerEvents {
     leaveLobby : ()=>void;
 }
 
-interface SocketData {
-    userID : string;
-    userName : string;
-    complete : boolean;
-    emoji : string;
-}
-
 interface Game {
     scoreboard : Participant[],
-}
-
-interface Participant {
-    socket: SocketData;
-    stats: Stats
-}
-
-interface Stats {
-    executionTime : number;
-    usedTime : number;
 }
 
 
@@ -59,31 +43,10 @@ interface TestResults {
     executionTimeUs : number;
 }
 
-
-interface Challenge {
-    title : string;
-    license : string;
-    attribution : {name : string, url : string}[];
-    description : string;
-    input : string;
-    output : string;
-    template : string;
-    sample_tests : Test[];
-    tests : Test[];
-}
-
-interface Test {
-    input : string[];
-    output : string[];
-}
-
 export type {
     ServerToClientEvents,
     ClientToServerEvents,
-    SocketData,
     Game,
     Lobby,
-    Challenge,
-    Test,
     TestResults
 }

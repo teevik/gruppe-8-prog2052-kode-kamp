@@ -1,7 +1,7 @@
 /* Global styles */
 body {
   margin: 0;
-  padding: 0;  
+  padding: 0;
   font-family: Arial, sans-serif;
   background-color: #f4f7fa;
   color: #333;
@@ -41,12 +41,6 @@ body {
 .header .link:hover {
   opacity: 0.8;
 }
-
-
-h1, h2, h3 {
-  text-transform: uppercase;
-}
-
 
 /* Footer styles if needed */
 footer {

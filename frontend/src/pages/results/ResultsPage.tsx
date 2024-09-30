@@ -1,42 +1,67 @@
-import { FC } from 'react';
+import {useState} from 'react'
+import { atomOneDark, CodeBlock } from 'react-code-blocks';
+import CountDown, {formatSeconds} from '../../components/CountDown';
+import { Participant } from '../../../../shared/types';
 import './ResultsPage.css';
 
-const ResultsPage: FC = () => {
-  const results = [
-    { name: 'John Doe', time: '2:30', color: 'red' }, //  Format for the result
-  ];
+interface ResultPageProps {
+  scoreboard : Participant[] | undefined;
+  gameMode : string;
+  initialTimer : number;
+  gameIsOver : boolean;
+}
+
+export default function ResultsPage({scoreboard, gameMode, initialTimer, gameIsOver} : ResultPageProps) {
+
+  const [solution, setSolution] = useState<string>("");
+  const [showSolution, setDisplaySolution] = useState<boolean>();
+  const [solutionNumber, setSolutionNumber] = useState<number>(0);
 
   return (
     <div className="resultsPage">
       <header>
         <h1>KodeKamp</h1>
         <p>Compete together, grow together</p>
-        <h2>(Gamemode) Speedcoding</h2>
       </header>
       
       {/* Results section, placeholder for real one for now*/}
       <section className="resultsContainer">
-        <h3>Results</h3>
+        <h2>Results</h2>
+        <h3>(Gamemode) {gameMode}</h3>
+        {gameIsOver && <CountDown initialCounter={initialTimer} />}
         <ul className="resultsList">
-          {results.map((result, index) => (
-            <li key={index} className="resultsItem">
-              <span className="colorBox" style={{ backgroundColor: result.color }}></span>
-              <span className="resultsName">{result.name}</span>
-              <span className="resultsTime">{result.time}</span>
+           {scoreboard && scoreboard.map((score, index) => (
+            <>
+            <li key={index} className={index == 0 ? "resultsItem winnerResultsItem" : "resultsItem"}>
+              <div className="resultData">
+                <span className="colorBox">{index+1}</span>
+                {index == 0 && <span>🏆</span>}
+                <span className="resultsName">{score.socket.userName}{score.socket.emoji}</span>
+                <span className='resultsTime'>{formatSeconds(Math.floor(score.stats.usedTime/1000))}</span>
+                <button className='solutionButton' onClick={()=>{
+                  setSolution(score.solution);
+                  setSolutionNumber(index);
+                  setDisplaySolution(true);
+                }}
+                >Solution</button>
+                
+              </div>
+              {showSolution && solutionNumber == index && <div className="code">
+              <CodeBlock text={solution} theme={atomOneDark} language="javascript" wrapLongLines/> 
+              
+            </div>}
             </li>
+
+            
+
+            </>
           ))}
         </ul>
       </section>
 
-      <button className="resultsPlayAgain">Play again</button> {/* TODO: add link to the "/"" page (landing) */} 
-
-      {/* Footer section if we decide to add it later, placeholder for real one for now*/}    
-      <footer>
-        <p>© 2020 Your Company, Inc. All rights reserved.</p>
-        <a href="#terms">Terms of Service</a>
-      </footer>
+      <button className="resultsPlayAgain" onClick={()=>{
+        location.reload()
+      }}>Play again</button> {/* TODO: add link to the "/"" page (landing) */} 
     </div>
   );
 };
-
-export default ResultsPage;

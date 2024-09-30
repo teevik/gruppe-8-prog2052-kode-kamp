@@ -1,12 +1,13 @@
-const PORT = process.env.PORT || 3000;
-const MAX_PLAYERS_PR_GAME : number = 4;
-const COUNTDOWN_LENGTH_SECONDS : number = 5;
-const TIME_AT_ENDSCREEN_SECONDS : number = 60;
-const GAME_LENGTH_MINUTES : number = 15;
+const MAX_PLAYERS_PR_GAME : number = 8;
+const COUNTDOWN_LENGTH_SECONDS : number = 10;
+const TIME_AT_ENDSCREEN_SECONDS : number = 180;
+const GAME_LENGTH_MINUTES : number = 10;
 const LOBBY_TIMER_SECONDS : number = 30;
 const GAME_MODES : string[] = ["First to finish"];
+const CODE_RUNNER_URL : string = "https://code-runner-small-sky-5409.fly.dev/execute";
 
-const randomUsernames: string[] = [
+const EMOJIS = ["🧑", "🐸", "🐱", "🐶", "🦄", "🐼", "🐧", "🦁", "🐝", "🐢"];
+const RANDOM_USERNAMES: string[] = [
     "ShadowHunter",
     "LightningBolt",
     "MaverickX",
@@ -90,12 +91,13 @@ const randomUsernames: string[] = [
 ];
 
 export {
-    randomUsernames,
-    PORT,
+    RANDOM_USERNAMES,
     MAX_PLAYERS_PR_GAME,
     COUNTDOWN_LENGTH_SECONDS,
     TIME_AT_ENDSCREEN_SECONDS,
     GAME_LENGTH_MINUTES,
     LOBBY_TIMER_SECONDS,
-    GAME_MODES
+    GAME_MODES,
+    CODE_RUNNER_URL,
+    EMOJIS
 }

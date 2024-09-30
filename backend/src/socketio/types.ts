@@ -1,4 +1,5 @@
 import {Socket} from 'socket.io'
+import type {SocketData, Challenge, Participant} from '../../../shared/types'
 
 interface Score{
     userID : string;
@@ -9,11 +10,11 @@ interface ServerToClientEvents {
     lobbyJoined : (playerIDs : string[]) => void;
     playerJoinedLobby: (playerData : SocketData) => void;
     playerLeftLobby : (playerData : SocketData) => void;
-    gameStart: (taskID : string, gameMode : string) => void;
-    gameOver: () => void;
+    gameStart: (challenge : Challenge, gameMode : string, gameTimeSeconds : number) => void;
+    gameOver: (resultPageCountdown : number) => void;
     countdown : (counter : number) => void;
     task : (taskID : string) => void;
-    updateScoreboard : (scores : SocketData[]) => void;
+    updateScoreboard : (scores : Participant[]) => void;
     lobbyUpdate : (amountPlayers : number, totalPlayers : number) => void;
     lobbyCountdown : (counter : string) => void;
 }
@@ -24,15 +25,8 @@ interface ClientToServerEvents {
     leaveLobby : ()=>void;
 }
 
-interface SocketData {
-    userID : string;
-    userName : string;
-    complete : boolean;
-    emoji : string;
-}
-
 interface Game {
-    scoreboard : SocketData[],
+    scoreboard : Participant[],
 }
 
 
@@ -42,10 +36,17 @@ interface Lobby {
     // taskID : string
 }
 
+
+interface TestResults {
+    totalTests : number;
+    passedTests : number;
+    executionTimeUs : number;
+}
+
 export type {
     ServerToClientEvents,
     ClientToServerEvents,
-    SocketData,
     Game,
-    Lobby
+    Lobby,
+    TestResults
 }

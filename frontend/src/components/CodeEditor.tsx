@@ -1,15 +1,23 @@
-import { FC, useState } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
+import {socket} from '../socket'
 
+
+interface CodeEditorProps {
+    template : string;
+    code : string | undefined;
+    setCode : (c : string)=>void;
+    submittedCode : boolean;
+    setSubmittedCode : (b : boolean)=>void;
+}
 /**
  * CodeEditor is a React component for a code editor
  * with a Monaco Editor and action buttons (Save, Reset)
  * for handling code changes and saving the content.
  * @returns {JSX.Element}
  */
-const CodeEditor: FC = () => {
-    const [code, setCode] = useState('// Write your JavaScript code here');
+export default function CodeEditor({code, setCode, template, submittedCode, setSubmittedCode} : CodeEditorProps) {
+    
 
     /**
      * Handles code changes from the Monaco Editor
@@ -22,12 +30,32 @@ const CodeEditor: FC = () => {
         }
     };
 
+    function submitCode(code : string){
+        socket.emit("submitCode", code)
+    }
+
+    function runCode(code : string){
+        socket.emit("runCode", code);
+    }
+
     return (
         <Box>
             {/* Action buttons like Reset, mby have test cases here?*/}
-            <Button colorScheme="gray" onClick={() => setCode('// Resetting to default')}>
+            <Button colorScheme="gray" onClick={() => setCode(template)}>
                 Reset
             </Button>
+            <Button disabled={submittedCode} onClick={()=>{
+                if(code){
+                    setSubmittedCode(true);
+                    runCode(code);
+                }
+            }}>Run</Button>
+            <Button className="submitButton" disabled={submittedCode} onClick={() => {
+                if(code) {
+                    setSubmittedCode(true);
+                    submitCode(code);
+                }
+            }}>Submit</Button>
             
             {/* Monaco Editor */}
             <Box border="1px solid #e2e8f0">
@@ -50,6 +78,3 @@ const CodeEditor: FC = () => {
         </Box>
     );
 };
-
-
-export default CodeEditor;

@@ -1,154 +1,155 @@
 /* General container for the entire page */
 .gamePageContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-  }
-  
-  /* Header Section */
-  .gamePageHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #e2e8f0;
-    background-color: #f7f7f7;
-  }
-  
-  .gamePageHeaderTitle {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .gamePageHeaderMode {
-    font-size: 1rem;
-    color: #555;
-  }
-  
-  /* Main content section */
-  .gamePageMain {
-    display: flex;
-    flex-grow: 1;
-    padding: 16px;
-    background-color: #f1f1f1;
-  }
-  
-  /* Left Section: Task Description */
-  .gamePageTaskDescription {
-    width: 25%;
-    background-color: #ddd;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    border-right: 1px solid #ccc;
-    width: 50em;
-  }
-  
-  .gamePageTaskTitle {
-    font-size: 1.125rem;
-    font-weight: bold;
-    margin-bottom: 16px;
-    color: #333;
-  }
-  
-  /* Right Section: Code Editor */
-  .gamePageEditor {
-    width: -webkit-fill-available;
-    padding: 0 16px;
-    background-color: #333;
-    align-items: center;
-    justify-content: center;
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
 
-  .testResults{
-    color: #f7f7f7;
-  }
+/* Header Section */
+.gamePageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f7f7f7;
+}
 
-  .submitButton{
-    background-color: #357f30;
-    color: #eeeeee;
-  }
-  
-  /* Footer Section */
-  .gamePageFooter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    background-color: #f7f7f7;
-    border-top: 1px solid #e2e8f0;
-  }
-  
-  /* Footer Buttons */
-  .primaryButton, .secondaryButton {
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-  }
-  
-  .primaryButton {
-    background-color: #4a5568; /* Chakra UI gray.700 */
-    color: white;
-    margin-right: 16px;
-  }
-  
-  .secondaryButton {
-    background-color: #2d3748; /* Chakra UI gray.800 */
-    color: white;
-  }
-  
-  .primaryButton:hover {
-    background-color: #2c5282; /* Chakra UI blue.700 */
-  }
-  
-  .secondaryButton:hover {
-    background-color: #2b6cb0; /* Chakra UI blue.600 */
-  }
-  
-  /* Footer Link styles (for terms of service) */
-  .footerLinks {
-    font-size: 0.875rem;
-    color: #718096;
-    text-decoration: none;
-    margin-left: 16px;
-  }
-  
-  .footerLinks:hover {
-    text-decoration: underline;
-  }
-  
+.gamePageHeaderTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
 
-  .io{
-    border-radius: 5px;
-    border: solid 1px #2d3748;
-    padding: 14px 13px;
-    font-family: Courier, monospace;
-    font-variant-ligatures: none;
-    max-width: 410px;
-    position: relative;
-    overflow: auto;
-    background-color: #333;
-    color:white;
-  }
+.gamePageHeaderMode {
+  font-size: 1rem;
+  color: #555;
+}
 
-  .io p {
-    margin : 0;
-    display: inline;
-  }
+/* Main content section */
+.gamePageMain {
+  display: flex;
+  flex-grow: 1;
+  padding: 16px;
+  background-color: #f1f1f1;
+}
 
-  .examples {
-    display: flex;
-    flex-wrap: nowrap;
-    text-align: left;
-    gap:2rem;
-  }
-  .examples * {
-    flex-grow: 1;
-  }
+/* Left Section: Task Description */
+.gamePageTaskDescription {
+  width: 25%;
+  background-color: #ddd;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  border-right: 1px solid #ccc;
+  width: 50em;
+}
+
+.gamePageTaskTitle {
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+/* Right Section: Code Editor */
+.gamePageEditor {
+  flex-grow: 1;
+  padding: 0 16px;
+  background-color: #333;
+  align-items: center;
+  justify-content: center;
+}
+
+.testResults {
+  color: #f7f7f7;
+}
+
+.submitButton {
+  background-color: #357f30;
+  color: #eeeeee;
+}
+
+/* Footer Section */
+.gamePageFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f7f7f7;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Footer Buttons */
+.primaryButton,
+.secondaryButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.primaryButton {
+  background-color: #4a5568; /* Chakra UI gray.700 */
+  color: white;
+  margin-right: 16px;
+}
+
+.secondaryButton {
+  background-color: #2d3748; /* Chakra UI gray.800 */
+  color: white;
+}
+
+.primaryButton:hover {
+  background-color: #2c5282; /* Chakra UI blue.700 */
+}
+
+.secondaryButton:hover {
+  background-color: #2b6cb0; /* Chakra UI blue.600 */
+}
+
+/* Footer Link styles (for terms of service) */
+.footerLinks {
+  font-size: 0.875rem;
+  color: #718096;
+  text-decoration: none;
+  margin-left: 16px;
+}
+
+.footerLinks:hover {
+  text-decoration: underline;
+}
+
+.io {
+  border-radius: 5px;
+  border: solid 1px #2d3748;
+  padding: 14px 13px;
+  font-family: Courier, monospace;
+  font-variant-ligatures: none;
+  max-width: 410px;
+  position: relative;
+  overflow: auto;
+  background-color: #333;
+  color: white;
+}
+
+.io p {
+  margin: 0;
+  display: inline;
+}
+
+.examples {
+  display: flex;
+  flex-wrap: nowrap;
+  text-align: left;
+  gap: 2rem;
+}
+.examples * {
+  flex-grow: 1;
+}

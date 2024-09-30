@@ -2,8 +2,12 @@ import { io } from 'socket.io-client';
 
 
 
+
 function getUrl(){
-  let URL =''; //'http://localhost:3000';
+  let URL ='';
+  if (!import.meta.env.PROD){
+    URL = "http://localhost:3000";
+  }
   
   //Handle whether dev or prod
   return URL

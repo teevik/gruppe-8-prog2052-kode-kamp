@@ -2,18 +2,24 @@ import type {Express} from 'express'
 import express from 'express'
 import {Server} from 'socket.io'
 import { Server as Httpserver } from "http";
-import type {ClientToServerEvents, ServerToClientEvents, SocketData} from './socketio/types'
+import type {ClientToServerEvents, ServerToClientEvents} from './socketio/types'
+import type {SocketData} from '../../shared/types'
 
-import {initChallenges, getRandomChallenge} from './socketio/challenge'
+import {initChallenges} from './socketio/challenge'
 import {initLobby} from './socketio/lobby'
-import { socketAllowOrigin } from './middleware/socket'
+import path from 'path'
 
 initChallenges();
 
 const app : Express = express();
 const PORT = 3000;
 
-app.use(socketAllowOrigin);
+app.use(express.static(path.join(__dirname, '../public')));
+
+app.get("/", (req, res)=>{
+    console.log(path.join(__dirname, '../public/index.html'))
+    res.sendFile(path.join(__dirname, '../public/index.html'))
+})
 
 let server : Httpserver = app.listen(PORT, ()=>{
     console.log(`Server is listening on port: ${PORT}`);

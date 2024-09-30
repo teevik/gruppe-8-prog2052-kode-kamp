@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "vitest",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build --target=bun --outdir build ./src/index.ts"
   },
   "keywords": [],
   "author": "",

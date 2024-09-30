@@ -20,7 +20,7 @@ let lobby : Lobby = {
 
 let lobbyCountdownCounter : number = LOBBY_TIMER_SECONDS;
 
-let lobbyInterval : any = null;
+let lobbyInterval : NodeJS.Timeout | null = null;
 
 function lobbyCountdown (){
     //Emit countdown event to all cients
@@ -129,7 +129,9 @@ function emitLobbyUpdate(){
 }
 
 function resetLobbyCountdown(){
-    clearInterval(lobbyInterval)
+    if (lobbyInterval){
+        clearInterval(lobbyInterval)
+    }
     lobbyInterval = null;
     lobbyCountdownCounter = LOBBY_TIMER_SECONDS;
     io.emit('lobbyCountdown', "")

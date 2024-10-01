@@ -16,7 +16,7 @@ RUN npm run build
 # Build backend
 WORKDIR /usr/src/app/backend
 RUN npm install
-RUN npm run build
+RUN NODE_ENV=production npm run build
 
 FROM oven/bun:1 AS runner
 WORKDIR /usr/src/app
@@ -27,5 +27,4 @@ COPY --from=build /usr/src/app/backend/challenges /usr/src/app/challenges
 COPY --from=build /usr/src/app/frontend/dist /usr/src/app/public
 
 EXPOSE 3000
-ENV NODE_ENV=production
 CMD ["bun", "src/index.js"]

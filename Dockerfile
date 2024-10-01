@@ -27,4 +27,5 @@ COPY --from=build /usr/src/app/backend/challenges /usr/src/app/challenges
 COPY --from=build /usr/src/app/frontend/dist /usr/src/app/public
 
 EXPOSE 3000
+ENV NODE_ENV=production
 CMD ["bun", "src/index.js"]

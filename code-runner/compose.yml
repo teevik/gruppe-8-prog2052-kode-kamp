@@ -1,0 +1,5 @@
+services:
+  code-runner:
+    build: .
+    ports:
+      - "80:3000"

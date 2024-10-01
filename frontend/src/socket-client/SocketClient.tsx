@@ -8,7 +8,6 @@
 // }
 
 // function SocketClient(){
-    
 
 //     return (
 //         <>
@@ -18,8 +17,8 @@
 //                 return <p key={player.userID}>{player.userName}</p>
 //             })}
 //             {/*inLobby ? <Lobby/>:<Game/> */}
-//             {inLobby ? 
-            
+//             {inLobby ?
+
 //             <button onClick={()=>{
 //                 let code = "your code here";
 //                 socket.emit("submitCode", code);
@@ -29,12 +28,8 @@
 //             }}>Join lobby</button>}
 //         </>
 //     )
-    
 
-    
 // }
-
-
 
 // export {
 //     SocketClient

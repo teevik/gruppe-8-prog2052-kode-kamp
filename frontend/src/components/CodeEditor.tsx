@@ -45,7 +45,7 @@ export default function CodeEditor({
   function handleEditorWillMount(monaco: Monaco) {
     monaco.languages?.typescript?.javascriptDefaults.addExtraLib(
       "declare function readline(): string;",
-      "kodekamp.d.ts"
+      "kodekamp.d.ts",
     );
   }
 

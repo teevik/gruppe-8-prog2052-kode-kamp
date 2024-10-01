@@ -1,16 +1,15 @@
-import {useState, useEffect} from 'react'
-import CodeEditor from '../../components/CodeEditor';
-import './GamePage.css'; // Import the CSS file
-import ResultPage from '../results/ResultsPage'
-import CountDown from '../../components/CountDown'
-import {Challenge, Participant} from '../../../../shared/types'
-import {socket} from '../../socket'   
-
+import { useState, useEffect } from "react";
+import CodeEditor from "../../components/CodeEditor";
+import "./GamePage.css"; // Import the CSS file
+import ResultPage from "../results/ResultsPage";
+import CountDown from "../../components/CountDown";
+import { Challenge, Participant } from "../../../../shared/types";
+import { socket } from "../../socket";
 
 interface GameProps {
-  challenge : Challenge | undefined;
-  gameMode : string;
-  gameTime : number;
+  challenge: Challenge | undefined;
+  gameMode: string;
+  gameTime: number;
 }
 
 /**
@@ -19,8 +18,11 @@ interface GameProps {
  * The main content section contains a task description and a code editor.
  * The footer contains buttons for running test cases and submitting code.
  */
-export default function SpeedCodingPage({challenge, gameMode, gameTime} : GameProps) {
-
+export default function SpeedCodingPage({
+  challenge,
+  gameMode,
+  gameTime,
+}: GameProps) {
   const [code, setCode] = useState<string | undefined>(challenge?.template);
   const [amountTestsPassed, setAmountTestsPassed] = useState<string>("");
   const [submittedCode, setSubmittedCode] = useState<boolean>(false);
@@ -32,127 +34,139 @@ export default function SpeedCodingPage({challenge, gameMode, gameTime} : GamePr
 
   const [timeAtResultPage, setTimeAtResultPage] = useState<number>(0);
 
-  
-  
-
-  function updateScoreboard(scores : Participant[]){
-    console.log("Scoreboard is updated", scores)
+  function updateScoreboard(scores: Participant[]) {
+    console.log("Scoreboard is updated", scores);
     setScoreboard(scores);
   }
 
-  function success(result : string){
-      console.log("Success! Results: ", result)
-      setShowResultPage(true);
+  function success(result: string) {
+    console.log("Success! Results: ", result);
+    setShowResultPage(true);
   }
 
-  function fail(result : string){
+  function fail(result: string) {
     setAmountTestsPassed(result);
     setSubmittedCode(false);
   }
 
-  function runResults(result : string){
+  function runResults(result: string) {
     setAmountTestsPassed(result);
     setSubmittedCode(false);
   }
 
-  function gameOver(countdownResultPage : number){
+  function gameOver(countdownResultPage: number) {
     //Display end screen with scoreboard
     setShowResultPage(true);
-    setTimeAtResultPage(countdownResultPage)
+    setTimeAtResultPage(countdownResultPage);
     setGameIsOver(true);
-    setTimeout(()=>{
-      location.reload()
-    }, countdownResultPage*1000)
+    setTimeout(() => {
+      location.reload();
+    }, countdownResultPage * 1000);
   }
 
-  useEffect(()=>{
-    socket.on("updateScoreboard", updateScoreboard)
+  useEffect(() => {
+    socket.on("updateScoreboard", updateScoreboard);
     // Event to emit when code is to be submitted
     // socket.emit("submitCode", code);
-    socket.on("success", success)
-    socket.on("fail", fail)
-    socket.on("runResults", runResults)
+    socket.on("success", success);
+    socket.on("fail", fail);
+    socket.on("runResults", runResults);
 
-    socket.on("gameOver", gameOver)
+    socket.on("gameOver", gameOver);
 
-    return ()=>{
-      socket.off("updateScoreboard", updateScoreboard)
-      socket.off("success", success)
-      socket.off("fail", fail)
-      socket.off("gameOver", gameOver)
-      socket.off("runResults", runResults)
-    }
-  }, [])
+    return () => {
+      socket.off("updateScoreboard", updateScoreboard);
+      socket.off("success", success);
+      socket.off("fail", fail);
+      socket.off("gameOver", gameOver);
+      socket.off("runResults", runResults);
+    };
+  }, []);
 
   //const [code, setCode] = useState<string>("");
 
   return (
-    
     <div className="gamePageContainer">
-      {showResultPage && <ResultPage scoreboard={scoreboard} gameMode={gameMode} initialTimer={timeAtResultPage} gameIsOver={gameIsOver} />}
-      {challenge && !showResultPage && <>
-        {/* Header Section */}
-        <div className="gamePageHeader">
-          <div className="gamePageHeaderTitle">KodeKamp</div>
-          <div className="gamePageHeaderMode">game mode: {gameMode}</div>
-          <CountDown initialCounter={gameTime} />
+      {showResultPage && (
+        <ResultPage
+          scoreboard={scoreboard}
+          gameMode={gameMode}
+          initialTimer={timeAtResultPage}
+          gameIsOver={gameIsOver}
+        />
+      )}
+      {challenge && !showResultPage && (
+        <>
+          {/* Header Section */}
+          <div className="gamePageHeader">
+            <div className="gamePageHeaderTitle">KodeKamp</div>
+            <div className="gamePageHeaderMode">game mode: {gameMode}</div>
+            <CountDown initialCounter={gameTime} />
+          </div>
 
-        </div>
+          {/* Main Content Section */}
+          <div className="gamePageMain">
+            {/* Left Section: Task Description */}
+            <div className="gamePageTaskDescription">
+              <div className="gamePageTaskTitle">{challenge.title}</div>
 
-        {/* Main Content Section */}
-        <div className="gamePageMain">
-          {/* Left Section: Task Description */}
-          <div className="gamePageTaskDescription">
-            <div className="gamePageTaskTitle">{challenge.title}</div>
-            
-            <div dangerouslySetInnerHTML={{__html: challenge.description}}></div>
-            <h2>Input:</h2>
-            <div dangerouslySetInnerHTML={{__html: challenge.input}}></div>
-            <h2>Output:</h2>
-            <div dangerouslySetInnerHTML={{__html: challenge.output}}></div>
-            
-            <h2>Examples:</h2>
-            <section>{challenge.sample_tests.map((test, index)=>(
-            <div key={index}>
-            
-              <section className='examples'>
-                  <div>
-                    <p>Samle input {index+1}:</p>
-                    <div className='io'>
-                      {test.input.map(input=>(
-                          <p key={input}>{input}</p>
-                        ))}
-                    </div>
+              <div
+                dangerouslySetInnerHTML={{ __html: challenge.description }}
+              ></div>
+              <h2>Input:</h2>
+              <div dangerouslySetInnerHTML={{ __html: challenge.input }}></div>
+              <h2>Output:</h2>
+              <div dangerouslySetInnerHTML={{ __html: challenge.output }}></div>
+
+              <h2>Examples:</h2>
+              <section>
+                {challenge.sample_tests.map((test, index) => (
+                  <div key={index}>
+                    <section className="examples">
+                      <div>
+                        <p>Samle input {index + 1}:</p>
+                        <div className="io">
+                          {test.input.map((input) => (
+                            <p key={input}>{input}</p>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <p>Sample output {index + 1}:</p>
+                        <div className="io">
+                          {test.output.map((output) => (
+                            <p key={output}>{output}</p>
+                          ))}
+                        </div>
+                      </div>
+                    </section>
                   </div>
-                    
-                <div>
-                  <p>Sample output {index+1}:</p>
-                  <div className='io'>
-                    {test.output.map(output=>(
-                        <p key={output}>{output}</p>
-                      ))}
-                  </div>
-                </div>
-
+                ))}
               </section>
-
             </div>
-            ))}</section>
+
+            {/* Right Section: Code Editor */}
+            <div className="gamePageEditor">
+              <p className="testResults">
+                {amountTestsPassed !== "" &&
+                  `Tests passed: ${amountTestsPassed}`}
+              </p>
+
+              <CodeEditor
+                code={code}
+                setCode={setCode}
+                template={challenge.template}
+                submittedCode={submittedCode}
+                setSubmittedCode={setSubmittedCode}
+              />
+            </div>
           </div>
 
-          {/* Right Section: Code Editor */}
-          <div className="gamePageEditor">
-          <p className="testResults" >{amountTestsPassed !== "" && `Tests passed: ${amountTestsPassed}`}</p>
-            
-            <CodeEditor code={code} setCode={setCode} template={challenge.template} submittedCode={submittedCode} setSubmittedCode={setSubmittedCode} />
-          </div>
-        </div>
-
-        {/* Footer Section */}
-        <div className="gamePageFooter">
-          
-        </div>
-      </>}
+          {/* Footer Section */}
+          <div className="gamePageFooter"></div>
+        </>
+      )}
     </div>
   );
-};
+}

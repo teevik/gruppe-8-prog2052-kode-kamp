@@ -37,7 +37,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, SocketData>(
       origin: "http://localhost:5173", // Allow all origins, or specify a specific origin if needed
       methods: ["GET", "POST"],
     },
-  }
+  },
 );
 
 io.on("connection", initLobby);

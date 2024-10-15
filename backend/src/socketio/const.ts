@@ -3,7 +3,7 @@ const COUNTDOWN_LENGTH_SECONDS: number = 10;
 const TIME_AT_ENDSCREEN_SECONDS: number = 180;
 const GAME_LENGTH_MINUTES: number = 10;
 const LOBBY_TIMER_SECONDS: number = 30;
-const GAME_MODES: string[] = ["First to finish"];
+const GAME_MODES: string[] = ["First to finish", "Fastest code"];
 const CODE_RUNNER_URL: string =
   process.env.NODE_ENV === "production"
     ? "http://192.168.10.180/execute"

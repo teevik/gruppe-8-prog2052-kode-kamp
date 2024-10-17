@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { atomOneDark, CodeBlock } from "react-code-blocks";
 import CountDown, { formatSeconds } from "../../components/CountDown";
-import { Participant } from "../../../../shared/types";
+import type { Participant, SocketData } from "../../../../shared/types";
 import { GAME_MODES } from "../../../../shared/const";
 import "./ResultsPage.css";
 
@@ -10,6 +10,7 @@ interface ResultPageProps {
   gameMode: string;
   initialTimer: number;
   gameIsOver: boolean;
+  player: SocketData | undefined;
 }
 
 export default function ResultsPage({
@@ -17,6 +18,7 @@ export default function ResultsPage({
   gameMode,
   initialTimer,
   gameIsOver,
+  player,
 }: ResultPageProps) {
   const [solution, setSolution] = useState<string>("");
   const [showSolution, setDisplaySolution] = useState<boolean>();
@@ -49,8 +51,12 @@ export default function ResultsPage({
                   <span className="resultsName">
                     {score.socket.userName}
                     {score.socket.emoji}
+                    {score.socket.userID == player?.userID && (
+                      <span className="you-label resultLabel">you</span>
+                    )}
                   </span>
-                  <span className="resultsTime">
+
+                  <span className="resultLabel">
                     {gameMode == GAME_MODES[0] &&
                       `${formatSeconds(
                         Math.round(score.stats.usedTime / 1000)

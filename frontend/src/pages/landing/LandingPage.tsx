@@ -91,6 +91,7 @@ const LandingPage: FC = () => {
           challenge={challenge}
           gameMode={gameMode}
           gameTime={gameTime}
+          player={player}
         />
       ) : (
         <Lobby

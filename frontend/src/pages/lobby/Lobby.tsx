@@ -3,12 +3,18 @@ import { socket } from "../../socket";
 import { SocketData } from "../../../../shared/types";
 
 interface LobbyProps {
+  gameMode: string;
   updatePlayer: (p: SocketData | undefined) => void;
   players: SocketData[];
   player: SocketData | undefined;
 }
 
-export default function Lobby({ updatePlayer, players, player }: LobbyProps) {
+export default function Lobby({
+  gameMode,
+  updatePlayer,
+  players,
+  player,
+}: LobbyProps) {
   const [countdownLobby, setCountdownLobby] = useState<string>("");
   const [countdownStartGame, setCountdownStartGame] = useState<string>("");
 
@@ -47,12 +53,17 @@ export default function Lobby({ updatePlayer, players, player }: LobbyProps) {
   }
 
   function startGameCountdown(counter: string) {
-    console.log("Counter", counter);
     setCountdownStartGame(counter);
   }
 
   return (
     <div className="landingPage">
+      {gameMode !== "" && (
+        <div>
+          <p>gamemode</p>
+          <h1>{gameMode}</h1>
+        </div>
+      )}
       {countdownStartGame !== "" && <p>Game starts in: {countdownStartGame}</p>}
       {countdownStartGame == "" && (
         <>

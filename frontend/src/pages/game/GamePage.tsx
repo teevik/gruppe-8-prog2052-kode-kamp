@@ -100,7 +100,10 @@ export default function SpeedCodingPage({
           {/* Header Section */}
           <div className="gamePageHeader">
             <div className="gamePageHeaderTitle">KodeKamp</div>
-            <div className="gamePageHeaderMode">game mode: {gameMode}</div>
+            <div className="gamePageHeaderMode">
+              <p>gamemode</p>
+              <p className="gamePageHeaderTitle">{gameMode}</p>
+            </div>
             <CountDown initialCounter={gameTime} />
           </div>
 
@@ -109,6 +112,14 @@ export default function SpeedCodingPage({
             {/* Left Section: Task Description */}
             <div className="gamePageTaskDescription">
               <div className="gamePageTaskTitle">{challenge.title}</div>
+              <cite>
+                Attribution:
+                {challenge.attribution.map((attr) => (
+                  <a href={attr.url}>{attr.name}</a>
+                ))}
+                License:
+                {challenge.license}
+              </cite>
 
               <div
                 dangerouslySetInnerHTML={{ __html: challenge.description }}

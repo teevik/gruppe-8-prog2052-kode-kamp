@@ -50,7 +50,7 @@ export default function ResultsPage({
                       {score.socket.emoji}
                     </span>
                     <span className="resultsTime">
-                      {formatSeconds(Math.floor(score.stats.usedTime / 1000))}
+                      Execution time: {score.stats.executionTime / 1000} ms
                     </span>
                     <button
                       className="solutionButton"
@@ -60,7 +60,7 @@ export default function ResultsPage({
                         setDisplaySolution(true);
                       }}
                     >
-                      Solution
+                      Submission
                     </button>
                   </div>
                   {showSolution && solutionNumber == index && (

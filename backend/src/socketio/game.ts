@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import {
   MAX_PLAYERS_PR_GAME,
   COUNTDOWN_LENGTH_SECONDS,
-  GAME_MODES,
   GAME_LENGTH_MINUTES,
   TIME_AT_ENDSCREEN_SECONDS,
 } from "./const";
+import {GAME_MODES} from "../../../shared/const";
 import type { Game, TestResults } from "./types";
 import type { Challenge, Participant } from "../../../shared/types";
 import { lobby, emitLobbyUpdate } from "./lobby";
@@ -26,18 +26,23 @@ function createGameRoom() {
     socket.emit("gameJoined", gameRoomID);
   });
 
+  //Emitting the gamemode to gameroom so that they see the gamemode already before the game begins
+  
   let countDown = COUNTDOWN_LENGTH_SECONDS;
   const countDownInterval = setInterval(() => {
     io.to(gameRoomID).emit("countdown", countDown);
     countDown--;
   }, 1000);
-
+  
   emitLobbyUpdate();
-
+  
+  let currentGameMode = ""+lobby.gameMode;
+  
+  io.to(gameRoomID).emit("gameMode", currentGameMode);
   setTimeout(
     () => {
       clearInterval(countDownInterval);
-      startGame(gameRoomID, players, lobby.gameMode);
+      startGame(gameRoomID, players, currentGameMode);
     },
     COUNTDOWN_LENGTH_SECONDS * 1000 + 1000,
   );
@@ -58,7 +63,6 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
   io.to(gameRoomID).emit(
     "gameStart",
     challenge,
-    gameMode,
     GAME_LENGTH_MINUTES * 60,
   );
 
@@ -111,13 +115,15 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
             switch (gameMode) {
               //Handle "first to finish"
               case GAME_MODES[0]:
+                console.log("Updating first to finish");
                 game.scoreboard.push(scoreboardEntry);
                 
                 break;
 
               //Handle "fastest code"
               case GAME_MODES[1]:
-                game.scoreboard = binaryUpdateScoreboard(game.scoreboard, scoreboardEntry);
+                console.log("Updating fastest code");
+                game.scoreboard = fastestCodeUpdateScoreboard([...game.scoreboard], scoreboardEntry);
                 break;
             }
             
@@ -226,24 +232,26 @@ function binaryUpdateScoreboard(currentScoreboard : Participant[], scoreboardEnt
  * @param currentScoreboard 
  * @return The updated scoreboard
  */
-// function fastestCodeUpdateScoreboard(scoreboardEntry : Participant, currentScoreboard : Participant[]) : Participant[] {
+function fastestCodeUpdateScoreboard(currentScoreboard : Participant[], scoreboardEntry : Participant) : Participant[] {
 
-//   let newScoreboard : Participant[] = [];
-//   let scoreboardEntryInserted : boolean = false;
+  let newScoreboard : Participant[] = [];
+  let scoreboardEntryInserted : boolean = false;
 
-//   if(currentScoreboard.length == 0){
-//     newScoreboard.push(scoreboardEntry);
-//   } else {
-//     for(let participant of currentScoreboard){
-//       if(!scoreboardEntryInserted && scoreboardEntry.stats.executionTime < participant.stats.executionTime){
-//         newScoreboard.push(scoreboardEntry);
-//         scoreboardEntryInserted = true;
-//       }
-//       newScoreboard.push(participant);
-//     }
-//   }
+  if(currentScoreboard.length == 0){
+    newScoreboard.push(scoreboardEntry);
+  } else {
+    for(let participant of currentScoreboard){
+      if(!scoreboardEntryInserted && scoreboardEntry.stats.executionTime < participant.stats.executionTime){
+        newScoreboard.push(scoreboardEntry);
+        scoreboardEntryInserted = true;
+      }
+      newScoreboard.push(participant);
+    }
+  }
 
-//   return newScoreboard;
-// }
+  console.log("new scoreboard", newScoreboard);
 
-export { createGameRoom, binaryUpdateScoreboard };
+  return newScoreboard;
+}
+
+export { createGameRoom, binaryUpdateScoreboard, fastestCodeUpdateScoreboard };

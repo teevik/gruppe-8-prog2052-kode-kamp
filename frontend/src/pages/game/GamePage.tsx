@@ -152,7 +152,7 @@ export default function SpeedCodingPage({
                 {amountTestsPassed !== "" &&
                   `Tests passed: ${amountTestsPassed}`}
               </p>
-
+              {submittedCode && <div className="loader"></div>}
               <CodeEditor
                 code={code}
                 setCode={setCode}

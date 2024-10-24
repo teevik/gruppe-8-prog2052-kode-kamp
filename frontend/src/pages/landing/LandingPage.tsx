@@ -23,6 +23,10 @@ const LandingPage: FC = () => {
     setPlayer(p);
   }
 
+  function gameModeEvent(mode: string) {
+    setGameMode(mode);
+  }
+
   function playerJoinedLobby(p: SocketData) {
     console.log("Player joined the lobby: ", p);
     let playersUpdated: SocketData[] = [...players];
@@ -51,10 +55,9 @@ const LandingPage: FC = () => {
     updatePlayers(ps);
   }
 
-  function gameStart(ch: Challenge, gameMode: string, gameTime: number) {
+  function gameStart(ch: Challenge, gameTime: number) {
     console.log("Game started! Task: ", ch);
     setChallenge(ch);
-    setGameMode(gameMode);
     setGameTime(gameTime);
     setInGame(true);
   }
@@ -69,6 +72,7 @@ const LandingPage: FC = () => {
     socket.on("playerLeftLobby", playerLeftLobby);
     socket.on("gameJoined", gameJoined);
     socket.on("gameStart", gameStart);
+    socket.on("gameMode", gameModeEvent);
 
     return () => {
       socket.off("lobbyJoined", lobbyJoined);
@@ -76,6 +80,7 @@ const LandingPage: FC = () => {
       socket.off("playerLeftLobby", playerLeftLobby);
       socket.off("gameJoined", gameJoined);
       socket.off("gameStart", gameStart);
+      socket.off("gameMode", gameModeEvent);
     };
   }, [player, players, inGame]);
 
@@ -86,9 +91,15 @@ const LandingPage: FC = () => {
           challenge={challenge}
           gameMode={gameMode}
           gameTime={gameTime}
+          player={player}
         />
       ) : (
-        <Lobby updatePlayer={updatePlayer} player={player} players={players} />
+        <Lobby
+          gameMode={gameMode}
+          updatePlayer={updatePlayer}
+          player={player}
+          players={players}
+        />
       )}
       {!inGame && <Footer />}
     </>

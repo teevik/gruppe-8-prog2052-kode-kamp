@@ -3,13 +3,18 @@ import CodeEditor from "../../components/CodeEditor";
 import "./GamePage.css"; // Import the CSS file
 import ResultPage from "../results/ResultsPage";
 import CountDown from "../../components/CountDown";
-import { Challenge, Participant } from "../../../../shared/types";
+import type {
+  Challenge,
+  Participant,
+  SocketData,
+} from "../../../../shared/types";
 import { socket } from "../../socket";
 
 interface GameProps {
   challenge: Challenge | undefined;
   gameMode: string;
   gameTime: number;
+  player: SocketData | undefined;
 }
 
 /**
@@ -22,6 +27,7 @@ export default function SpeedCodingPage({
   challenge,
   gameMode,
   gameTime,
+  player,
 }: GameProps) {
   const [code, setCode] = useState<string | undefined>(challenge?.template);
   const [amountTestsPassed, setAmountTestsPassed] = useState<string>("");
@@ -93,6 +99,7 @@ export default function SpeedCodingPage({
           gameMode={gameMode}
           initialTimer={timeAtResultPage}
           gameIsOver={gameIsOver}
+          player={player}
         />
       )}
       {challenge && !showResultPage && (
@@ -100,7 +107,10 @@ export default function SpeedCodingPage({
           {/* Header Section */}
           <div className="gamePageHeader">
             <div className="gamePageHeaderTitle">KodeKamp</div>
-            <div className="gamePageHeaderMode">game mode: {gameMode}</div>
+            <div className="gamePageHeaderMode">
+              <p>gamemode</p>
+              <p className="gamePageHeaderTitle">{gameMode}</p>
+            </div>
             <CountDown initialCounter={gameTime} />
           </div>
 
@@ -144,6 +154,16 @@ export default function SpeedCodingPage({
                   </div>
                 ))}
               </section>
+              <cite>
+                Attribution:
+                {challenge.attribution.map((attr) => (
+                  <a href={attr.url}>{attr.name}</a>
+                ))}
+              </cite>
+              <p>
+                License:
+                {challenge.license}
+              </p>
             </div>
 
             {/* Right Section: Code Editor */}

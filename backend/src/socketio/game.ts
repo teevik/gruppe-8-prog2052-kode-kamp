@@ -5,7 +5,7 @@ import {
   COUNTDOWN_LENGTH_SECONDS,
   GAME_LENGTH_MINUTES,
   TIME_AT_ENDSCREEN_SECONDS,
-} from "./const";
+} from "../const";
 import {GAME_MODES} from "../../../shared/const";
 import type { Game, TestResults } from "./types";
 import type { Challenge, Participant } from "../../../shared/types";

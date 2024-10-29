@@ -14,6 +14,8 @@ import { initLobby } from "./socketio/lobby";
 import path from "path";
 import {RATE_LIMIT_MINUTE_INTERVAL, RATE_LIMIT_MAX} from './const'
 import connectdb from './database/db'
+import {User} from './database/model/user'
+import mongoose from 'mongoose';
 
 initChallenges();
 
@@ -27,6 +29,8 @@ const limiter = rateLimit({
 });
 
 connectdb();
+// const testUser = new User({username: "testuser", points: 0, hashedPassword: "fefef", email: "hello@gmail.com"});
+// testUser.save();
 
 app.use(limiter);
 

@@ -7,8 +7,4 @@ const userSchema = new Schema({
     email : String
 })
 
-const User = model('User', userSchema);
-
-export {
-    User
-}
+export const User = model('User', userSchema);

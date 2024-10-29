@@ -3,6 +3,8 @@ const COUNTDOWN_LENGTH_SECONDS: number = 10;
 const TIME_AT_ENDSCREEN_SECONDS: number = 180;
 const GAME_LENGTH_MINUTES: number = 10;
 const LOBBY_TIMER_SECONDS: number = 30;
+const RATE_LIMIT_MINUTE_INTERVAL : number = 1;
+const RATE_LIMIT_MAX : number = 100;
 const GAME_MODES: string[] = ["First to finish", "Fastest code"];
 const CODE_RUNNER_URL: string =
   process.env.NODE_ENV === "production"
@@ -103,4 +105,6 @@ export {
   GAME_MODES,
   CODE_RUNNER_URL,
   EMOJIS,
+  RATE_LIMIT_MINUTE_INTERVAL,
+  RATE_LIMIT_MAX
 };

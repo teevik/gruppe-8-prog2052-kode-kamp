@@ -12,7 +12,8 @@ import type { SocketData } from "../../shared/types";
 import { initChallenges } from "./socketio/challenge";
 import { initLobby } from "./socketio/lobby";
 import path from "path";
-import {RATE_LIMIT_MINUTE_INTERVAL, RATE_LIMIT_MAX} from './socketio/const'
+import {RATE_LIMIT_MINUTE_INTERVAL, RATE_LIMIT_MAX} from './const'
+import connectdb from './database/db'
 
 initChallenges();
 
@@ -24,6 +25,8 @@ const limiter = rateLimit({
   windowMs: RATE_LIMIT_MINUTE_INTERVAL * 60 * 1000,
   max: RATE_LIMIT_MAX,
 });
+
+connectdb();
 
 app.use(limiter);
 

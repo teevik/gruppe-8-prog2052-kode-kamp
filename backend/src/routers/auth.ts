@@ -1,7 +1,7 @@
 import {TRPCError} from "@trpc/server"
 import { sign as signJwt } from "jsonwebtoken";
 import type { User } from "../../../shared/types";
-import {MIN_PASSWORD_LENGTH} from "../const"
+import {MIN_PASSWORD_LENGTH, JWT_EXPIRESIN} from "../const"
 import {User as UserSchema} from "../database/model/user"
 import { JWT_SECRET } from "../env";
 import { publicProcedure, router } from "../trpc";
@@ -14,15 +14,14 @@ const register = publicProcedure.input(
     password: z.string().min(MIN_PASSWORD_LENGTH, `Must be ${MIN_PASSWORD_LENGTH} or more characters long`),
   })
 ).mutation( async ({input, ctx}) => {
-  // const id = crypto.randomUUID();
+  
   const {username, password} = input;
   
-  const hashedPassword = await argon2.hash(password);
-
-  //TODO: Check if user with username exists already
   if((await UserSchema.find({username: username})).length > 0) {
     throw new TRPCError({code: "CONFLICT"});
   }
+
+  const hashedPassword = await argon2.hash(password);
 
   const newUser = new UserSchema({username: username, hashedPassword: hashedPassword});
   const user = await newUser.save();
@@ -32,7 +31,7 @@ const register = publicProcedure.input(
     const userToken : User = {username: user.username, id: user._id.toString()};
 
     const jwt = signJwt(userToken, JWT_SECRET, {
-      expiresIn: "12h"
+      expiresIn: JWT_EXPIRESIN
     });
     
     return jwt;

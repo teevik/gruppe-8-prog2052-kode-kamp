@@ -6,6 +6,7 @@ const LOBBY_TIMER_SECONDS: number = 30;
 const RATE_LIMIT_MINUTE_INTERVAL : number = 1;
 const RATE_LIMIT_MAX : number = 100;
 const MIN_PASSWORD_LENGTH : number = 8;
+const JWT_EXPIRESIN : string = "12h"
 const GAME_MODES: string[] = ["First to finish", "Fastest code"];
 const CODE_RUNNER_URL: string =
   process.env.NODE_ENV === "production"
@@ -108,5 +109,6 @@ export {
   EMOJIS,
   RATE_LIMIT_MINUTE_INTERVAL,
   RATE_LIMIT_MAX,
-  MIN_PASSWORD_LENGTH
+  MIN_PASSWORD_LENGTH,
+  JWT_EXPIRESIN
 };

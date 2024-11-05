@@ -1,6 +1,6 @@
+import type { Test } from "../../../shared/types";
 import { CODE_RUNNER_URL } from "../const";
 import type { TestResults } from "../socketio/types";
-import type { Test } from "../../../shared/types";
 
 async function submitCode(
   code: string,
@@ -23,6 +23,7 @@ async function submitCode(
         totalTests: res.totalTests,
         passedTests: res.passedTests,
         executionTimeUs: res.executionTimeUs,
+        results: res.results,
       };
       return testResults;
     }

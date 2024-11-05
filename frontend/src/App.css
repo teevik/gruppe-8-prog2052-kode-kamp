@@ -42,9 +42,10 @@ body {
   opacity: 0.8;
 }
 
-/* Footer styles if needed */
+/* Styles for the footer */
 footer {
   background-color: #f8f9fa;
   padding: 10px 0;
   text-align: center;
+  margin-top: bottom; /* Pushes the footer to the bottom */
 }

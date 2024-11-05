@@ -122,7 +122,7 @@ function leaveLobby(socket: Socket, io: SocketServer) {
 
 function handleLobbyCountdown(io: SocketServer) {
   if (!lobbyInterval && lobby.players.length > 1) {
-    lobbyInterval = setInterval(lobbyCountdown, 1000);
+    lobbyInterval = setInterval(() => lobbyCountdown(io), 1000);
   } else if (lobby.players.length < 2) {
     resetLobbyCountdown(io);
   }

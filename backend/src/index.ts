@@ -1,3 +1,5 @@
+import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import cors from "cors";
 import type { Express } from "express";
 import express from "express";
 import rateLimit from "express-rate-limit";
@@ -7,11 +9,16 @@ import { Server } from "socket.io";
 import type { SocketData } from "../../shared/types";
 import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
 import connectdb from "./database/db";
+import { authRouter } from "./routers/auth";
+import { initChallenges } from "./socketio/challenge";
 import { initLobby } from "./socketio/lobby";
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
 } from "./socketio/types";
+import { createContext, publicProcedure, router } from "./trpc";
+
+initChallenges();
 
 const app: Express = express();
 const PORT = 3000;
@@ -29,6 +36,24 @@ connectdb();
 app.use(limiter);
 
 app.use(express.static(path.join(root, "./public")));
+
+// tRPC router
+const appRouter = router({
+  ping: publicProcedure.query(() => "pong"),
+  auth: authRouter,
+});
+
+export type AppRouter = typeof appRouter;
+
+app.use(cors());
+
+app.use(
+  "/trpc",
+  createExpressMiddleware({
+    router: appRouter,
+    createContext,
+  })
+);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(root, "./public/index.html"));

@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import type { SocketData, Challenge, Participant } from "../../../shared/types";
+import type { Challenge, Participant, SocketData } from "../../../shared/types";
 
 interface Score {
   userID: string;
@@ -11,10 +11,7 @@ interface ServerToClientEvents {
   playerJoinedLobby: (playerData: SocketData) => void;
   playerLeftLobby: (playerData: SocketData) => void;
   gameMode: (mode: string) => void;
-  gameStart: (
-    challenge: Challenge,
-    gameTimeSeconds: number,
-  ) => void;
+  gameStart: (challenge: Challenge, gameTimeSeconds: number) => void;
   gameOver: (resultPageCountdown: number) => void;
   countdown: (counter: number) => void;
   task: (taskID: string) => void;
@@ -39,16 +36,33 @@ interface Lobby {
   // taskID : string
 }
 
+type TestResult =
+  | {
+      kind: "Success";
+    }
+  | {
+      kind: "Error";
+      message: string;
+    }
+  | {
+      kind: "FailedTests";
+      differences: {
+        expected: string;
+        actual: string;
+      }[];
+    };
+
 interface TestResults {
   totalTests: number;
   passedTests: number;
   executionTimeUs: number;
+  results: TestResult[];
 }
 
 export type {
-  ServerToClientEvents,
   ClientToServerEvents,
   Game,
   Lobby,
+  ServerToClientEvents,
   TestResults,
 };

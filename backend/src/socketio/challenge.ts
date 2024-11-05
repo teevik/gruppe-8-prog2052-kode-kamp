@@ -1,23 +1,49 @@
 import * as fs from "fs";
 import toml from "toml";
+import { z } from "zod";
+import type { Challenge } from "../../../shared/types";
 
-import type { Challenge } from "./types";
+const testSchema = z.object({
+  input: z.array(z.string()),
+  output: z.array(z.string()),
+});
+
+const challengeSchema: z.ZodType<Challenge> = z.object({
+  title: z.string(),
+  license: z.string(),
+  attribution: z.array(
+    z.object({
+      name: z.string(),
+      url: z.string(),
+    })
+  ),
+  description: z.string(),
+  input: z.string(),
+  output: z.string(),
+  template: z.string(),
+  sampleTests: z.array(testSchema),
+  tests: z.array(testSchema),
+});
 
 let challenges: Challenge[] = [];
 
-function initChallenges() {
-  const challengePath = "./challenges";
-  //Function that parses all the challenges and stores them in memory
-  fs.readdirSync(challengePath).forEach((file) => {
-    const fileContents = fs.readFileSync(challengePath + "/" + file, "utf-8");
-    const challenge: Challenge = toml.parse(fileContents);
-    challenges.push(challenge);
-  });
-}
+// Parses all the challenges
+const challengePath = "./challenges";
+fs.readdirSync(challengePath).forEach((file) => {
+  const fileContents = fs.readFileSync(challengePath + "/" + file, "utf-8");
+  const rawChallenge: unknown = toml.parse(fileContents);
+  const challenge = challengeSchema.safeParse(rawChallenge);
 
-function getRandomChallenge(): Challenge {
+  if (!challenge.success) {
+    console.error(`Error parsing challenge at ${challengePath}/${file}`);
+    console.error(challenge.error.flatten());
+    process.exit(1);
+  } else {
+    challenges.push(challenge.data);
+  }
+});
+
+export function getRandomChallenge(): Challenge {
   //Function that returns a randomly chosen challenge
   return challenges[Math.floor(Math.random() * challenges.length)];
 }
-
-export { initChallenges, getRandomChallenge };

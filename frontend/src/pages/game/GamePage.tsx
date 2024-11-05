@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import CodeEditor from "../../components/CodeEditor";
-import "./GamePage.css"; // Import the CSS file
-import ResultPage from "../results/ResultsPage";
-import CountDown from "../../components/CountDown";
+import { useEffect, useState } from "react";
 import type {
   Challenge,
   Participant,
   SocketData,
 } from "../../../../shared/types";
+import CodeEditor from "../../components/CodeEditor";
+import CountDown from "../../components/CountDown";
 import { socket } from "../../socket";
+import ResultPage from "../results/ResultsPage";
+import "./GamePage.css"; // Import the CSS file
 
 interface GameProps {
   challenge: Challenge | undefined;
@@ -130,7 +130,7 @@ export default function SpeedCodingPage({
 
               <h2>Examples:</h2>
               <section>
-                {challenge.sample_tests.map((test, index) => (
+                {challenge.sampleTests.map((test, index) => (
                   <div key={index}>
                     <section className="examples">
                       <div>

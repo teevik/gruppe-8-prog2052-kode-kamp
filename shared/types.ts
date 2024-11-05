@@ -32,8 +32,8 @@ interface Challenge {
   input: string;
   output: string;
   template: string;
-  sample_tests: Test[];
+  sampleTests: Test[];
   tests: Test[];
 }
 
-export type { SocketData, Challenge, Participant, Test };
+export type { Challenge, Participant, SocketData, Test };

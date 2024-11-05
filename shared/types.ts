@@ -32,7 +32,7 @@ interface Challenge {
   input: string;
   output: string;
   template: string;
-  sample_tests: Test[];
+  sampleTests: Test[];
   tests: Test[];
 }
 

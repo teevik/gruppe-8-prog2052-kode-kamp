@@ -10,15 +10,12 @@ import type { SocketData } from "../../shared/types";
 import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
 import connectdb from "./database/db";
 import { authRouter } from "./routers/auth";
-import { initChallenges } from "./socketio/challenge";
 import { initLobby } from "./socketio/lobby";
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
 } from "./socketio/types";
 import { createContext, publicProcedure, router } from "./trpc";
-
-initChallenges();
 
 const app: Express = express();
 const PORT = 3000;

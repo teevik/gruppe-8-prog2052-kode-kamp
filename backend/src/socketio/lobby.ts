@@ -7,7 +7,7 @@ import {
   RANDOM_USERNAMES,
   MAX_PLAYERS_PR_GAME,
   LOBBY_TIMER_SECONDS,
-} from "./const";
+} from "../const";
 import type { Lobby } from "./types";
 import { io } from "../index";
 import { createGameRoom } from "./game";

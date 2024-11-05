@@ -10,9 +10,9 @@ interface ServerToClientEvents {
   lobbyJoined: (playerIDs: string[]) => void;
   playerJoinedLobby: (playerData: SocketData) => void;
   playerLeftLobby: (playerData: SocketData) => void;
+  gameMode: (mode: string) => void;
   gameStart: (
     challenge: Challenge,
-    gameMode: string,
     gameTimeSeconds: number,
   ) => void;
   gameOver: (resultPageCountdown: number) => void;

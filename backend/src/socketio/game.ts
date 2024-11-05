@@ -3,12 +3,12 @@ import { v4 as uuidv4 } from "uuid";
 import {
   MAX_PLAYERS_PR_GAME,
   COUNTDOWN_LENGTH_SECONDS,
-  GAME_MODES,
   GAME_LENGTH_MINUTES,
   TIME_AT_ENDSCREEN_SECONDS,
-} from "./const";
+} from "../const";
+import {GAME_MODES} from "../../../shared/const";
 import type { Game, TestResults } from "./types";
-import type { Challenge } from "../../../shared/types";
+import type { Challenge, Participant } from "../../../shared/types";
 import { lobby, emitLobbyUpdate } from "./lobby";
 import { getRandomChallenge } from "./challenge";
 import { submitCode } from "../consumers/coderunner";
@@ -26,18 +26,23 @@ function createGameRoom() {
     socket.emit("gameJoined", gameRoomID);
   });
 
+  //Emitting the gamemode to gameroom so that they see the gamemode already before the game begins
+  
   let countDown = COUNTDOWN_LENGTH_SECONDS;
   const countDownInterval = setInterval(() => {
     io.to(gameRoomID).emit("countdown", countDown);
     countDown--;
   }, 1000);
-
+  
   emitLobbyUpdate();
-
+  
+  let currentGameMode = ""+lobby.gameMode;
+  
+  io.to(gameRoomID).emit("gameMode", currentGameMode);
   setTimeout(
     () => {
       clearInterval(countDownInterval);
-      startGame(gameRoomID, players, lobby.gameMode);
+      startGame(gameRoomID, players, currentGameMode);
     },
     COUNTDOWN_LENGTH_SECONDS * 1000 + 1000,
   );
@@ -58,7 +63,6 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
   io.to(gameRoomID).emit(
     "gameStart",
     challenge,
-    gameMode,
     GAME_LENGTH_MINUTES * 60,
   );
 
@@ -84,49 +88,64 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
         return;
       }
 
-      //Handling code submission differently based on gamemode
-      switch (gameMode) {
-        case GAME_MODES[0]:
-          //Send code to code runner
-          try {
-            const testResults: TestResults | undefined = await submitCode(
-              code,
-              challenge.tests,
-            );
-            if (testResults) {
-              let result = `${testResults.passedTests}/${testResults.totalTests}`;
+      try {
+        //Send code to code runner
+        const testResults: TestResults | undefined = await submitCode(
+          code,
+          challenge.tests,
+        );
+        if (testResults) {
+          let result = `${testResults.passedTests}/${testResults.totalTests}`;
 
-              //if all tests passed, push player onto scoreboard
-              if (testResults.passedTests == testResults.totalTests) {
-                let now: number = performance.now();
-                //Updating the scoreboard
-                game.scoreboard.push({
-                  socket: socket.data,
-                  stats: {
-                    executionTime: testResults.executionTimeUs,
-                    usedTime: now - timeOfStart,
-                  },
-                  solution: code,
-                });
+          //if all tests passed, push player onto scoreboard
+          if (testResults.passedTests == testResults.totalTests) {
+            let now: number = performance.now();
 
-                //Emitting to the client that code ran successfully for all the tests
-                socket.emit("success", result);
-                socket.data.complete = true;
+            //Creating the scoreboard entry
+            let scoreboardEntry = {
+              socket: socket.data,
+              stats: {
+                executionTime: testResults.executionTimeUs,
+                usedTime: now - timeOfStart,
+              },
+              solution: code,
+            };
 
-                //Emitting to all clients that the scoreboard is updated
-                io.to(gameRoomID).emit("updateScoreboard", game.scoreboard);
+            //Handling code submission differently based on gamemode
+            switch (gameMode) {
+              //Handle "first to finish"
+              case GAME_MODES[0]:
+                console.log("Updating first to finish");
+                game.scoreboard.push(scoreboardEntry);
+                
+                break;
 
-                if (game.scoreboard.length == players.length) {
-                  endGame(gameRoomID, players);
-                }
-              } else {
-                socket.emit("fail", result);
-              }
+              //Handle "fastest code"
+              case GAME_MODES[1]:
+                console.log("Updating fastest code");
+                game.scoreboard = fastestCodeUpdateScoreboard([...game.scoreboard], scoreboardEntry);
+                break;
             }
-          } catch {
-            console.error("Failed when submitting code");
+            
+
+            //Emitting to the client that code ran successfully for all the tests
+            socket.emit("success", result);
+            socket.data.complete = true;
+
+            //Emitting to all clients that the scoreboard is updated
+            io.to(gameRoomID).emit("updateScoreboard", game.scoreboard);
+
+            if (game.scoreboard.length == players.length) {
+              endGame(gameRoomID, players);
+            }
+          } else {
+            socket.emit("fail", result);
           }
+        }
+      } catch {
+        console.error("Failed when submitting code");
       }
+      
     });
   });
 
@@ -159,4 +178,80 @@ function endGame(gameRoomID: string, players: Socket[]) {
   // }, TIME_AT_ENDSCREEN_SECONDS * 1000)
 }
 
-export { createGameRoom };
+/**
+ * Function that updates the scoreboard based on the results of the new 
+ * scoreboard-entry (game-participant with corresponding game results) by inserting
+ * the scoreboard-entry into the correct position regarding the execution time of the code
+ * 
+ * Time complexity
+ * Best: O(log n)
+ * Worst: O(n)
+ * 
+ * Space complexity O(n)
+ * 
+ * @param scoreboardEntry 
+ * @param currentScoreboard 
+ * @return The updated scoreboard
+ */
+function binaryUpdateScoreboard(currentScoreboard : Participant[], scoreboardEntry : Participant) : Participant[] {
+  let left = 0;
+  let right = currentScoreboard.length - 1;
+  let mid;
+
+  while (left <= right) {
+      mid = Math.floor((left + right) / 2);
+
+      if (currentScoreboard[mid].stats.executionTime === scoreboardEntry.stats.executionTime) {
+          left = mid+1; // If the element is already in the array, we can decide to insert it next to it
+          break;
+      } else if (currentScoreboard[mid].stats.executionTime < scoreboardEntry.stats.executionTime) {
+          left = mid + 1;
+      } else {
+          right = mid - 1;
+      }
+  }
+
+  // Insert the element at the correct position
+  currentScoreboard.splice(left, 0, scoreboardEntry);
+
+  return currentScoreboard;
+}
+
+/**
+ * Function that updates the scoreboard based on the results of the new 
+ * scoreboard-entry (game-participant with corresponding game results) by inserting
+ * the scoreboard-entry into the correct position regarding the execution time of the code
+ * 
+ * Time complexity
+ * Best: O(n)
+ * Worst: O(n)
+ * 
+ * Space complexity O(n)
+ * 
+ * @param scoreboardEntry 
+ * @param currentScoreboard 
+ * @return The updated scoreboard
+ */
+function fastestCodeUpdateScoreboard(currentScoreboard : Participant[], scoreboardEntry : Participant) : Participant[] {
+
+  let newScoreboard : Participant[] = [];
+  let scoreboardEntryInserted : boolean = false;
+
+  if(currentScoreboard.length == 0){
+    newScoreboard.push(scoreboardEntry);
+  } else {
+    for(let participant of currentScoreboard){
+      if(!scoreboardEntryInserted && scoreboardEntry.stats.executionTime < participant.stats.executionTime){
+        newScoreboard.push(scoreboardEntry);
+        scoreboardEntryInserted = true;
+      }
+      newScoreboard.push(participant);
+    }
+  }
+
+  console.log("new scoreboard", newScoreboard);
+
+  return newScoreboard;
+}
+
+export { createGameRoom, binaryUpdateScoreboard, fastestCodeUpdateScoreboard };

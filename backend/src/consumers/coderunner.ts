@@ -1,4 +1,4 @@
-import { CODE_RUNNER_URL } from "../socketio/const";
+import { CODE_RUNNER_URL } from "../const";
 import type { TestResults } from "../socketio/types";
 import type { Test } from "../../../shared/types";
 

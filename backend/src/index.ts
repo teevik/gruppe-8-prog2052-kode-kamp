@@ -1,21 +1,22 @@
 import type { Express } from "express";
 import express from "express";
 import rateLimit from "express-rate-limit";
-import { Server } from "socket.io";
 import { Server as Httpserver } from "http";
+import { Server } from "socket.io";
+import type { SocketData } from "../../shared/types";
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
 } from "./socketio/types";
-import type { SocketData } from "../../shared/types";
 
+import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import path from "path";
+import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
+import connectdb from "./database/db";
+import { authRouter } from "./routers/auth";
 import { initChallenges } from "./socketio/challenge";
 import { initLobby } from "./socketio/lobby";
-import path from "path";
-import {RATE_LIMIT_MINUTE_INTERVAL, RATE_LIMIT_MAX} from './const'
-import connectdb from './database/db'
-import {User} from './database/model/user'
-import mongoose from 'mongoose';
+import { createContext, publicProcedure, router } from "./trpc";
 
 initChallenges();
 
@@ -36,6 +37,20 @@ app.use(limiter);
 
 app.use(express.static(path.join(root, "./public")));
 
+// tRPC router
+const appRouter = router({
+  ping: publicProcedure.query((opts) => "pong"),
+  auth: authRouter,
+});
+
+app.use(
+  "/trpc",
+  createExpressMiddleware({
+    router: appRouter,
+    createContext,
+  })
+);
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(root, "./public/index.html"));
 });
@@ -51,7 +66,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, SocketData>(
       origin: "http://localhost:5173",
       methods: ["GET", "POST"],
     },
-  },
+  }
 );
 
 io.on("connection", initLobby);

@@ -1,0 +1,54 @@
+/* Ensure html and body fill the viewport */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif; /* You can adjust this to your preferred font */
+}
+
+/* Main container styling */
+.termsOfServicePage {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-evenly;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+/* Header styling */
+header {
+    margin-top: 20px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 0;
+}
+
+/* Main content styling */
+main {
+    padding: 20px;
+}
+
+main p {
+    font-size: 1.1em;
+    color: #333; /* Darker color for better readability */
+    margin: 10px 0;
+}
+
+/* Footer styling */
+footer {
+    font-size: 0.9em;
+    color: #777;
+    padding-top: 4rem;
+}
+
+footer a {
+    color: #777;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

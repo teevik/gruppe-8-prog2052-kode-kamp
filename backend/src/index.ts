@@ -1,23 +1,17 @@
 import type { Express } from "express";
 import express from "express";
 import rateLimit from "express-rate-limit";
-import { Server } from "socket.io";
 import { Server as Httpserver } from "http";
+import path from "path";
+import { Server } from "socket.io";
+import type { SocketData } from "../../shared/types";
+import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
+import connectdb from "./database/db";
+import { initLobby } from "./socketio/lobby";
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
 } from "./socketio/types";
-import type { SocketData } from "../../shared/types";
-
-import { initChallenges } from "./socketio/challenge";
-import { initLobby } from "./socketio/lobby";
-import path from "path";
-import {RATE_LIMIT_MINUTE_INTERVAL, RATE_LIMIT_MAX} from './const'
-import connectdb from './database/db'
-import {User} from './database/model/user'
-import mongoose from 'mongoose';
-
-initChallenges();
 
 const app: Express = express();
 const PORT = 3000;
@@ -51,7 +45,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, SocketData>(
       origin: "http://localhost:5173",
       methods: ["GET", "POST"],
     },
-  },
+  }
 );
 
 io.on("connection", initLobby);

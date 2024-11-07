@@ -18,12 +18,12 @@ export default function ComponentView() {
 
         <Button
           onClick={() => { }}
-          label="Primary"
+          children="primary"
           variant="primary"
         />
         <Button
           onClick={() => { }}
-          label="Secondary"
+          children="Secondary"
           variant="secondary"
         />
 

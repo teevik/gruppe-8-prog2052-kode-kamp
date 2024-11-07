@@ -58,7 +58,7 @@ export default function ModeExplanation({
       <div
         id="timerDiv"
         style={{
-          animationDuration: `${time}s`
+          animationDuration: `${totalTime}s`
         }}
       />
     </>

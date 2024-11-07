@@ -1,16 +1,17 @@
 import "./Button.css"
 
 interface ButtonProps {
-  label: string,
+  children: string,
   onClick: () => void,
   variant: "primary" | "secondary" | "tertiary"
 }
 
 export function Button(props: ButtonProps) {
-  const { variant } = props;
+  const { variant, children } = props;
+
   return (
     <button className={`button ${variant}`} >
-      {props.label}
+      {children}
     </button >
   )
 }

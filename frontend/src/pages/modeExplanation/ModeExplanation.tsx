@@ -4,14 +4,13 @@ import "./ModeExplanation.css";
 interface modeExplanationProps {
   gameMode: string;
   time: number;
+  explanation: string;
 }
 
 export function MockModeExplanation() {
-  const [time, setTime] = useState<number | undefined>(undefined);
+  const [time, setTime] = useState<number>(20);
 
   useEffect(() => {
-    setTime(30);
-
     const interval = setInterval(() => {
       setTime((time) => (time > 0 ? time - 1 : time));
     }, 1000);
@@ -19,18 +18,19 @@ export function MockModeExplanation() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    // check if timer is done
-    if (time === 0) {
-    }
-  }, [time]);
-
-  return <ModeExplanation gameMode="First to Finish" time={time} />;
+  return (
+    <ModeExplanation
+      gameMode="First to Finish"
+      time={time ? time : 10}
+      explanation="Makka Pakka make the code go Fasta"
+    />
+  );
 }
 
 export default function ModeExplanation({
   gameMode,
   time,
+  explanation,
 }: modeExplanationProps) {
   const [totalTime, setTotalTime] = useState(0);
 
@@ -46,7 +46,7 @@ export default function ModeExplanation({
         <div className="wrapper">
           <div className="centerBox">
             <h1>{gameMode}</h1>
-            <h3>Makka pakka make the code fasta</h3>
+            <h3>{explanation}</h3>
             <h1>{time}</h1>
           </div>
         </div>

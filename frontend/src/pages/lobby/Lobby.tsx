@@ -67,6 +67,7 @@ export default function Lobby({
           gameMode={gameMode}
           //TODO: change countdownStartGame to int from backend
           time={parseInt(countdownStartGame)}
+          explanation="bingo"
         />
       )}
 

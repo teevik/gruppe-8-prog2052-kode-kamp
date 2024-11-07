@@ -1,0 +1,15 @@
+meta {
+  name: register
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{trpc}}/auth.register
+  body: json
+  auth: none
+}
+
+vars:post-response {
+  jwtToken: res.body.result.data
+}

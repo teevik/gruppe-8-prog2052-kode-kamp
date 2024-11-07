@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-function getUrl() {
+export function getUrl() {
   return !import.meta.env.PROD ? "http://localhost:3000" : "";
 }
 

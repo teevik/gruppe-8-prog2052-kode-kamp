@@ -23,17 +23,13 @@ export default function Lobby({
   const [totalPlayersLobby, setTotalPlayersLobby] = useState(0);
 
   useEffect(() => {
-    function lobbyCountdown(counter: string) {
-      setCountdownLobby(counter);
-    }
-
-    socket.on("lobbyCountdown", lobbyCountdown);
+    socket.on("lobbyCountdown", setCountdownLobby);
     socket.on("lobbyUpdate", lobbyUpdate);
 
     socket.on("countdown", startGameCountdown);
 
     return () => {
-      socket.off("lobbyCountdown", lobbyCountdown);
+      socket.off("lobbyCountdown", setCountdownLobby);
       socket.off("lobbyUpdate", lobbyUpdate);
       socket.off("countdown", startGameCountdown);
     };
@@ -59,7 +55,6 @@ export default function Lobby({
 
   return (
     <div className="landingPage">
-
       {gameMode !== "" && (
         <div>
           <p>gamemode</p>
@@ -67,13 +62,13 @@ export default function Lobby({
         </div>
       )}
 
-      {
-        countdownStartGame !== "" &&
+      {countdownStartGame !== "" && (
         <ModeExplanation
           gameMode={gameMode}
-          time={countdownStartGame}
+          //TODO: change countdownStartGame to int from backend
+          time={parseInt(countdownStartGame)}
         />
-      }
+      )}
 
       {countdownStartGame == "" && (
         <>
@@ -123,7 +118,10 @@ export default function Lobby({
                 onClick={() => {
                   joinLobby();
                 }}
-              > Join </button>
+              >
+                {" "}
+                Join{" "}
+              </button>
             ) : (
               <button
                 className="leaveButton"

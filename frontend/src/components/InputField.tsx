@@ -1,19 +1,14 @@
-import "./InputField.css"
+import "./InputField.css";
 
 interface InputFieldProps {
-  placeholder?: string,
-  value: string,
-  label: string,
-  onChange: (value: string) => void,
+  placeholder?: string;
+  value: string;
+  label: string;
+  onChange: (value: string) => void;
 }
 
 export function InputField(props: InputFieldProps) {
-  const {
-    placeholder = undefined,
-    value,
-    label,
-    onChange,
-  } = props;
+  const { placeholder = undefined, value, label, onChange } = props;
 
   return (
     <div className="inputFieldWrapperWrapper">
@@ -25,11 +20,11 @@ export function InputField(props: InputFieldProps) {
           placeholder={placeholder}
           value={value}
           onChange={(event) => {
-            onChange(event.target.value)
+            onChange(event.target.value);
           }}
         />
         <div className="inputFieldUnderscore" />
       </div>
     </div>
-  )
+  );
 }

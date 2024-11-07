@@ -20,5 +20,4 @@ export function Nav() {
       </div>
     </nav>
   );
-};
-
+}

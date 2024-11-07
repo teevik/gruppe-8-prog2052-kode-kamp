@@ -59,7 +59,7 @@ export default function ResultsPage({
                   <span className="resultLabel">
                     {gameMode == GAME_MODES[0] &&
                       `${formatSeconds(
-                        Math.round(score.stats.usedTime / 1000)
+                        Math.round(score.stats.usedTime / 1000),
                       )}`}
                     {gameMode == GAME_MODES[1] &&
                       `Execution time: ${score.stats.executionTime / 1000} ms`}

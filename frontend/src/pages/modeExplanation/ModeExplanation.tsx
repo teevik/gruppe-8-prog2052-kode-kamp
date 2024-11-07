@@ -6,32 +6,32 @@ interface modeExplanationProps {
   time: number;
 }
 
-
 export function MockModeExplanation() {
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-
     setTime(30);
 
     const interval = setInterval(() => {
-      if (time > 0) {
-        setTime(time => time - 1);
-      }
-
+      setTime((time) => (time > 0 ? time - 1 : time));
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [])
+  }, []);
 
-  return <ModeExplanation gameMode="First to Finish" time={time} />
+  useEffect(() => {
+    // check if timer is done
+    if (time === 0) {
+    }
+  }, [time]);
+
+  return <ModeExplanation gameMode="First to Finish" time={time} />;
 }
 
 export default function ModeExplanation({
   gameMode,
   time,
 }: modeExplanationProps) {
-
   const [totalTime, setTotalTime] = useState(0);
 
   useEffect(() => {
@@ -40,28 +40,24 @@ export default function ModeExplanation({
     }
   }, [time]);
 
-
   return (
     <>
-      {
-        gameMode && (
-          <div className="wrapper">
-            <div className="centerBox">
-              <h1>{gameMode}</h1>
-              <h3>Makka pakka make the code fasta</h3>
-              <h1>{time}</h1>
-            </div>
+      {gameMode && (
+        <div className="wrapper">
+          <div className="centerBox">
+            <h1>{gameMode}</h1>
+            <h3>Makka pakka make the code fasta</h3>
+            <h1>{time}</h1>
           </div>
-        )
-      }
+        </div>
+      )}
 
       <div
         id="timerDiv"
         style={{
-          animationDuration: `${totalTime}s`
+          animationDuration: `${totalTime}s`,
         }}
       />
     </>
-
-  )
+  );
 }

@@ -1,12 +1,12 @@
 :root {
-  --background: #0D0A16;
-  --semi-background: #FFFFFF1A;
+  --background: #0d0a16;
+  --semi-background: #ffffff1a;
 
-  --primary: #A493D6;
-  --secondary: #FF0000;
+  --primary: #a493d6;
+  --secondary: #ff0000;
 
-  --default-text: #E4E0EE;
-  --background-text: #E4E0EE;
+  --default-text: #e4e0ee;
+  --background-text: #e4e0ee;
 }
 
 @media (prefers-color-scheme: light) {

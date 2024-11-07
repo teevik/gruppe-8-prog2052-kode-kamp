@@ -1,4 +1,3 @@
-
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -13,6 +12,7 @@
   padding-right: 30%;
 }
 
+/* Header should have default style maybe? */
 h1 {
   font-size: 64px;
   font-weight: 700;
@@ -21,7 +21,6 @@ h1 {
 h3 {
   margin-top: 1rem;
 }
-
 
 #timerDiv {
   position: absolute;
@@ -34,8 +33,10 @@ h3 {
 }
 
 @keyframes lower {
-  from { height: 100vh;}
-  to { height: 0vh;}
+  from {
+    height: 100vh;
+  }
+  to {
+    height: 0vh;
+  }
 }
-
-

@@ -5,6 +5,7 @@ import { trpc } from "../trpc";
 import { ACCESS_TOKEN } from "../../../shared/const";
 
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
+import { LOGIN_ROUTE } from "../const";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -40,18 +41,6 @@ function Register() {
         setServerErrorMessage("Brukernavn opptatt");
       }
     }
-    // else {
-    //   console.log("Not res");
-    //   if (register.error?.data?.httpStatus == 409) {
-    //     serServerErrorMessage("Username already taken");
-    //   } else if (register.error?.data?.httpStatus == 500) {
-    //     serServerErrorMessage(
-    //       "Oops something went wrong. Please try again later."
-    //     );
-    //   } else if (register.error?.data?.httpStatus == 400) {
-    //     serServerErrorMessage("Bad request. Make sure your input is correct");
-    //   }
-    // }
   }
 
   const onButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -60,44 +49,30 @@ function Register() {
     setUsernameError("");
     setPasswordError("");
     setPasswordcheck("");
+    const [errorType, message, valid] = registerInputValidation(
+      username,
+      email,
+      password,
+      passwordcheck
+    );
 
-    // Email validation
-    if (email === "") {
-      setEmailError("Please enter your email");
-      return;
+    if (valid) {
+      submitRegistration();
+    } else {
+      switch (errorType) {
+        case "password":
+          setPasswordError(message);
+          break;
+        case "username":
+          setUsernameError(message);
+          break;
+        case "email":
+          setEmailError(message);
+          break;
+        default:
+          break;
+      }
     }
-
-    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-      setEmailError("Please enter a valid email address");
-      return;
-    }
-
-    // Username validation
-    if (username === "") {
-      setUsernameError("Please enter a username");
-      return;
-    }
-
-    // Password validation
-    if (password === "") {
-      setPasswordError("Please enter a password");
-      return;
-    }
-
-    if (password.length < MIN_PASSWORD_LENGTH) {
-      setPasswordError(
-        `Password must be ${MIN_PASSWORD_LENGTH} characters or longer`
-      );
-      return;
-    }
-
-    if (password !== passwordcheck) {
-      setPasswordError("Passwords do not match");
-      return;
-    }
-
-    // If all validations pass, proceed
-    submitRegistration();
   };
 
   return (
@@ -112,6 +87,7 @@ function Register() {
             placeholder="Enter email address here"
             onChange={(e) => setEmail(e.target.value)}
             className="userBox"
+            required
           />
           <label className="errorLabel">{emailError}</label>
         </div>
@@ -124,6 +100,7 @@ function Register() {
             placeholder="Enter username here"
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"
+            required
           />
           <label className="errorLabel">{usernameError}</label>
         </div>
@@ -136,6 +113,7 @@ function Register() {
             placeholder="Enter password here"
             onChange={(e) => setPassword(e.target.value)}
             className="userBox"
+            required
           />
           <label className="errorLabel">{passwordError}</label>
         </div>
@@ -148,6 +126,7 @@ function Register() {
             placeholder="Confirm password here"
             onChange={(e) => setPasswordcheck(e.target.value)}
             className="userBox"
+            required
           />
           <label className="errorLabel">{passwordError}</label>
         </div>
@@ -159,12 +138,52 @@ function Register() {
 
         <h2>Already a user?</h2>
 
-        <Link to="/LoginPage">
+        <Link to={LOGIN_ROUTE}>
           <button>Login</button>
         </Link>
       </form>
     </div>
   );
+}
+export function registerInputValidation(
+  username: string,
+  email: string,
+  password: string,
+  passwordcheck: string
+): [string, string, boolean] {
+  // Email validation
+  if (email === "") {
+    return ["email", "Please enter your email", false];
+  }
+
+  if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    return ["email", "Please enter a valid email address", false];
+  }
+
+  // Username validation
+  if (username === "") {
+    return ["username", "Please enter a username", false];
+  }
+
+  // Password validation
+  if (password === "") {
+    return ["password", "Please enter a password", false];
+  }
+
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return [
+      "password",
+      `Password must be ${MIN_PASSWORD_LENGTH} characters or longer`,
+      false,
+    ];
+  }
+
+  if (password !== passwordcheck) {
+    return ["password", "Passwords do not match", false];
+  }
+
+  // If all validations pass
+  return ["success", "", true];
 }
 
 export default Register;

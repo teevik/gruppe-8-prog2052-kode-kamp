@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { formatSeconds } from "../../components/CountDown";
+import { formatSeconds } from "../components/CountDown";
 
 test("Test countdown converter", () => {
   expect(formatSeconds(72)).toBe("1m 12s");

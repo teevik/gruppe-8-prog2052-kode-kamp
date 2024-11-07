@@ -8,6 +8,7 @@ import TermsOfService from "./pages/terms/TermsOfService";
 import Nav from "./components/Nav";
 import LoginPage from "./pages/userLogin/LoginPage";
 import RegisterPage from "./pages/userRegister/RegisterPage";
+import { REGISTER_ROUTE, LOGIN_ROUTE } from "./const";
 
 const App: React.FC = () => {
   const ping = trpc.ping.useQuery();
@@ -21,8 +22,8 @@ const App: React.FC = () => {
         <Routes>
           {/* Define routes */}
           <Route path="/" element={<LandingPage />} />
-          <Route path="/LoginPage" element={<LoginPage />} />
-          <Route path="/RegisterPage" element={<RegisterPage />} />
+          <Route path={LOGIN_ROUTE} element={<LoginPage />} />
+          <Route path={REGISTER_ROUTE} element={<RegisterPage />} />
           <Route path="/TermsOfService" element={<TermsOfService />} />
         </Routes>
       </Router>

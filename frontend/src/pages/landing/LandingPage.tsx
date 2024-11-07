@@ -5,7 +5,7 @@ import { SocketData, Challenge } from "../../../../shared/types";
 
 import GamePage from "../game/GamePage";
 import Lobby from "../lobby/Lobby";
-import Footer from "../../components/Footer";
+import { Footer } from "../../components/Footer";
 
 const LandingPage: FC = () => {
   const [gameTime, setGameTime] = useState<number>(0);

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { FC } from "react";
+import "./Nav.css";
 
 // Functional component for the navigation bar
-const Nav: FC = () => {
+export function Nav() {
   return (
     <nav className="header">
       {/* Link to the home page */}
@@ -22,4 +22,3 @@ const Nav: FC = () => {
   );
 };
 
-export default Nav;

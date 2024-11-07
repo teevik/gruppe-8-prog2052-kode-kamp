@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { socket } from "../../socket";
 import { SocketData } from "../../../../shared/types";
+import ModeExplanation from "../modeExplanation/ModeExplanation";
 
 interface LobbyProps {
   gameMode: string;
@@ -58,13 +59,22 @@ export default function Lobby({
 
   return (
     <div className="landingPage">
+
       {gameMode !== "" && (
         <div>
           <p>gamemode</p>
           <h1>{gameMode}</h1>
         </div>
       )}
-      {countdownStartGame !== "" && <p>Game starts in: {countdownStartGame}</p>}
+
+      {
+        countdownStartGame !== "" &&
+        <ModeExplanation
+          gameMode={gameMode}
+          time={countdownStartGame}
+        />
+      }
+
       {countdownStartGame == "" && (
         <>
           <header>
@@ -113,9 +123,7 @@ export default function Lobby({
                 onClick={() => {
                   joinLobby();
                 }}
-              >
-                Join
-              </button>
+              > Join </button>
             ) : (
               <button
                 className="leaveButton"

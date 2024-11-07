@@ -1,0 +1,57 @@
+.header {
+  background-color: var(--semi-background);
+  color: var(--default-text);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header .link {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header svg {
+  vertical-align: middle;
+}
+
+.header .link:hover {
+  opacity: 0.8;
+}
+
+/***** OLD ****/
+/* Nav component styles */
+/*.header {*/
+/*  background-color: #007bff;*/
+/*  color: white;*/
+/*  padding: 10px 20px;*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*}*/
+
+/*.header .link {*/
+/*  color: white;*/
+/*  text-decoration: none;*/
+/*  margin: 0 15px;*/
+/*}*/
+/**/
+/*.header h1 {*/
+/*  margin: 0;*/
+/*  font-size: 24px;*/
+/*}*/
+/**/
+/*.header svg {*/
+/*  vertical-align: middle;*/
+/*}*/
+/**/
+/*.header .link:hover {*/
+/*  opacity: 0.8;*/
+/*}*/

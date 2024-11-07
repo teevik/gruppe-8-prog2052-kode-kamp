@@ -60,6 +60,12 @@ let server: Httpserver = app.listen(PORT, () => {
   console.log(`Server is listening on port: ${PORT}`);
 });
 
+export type SocketServer = Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  SocketData
+>;
+
 const io = new Server<ClientToServerEvents, ServerToClientEvents, SocketData>(
   server,
   {
@@ -70,6 +76,4 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, SocketData>(
   }
 );
 
-io.on("connection", initLobby);
-
-export { io };
+io.on("connection", (socket) => initLobby(socket, io));

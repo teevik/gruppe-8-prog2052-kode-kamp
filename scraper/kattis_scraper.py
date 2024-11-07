@@ -4,6 +4,8 @@ import toml
 import sys
 
 
+WRITE_TO_PATH = "../backend/challenges/"
+
 def fetch_problem(name):
     url = 'https://open.kattis.com/problems/' + name
     response = requests.get(url)
@@ -21,7 +23,13 @@ def fetch_problem(name):
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    title = soup.select_one('h1.book-page-heading').get_text(strip=True)
+    title = soup.select_one('h1.book-page-heading')
+    if title:
+        title = title.get_text(strip=True) 
+    else:
+        print(f"Title not found for {name}")
+        return;
+
     authors = soup.select_one('.metadata-license-card').select('a[href^="/problem-authors/"]')
     description = ' '.join([str(element) for element in soup.select('div.problembody *')])
     
@@ -32,6 +40,7 @@ def fetch_problem(name):
             c += str(elm)
             elm = elm.find_next_sibling()
         return c
+
     input = read_content('Input')
     output = read_content('Output')
 
@@ -55,16 +64,16 @@ def fetch_problem(name):
         'input': input,
         'output': output,
 
-        'sample_tests': [
+        'sampleTests': [
             {'input' : i, 'output' : o} 
             for i, o in zip(sample_inputs, sample_outputs)
         ]
         # 'template':
     }
 
-    with open(f"problems/{name}.toml", "w") as file:
+    with open(f"{WRITE_TO_PATH}{name}.toml", "w") as file:
         toml.dump(doc, file)
-        print(f"Problem '{name}.toml' created in problems folder")
+        print(f"Problem '{name}.toml' created in {WRITE_TO_PATH}")
 
 match len(sys.argv):
     case 1: 
@@ -72,6 +81,9 @@ match len(sys.argv):
             print("Enter problem name:", end=" ")
             fetch_problem(input())
     case 2: 
-        with open(sys.argv[1], 'r') as f:
-            for line in f:
-                fetch_problem(line.strip())
+            match sys.argv[1]:
+                case "--list":
+                    with open("problem_list", 'r') as f:
+                        for line in f:
+                            fetch_problem(line.strip())
+                case _: fetch_problem(sys.argv[1])

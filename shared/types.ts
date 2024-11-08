@@ -36,4 +36,28 @@ interface Challenge {
   tests: Test[];
 }
 
-export type { SocketData, Challenge, Participant, Test };
+
+type TestResult =
+  | {
+      kind: "Success";
+    }
+  | {
+      kind: "Error";
+      message: string;
+    }
+  | {
+      kind: "FailedTests";
+      differences: {
+        expected: string[];
+        actual: string[];
+      };
+    };
+
+interface TestResults {
+  totalTests: number;
+  passedTests: number;
+  executionTimeUs: number;
+  results: TestResult[];
+}
+
+export type { SocketData, Challenge, Participant, Test, TestResults};

@@ -33,36 +33,12 @@ interface Game {
 interface Lobby {
   players: Socket[];
   gameMode: string;
-  // taskID : string
 }
 
-type TestResult =
-  | {
-      kind: "Success";
-    }
-  | {
-      kind: "Error";
-      message: string;
-    }
-  | {
-      kind: "FailedTests";
-      differences: {
-        expected: string;
-        actual: string;
-      }[];
-    };
-
-interface TestResults {
-  totalTests: number;
-  passedTests: number;
-  executionTimeUs: number;
-  results: TestResult[];
-}
 
 export type {
   ClientToServerEvents,
   Game,
   Lobby,
   ServerToClientEvents,
-  TestResults,
 };

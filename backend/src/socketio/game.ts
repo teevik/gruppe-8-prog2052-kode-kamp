@@ -7,8 +7,8 @@ import {
   TIME_AT_ENDSCREEN_SECONDS,
 } from "../const";
 import {GAME_MODES} from "../../../shared/const";
-import type { Game, TestResults } from "./types";
-import type { Challenge, Participant } from "../../../shared/types";
+import type { Challenge, Participant, TestResults } from "../../../shared/types";
+import type { Game } from "./types";
 import { lobby, emitLobbyUpdate } from "./lobby";
 import { getRandomChallenge } from "./challenge";
 import { submitCode } from "../consumers/coderunner";
@@ -74,8 +74,7 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
           challenge.sample_tests,
         );
         if (testResults) {
-          let result = `${testResults.passedTests}/${testResults.totalTests}`;
-          socket.emit("runResults", result);
+          socket.emit("runResults", testResults);
         }
       } catch (_) {
         console.error("Failed when running code");

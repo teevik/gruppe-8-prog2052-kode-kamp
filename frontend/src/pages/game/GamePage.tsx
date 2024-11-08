@@ -7,8 +7,10 @@ import type {
   Challenge,
   Participant,
   SocketData,
+  TestResults,
 } from "../../../../shared/types";
 import { socket } from "../../socket";
+import TestResultsComponent from "../../components/TestResults";
 
 interface GameProps {
   challenge: Challenge | undefined;
@@ -29,7 +31,7 @@ export default function SpeedCodingPage({
   gameTime,
   player,
 }: GameProps) {
-  const [code, setCode] = useState<string | undefined>(challenge?.template);
+  const [code, setCode] = useState<string>(challenge?.template || "");
   const [amountTestsPassed, setAmountTestsPassed] = useState<string>("");
   const [submittedCode, setSubmittedCode] = useState<boolean>(false);
 
@@ -38,8 +40,9 @@ export default function SpeedCodingPage({
   const [showResultPage, setShowResultPage] = useState<boolean>(false);
   const [gameIsOver, setGameIsOver] = useState<boolean>(false);
 
-  const [timeAtResultPage, setTimeAtResultPage] = useState<number>(0);
+  const [testResults, setTestResults] = useState<TestResults | undefined>();
 
+  const [timeAtResultPage, setTimeAtResultPage] = useState<number>(0);
   function updateScoreboard(scores: Participant[]) {
     console.log("Scoreboard is updated", scores);
     setScoreboard(scores);
@@ -55,8 +58,9 @@ export default function SpeedCodingPage({
     setSubmittedCode(false);
   }
 
-  function runResults(result: string) {
-    setAmountTestsPassed(result);
+  function runResults(result: TestResults) {
+    setAmountTestsPassed(`${result.passedTests}/${result.totalTests}`);
+    setTestResults(result);
     setSubmittedCode(false);
   }
 
@@ -120,6 +124,10 @@ export default function SpeedCodingPage({
             <div className="gamePageTaskDescription">
               <div className="gamePageTaskTitle">{challenge.title}</div>
 
+              {testResults && (
+                <TestResultsComponent testResults={testResults} />
+              )}
+
               <div
                 dangerouslySetInnerHTML={{ __html: challenge.description }}
               ></div>
@@ -157,7 +165,9 @@ export default function SpeedCodingPage({
               <cite>
                 Attribution:
                 {challenge.attribution.map((attr) => (
-                  <a href={attr.url}>{attr.name}</a>
+                  <a key={attr.name} href={attr.url}>
+                    {attr.name}
+                  </a>
                 ))}
               </cite>
               <p>

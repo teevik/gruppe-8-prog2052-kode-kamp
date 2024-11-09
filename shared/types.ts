@@ -36,10 +36,28 @@ interface Challenge {
   tests: Test[];
 }
 
-/** User that can be stored in a JWT (must contain no sensitive data) */
-export type User = {
-  id: string;
-  username: string;
-};
 
-export type { Challenge, Participant, SocketData, Test };
+type TestResult =
+  | {
+      kind: "Success";
+    }
+  | {
+      kind: "Error";
+      message: string;
+    }
+  | {
+      kind: "FailedTests";
+      differences: {
+        expected: string[];
+        actual: string[];
+      };
+    };
+
+interface TestResults {
+  totalTests: number;
+  passedTests: number;
+  executionTimeUs: number;
+  results: TestResult[];
+}
+
+export type { SocketData, Challenge, Participant, Test, TestResults};

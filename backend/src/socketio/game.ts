@@ -9,6 +9,11 @@ import {
   MAX_PLAYERS_PR_GAME,
   TIME_AT_ENDSCREEN_SECONDS,
 } from "../const";
+import {GAME_MODES} from "../../../shared/const";
+import type { Challenge, Participant, TestResults } from "../../../shared/types";
+import type { Game } from "./types";
+import { lobby, emitLobbyUpdate } from "./lobby";
+import { getRandomChallenge } from "./challenge";
 import { submitCode } from "../consumers/coderunner";
 import { getRandomChallenge } from "./challenge";
 import { emitLobbyUpdate, lobby } from "./lobby";
@@ -38,8 +43,7 @@ function startGame(
           challenge.sampleTests
         );
         if (testResults) {
-          let result = `${testResults.passedTests}/${testResults.totalTests}`;
-          socket.emit("runResults", result);
+          socket.emit("runResults", testResults);
         }
       } catch (_) {
         console.error("Failed when running code");

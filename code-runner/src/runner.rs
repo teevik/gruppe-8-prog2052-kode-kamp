@@ -1,4 +1,4 @@
-use crate::endpoints::execute::{ExecutionRequest, ExecutionResult};
+use crate::endpoints::execute::{CodeRunOutput, ExecutionRequest, ExecutionResult, TestDifference};
 use deno_core::{anyhow::Context, error::AnyError, extension, op2, v8};
 use std::{cell::RefCell, collections::VecDeque, time::Duration};
 
@@ -42,6 +42,7 @@ static RUNTIME_SNAPSHOT: &[u8] =
 
 pub struct CodeRunResult {
     output: Vec<String>,
+    error: Option<String>,
     execution_time: Duration,
 }
 
@@ -70,7 +71,10 @@ pub fn run_code(code: String, input: Vec<String>) -> CodeRunResult {
     println!("Running code...");
 
     let start_time = std::time::Instant::now();
-    let _err = js_runtime.execute_script("[code-runner:main.js]", code);
+    let error = js_runtime
+        .execute_script("[code-runner:main.js]", code)
+        .err()
+        .map(|e| e.to_string());
 
     let end_time = std::time::Instant::now();
     let execution_time = end_time - start_time;
@@ -81,6 +85,7 @@ pub fn run_code(code: String, input: Vec<String>) -> CodeRunResult {
 
     CodeRunResult {
         execution_time,
+        error,
         output,
     }
 }
@@ -91,16 +96,31 @@ pub fn run_tests(request: ExecutionRequest) -> ExecutionResult {
     let total_tests = request.tests.len();
     let mut passed_tests = 0;
 
+    let mut results = Vec::new();
+
     for test in request.tests {
         let code = request.code.clone();
         let input = test.input.clone();
 
         let result = run_code(code, input);
+        execution_time += result.execution_time;
+
+        if let Some(error) = result.error {
+            results.push(CodeRunOutput::Error { message: error });
+            continue;
+        }
 
         if result.output == test.output {
+            results.push(CodeRunOutput::Success);
             passed_tests += 1;
+        } else {
+            results.push(CodeRunOutput::FailedTests {
+                differences: TestDifference {
+                    expected: test.output,
+                    actual: result.output,
+                },
+            });
         }
-        execution_time += result.execution_time;
     }
 
     let execution_time_us = execution_time.as_micros();
@@ -109,5 +129,6 @@ pub fn run_tests(request: ExecutionRequest) -> ExecutionResult {
         passed_tests,
         total_tests,
         execution_time_us,
+        results,
     }
 }

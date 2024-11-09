@@ -56,7 +56,7 @@ async fn main() {
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
         .route("/execute", post(execute::execute))
         // .route("/api-docs/openapi.json", get(openapi))
-        .route("/", get(|| async { Redirect::permanent("/swagger-ui") }));
+        .route("/", get(|| async { Redirect::temporary("/swagger-ui/") }));
 
     println!("Listening on: http://{}", socket_address);
 

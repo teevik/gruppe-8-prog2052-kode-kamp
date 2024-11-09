@@ -1,13 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { REGISTER_ROUTE } from "../const";
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
+import { trpc } from "../trpc";
+import { ACCESS_TOKEN } from "../const";
 
 function Login() {
   const [user, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const login = trpc.auth.login.useMutation();
 
   const onButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Prevent form submission (default behavior)
@@ -16,7 +21,7 @@ function Login() {
 
     const validation: LoginValidation = loginInputValidation(user, password);
     if (validation.valid) {
-      alert("Logger inn");
+      submitLogin();
     } else {
       if (validation.type == "user") {
         setUsernameError(validation.message);
@@ -26,16 +31,39 @@ function Login() {
     }
   };
 
+  async function submitLogin() {
+    try {
+      const res = await login.mutateAsync({
+        user: user,
+        password: password,
+      });
+
+      setServerErrorMessage("");
+      if (res) {
+        localStorage.setItem(ACCESS_TOKEN, res);
+        navigate("/");
+      }
+    } catch (err: any) {
+      if (err.data.httpStatus == 500) {
+        setServerErrorMessage("Oops. Something went wrong. Try again later.");
+      } else if (err.data.httpStatus == 401) {
+        setServerErrorMessage("Wrong username/email or password");
+      }
+    }
+  }
+
   return (
     <div className="loginPageBox">
-      <h2>Bruker innlogging</h2>
+      <h2>Sign in</h2>
       <form>
         {/* Username field */}
         <div className="userBox">
+          <label htmlFor="user">Username or email:</label>
           <input
+            name="user"
             type="text"
             value={user}
-            placeholder="Enter user here"
+            placeholder="Username or email"
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"
           />
@@ -44,10 +72,12 @@ function Login() {
 
         {/* Password field */}
         <div className="userBox">
+          <label htmlFor="password">Password:</label>
           <input
+            name="password"
             type="password"
             value={password}
-            placeholder="Enter password here"
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             className="userBox"
           />
@@ -55,6 +85,7 @@ function Login() {
         </div>
 
         {/* Submit button */}
+        {serverErrorMessage}
         <button onClick={onButtonClick} className="inputButton">
           Submit
         </button>
@@ -90,20 +121,20 @@ export function loginInputValidation(
   if (user === "") {
     return {
       type: "user",
-      message: "Skriv inn brukerinformasjon",
+      message: "Enter username or email here",
       valid: false,
     };
   }
 
   // Password validation
   if (password === "") {
-    return { type: "password", message: "Skriv inn passord", valid: false };
+    return { type: "password", message: "Enter password here", valid: false };
   }
 
   if (password.length < MIN_PASSWORD_LENGTH) {
     return {
       type: "password",
-      message: `Passordet må minst være ${MIN_PASSWORD_LENGTH} tegn`,
+      message: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`,
       valid: false,
     };
   }

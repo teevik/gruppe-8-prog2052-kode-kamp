@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 
-import { ACCESS_TOKEN } from "../../../shared/const";
+import { ACCESS_TOKEN } from "../const";
 
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
 import { LOGIN_ROUTE } from "../const";
@@ -36,9 +36,9 @@ function Register() {
       }
     } catch (err: any) {
       if (err.data.httpStatus == 500) {
-        setServerErrorMessage("Noe skjedde gærent på tjeneren");
+        setServerErrorMessage("Oops. Something went wrong. Try again later.");
       } else if (err.data.httpStatus == 409) {
-        setServerErrorMessage("Brukernavn opptatt");
+        setServerErrorMessage("Username already taken");
       }
     }
   }
@@ -153,33 +153,33 @@ export function registerInputValidation(
 ): [string, string, boolean] {
   // Email validation
   if (email === "") {
-    return ["email", "Skriv inn e-postadresse", false];
+    return ["email", "Please enter your email", false];
   }
 
   if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-    return ["email", "Skriv inn en gyldig e-postadresse", false];
+    return ["email", "Please enter a valid email address", false];
   }
 
   // Username validation
   if (username === "") {
-    return ["username", "Skriv inn brukernavn", false];
+    return ["username", "Please enter a username", false];
   }
 
   // Password validation
   if (password === "") {
-    return ["password", "Skriv inn et passord", false];
+    return ["password", "Please enter a password", false];
   }
 
   if (password.length < MIN_PASSWORD_LENGTH) {
     return [
       "password",
-      `Passordet må være minst ${MIN_PASSWORD_LENGTH} tegn`,
+      `Password must be ${MIN_PASSWORD_LENGTH} characters or longer`,
       false,
     ];
   }
 
   if (password !== passwordcheck) {
-    return ["password", "Passord er ikke likt", false];
+    return ["password", "Passwords do not match", false];
   }
 
   // If all validations pass

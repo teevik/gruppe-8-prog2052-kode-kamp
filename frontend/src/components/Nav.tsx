@@ -11,12 +11,19 @@ const Nav: FC = () => {
       </Link>
       <div>
         {/* Link to the login page with a login icon */}
-        <Link to="/Sign-in" className="link">
+        <Link to="/LoginPage" className="link">
           <button>Sign in</button>
         </Link>
+
+        {/* Link to the register page with a register icon */}
+        <Link to="/RegisterPage" className="link">
+          <button>Register</button>
+        </Link>
+
         <Link to="/GamePage" className="link">
           <button>Play</button>
         </Link>
+
       </div>
     </nav>
   );

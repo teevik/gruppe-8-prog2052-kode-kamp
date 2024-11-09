@@ -32,7 +32,7 @@ const input = readline();
 // console.log(output);
 '''
 
-sample_tests = [
+sampleTests = [
   { input = ["a<bc<"], output = ["b"] },
   { input = ["foss<<rritun"], output = ["forritun"] },
   { input = ["a<a<a<aa<<"], output = [""] },

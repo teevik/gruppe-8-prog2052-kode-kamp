@@ -2,22 +2,21 @@ import { Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
 import type { SocketServer } from "..";
 import { GAME_MODES } from "../../../shared/const";
-import type { Challenge, Participant } from "../../../shared/types";
+import type {
+  Challenge,
+  Participant,
+  TestResults,
+} from "../../../shared/types";
 import {
   COUNTDOWN_LENGTH_SECONDS,
   GAME_LENGTH_MINUTES,
   MAX_PLAYERS_PR_GAME,
   TIME_AT_ENDSCREEN_SECONDS,
 } from "../const";
-import {GAME_MODES} from "../../../shared/const";
-import type { Challenge, Participant, TestResults } from "../../../shared/types";
-import type { Game } from "./types";
-import { lobby, emitLobbyUpdate } from "./lobby";
-import { getRandomChallenge } from "./challenge";
 import { submitCode } from "../consumers/coderunner";
 import { getRandomChallenge } from "./challenge";
 import { emitLobbyUpdate, lobby } from "./lobby";
-import type { Game, TestResults } from "./types";
+import type { Game } from "./types";
 
 function startGame(
   gameRoomID: string,

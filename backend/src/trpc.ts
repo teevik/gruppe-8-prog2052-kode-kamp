@@ -1,12 +1,12 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import { verify as verifyJwt } from "jsonwebtoken";
-import type { User } from "../../shared/types";
+import type { UserJWT } from "../../shared/types";
 import { JWT_SECRET } from "./env";
 import { userSchema } from "./user";
 
 export interface Context {
-  user?: User;
+  user?: UserJWT;
   // TODO add database
   // db: ...
 }

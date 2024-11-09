@@ -40,6 +40,7 @@ interface Challenge {
 export type User = {
   id: string;
   username: string;
+  email: string;
 };
 
 export type { Challenge, Participant, SocketData, Test };

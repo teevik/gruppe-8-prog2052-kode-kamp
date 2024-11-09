@@ -23,7 +23,6 @@ function createGameRoom() {
   players.forEach((socket) => {
     socket.leave("lobby");
     socket.join(gameRoomID);
-    socket.emit("gameJoined", gameRoomID);
   });
 
   //Emitting the gamemode to gameroom so that they see the gamemode already before the game begins

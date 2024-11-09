@@ -27,7 +27,7 @@ const register = publicProcedure.input(
     
     if(user){
       
-      const userToken : User = {username: user.username, id: user._id.toString()};
+      const userToken : User = {username: user.username, id: user._id.toString(), email: user.email};
 
       const jwt = signJwt(userToken, JWT_SECRET, {
         expiresIn: JWT_EXPIRESIN
@@ -70,7 +70,7 @@ const login = publicProcedure.input(
   if(!correctPassword){
     throw new TRPCError({code: "UNAUTHORIZED"})
   }
-  const userToken : User = {username: userDocument.username, id: userDocument._id.toString()};
+  const userToken : User = {username: userDocument.username, id: userDocument._id.toString(), email: userDocument.email};
 
   const jwt = signJwt(userToken, JWT_SECRET, {
     expiresIn: JWT_EXPIRESIN

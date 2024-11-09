@@ -14,3 +14,7 @@ dev:
   npx concurrently -n backend,frontend -c "green.bold,yellow.bold" \
     "cd ./backend && npm run dev" \
     "cd ./frontend && npm run dev"
+
+prettier:
+  npx prettier --write ./backend
+  npx prettier --write ./frontend

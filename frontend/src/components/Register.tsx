@@ -153,33 +153,33 @@ export function registerInputValidation(
 ): [string, string, boolean] {
   // Email validation
   if (email === "") {
-    return ["email", "Please enter your email", false];
+    return ["email", "Skriv inn e-postadresse", false];
   }
 
   if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-    return ["email", "Please enter a valid email address", false];
+    return ["email", "Skriv inn en gyldig e-postadresse", false];
   }
 
   // Username validation
   if (username === "") {
-    return ["username", "Please enter a username", false];
+    return ["username", "Skriv inn brukernavn", false];
   }
 
   // Password validation
   if (password === "") {
-    return ["password", "Please enter a password", false];
+    return ["password", "Skriv inn et passord", false];
   }
 
   if (password.length < MIN_PASSWORD_LENGTH) {
     return [
       "password",
-      `Password must be ${MIN_PASSWORD_LENGTH} characters or longer`,
+      `Passordet må være minst ${MIN_PASSWORD_LENGTH} tegn`,
       false,
     ];
   }
 
   if (password !== passwordcheck) {
-    return ["password", "Passwords do not match", false];
+    return ["password", "Passord er ikke likt", false];
   }
 
   // If all validations pass

@@ -1,75 +1,41 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { REGISTER_ROUTE } from "../const";
+import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [user, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const onButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Prevent form submission (default behavior)
-    setEmailError("");
     setUsernameError("");
     setPasswordError("");
 
-    // Email validation
-    if (email === "") {
-      setEmailError("Please enter your email");
-      return;
+    const validation: LoginValidation = loginInputValidation(user, password);
+    if (validation.valid) {
+      alert("Logger inn");
+    } else {
+      if (validation.type == "user") {
+        setUsernameError(validation.message);
+      } else if (validation.type == "password") {
+        setPasswordError(validation.message);
+      }
     }
-
-    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-      setEmailError("Please enter a valid email address");
-      return;
-    }
-
-    // Username validation
-    if (username === "") {
-      setUsernameError("Please enter a username");
-      return;
-    }
-
-    // Password validation
-    if (password === "") {
-      setPasswordError("Please enter a password");
-      return;
-    }
-
-    if (password.length < 8) {
-      setPasswordError("Password must be 8 characters or longer");
-      return;
-    }
-
-    // If all validations pass, proceed
-    alert("Form submitted successfully!");
   };
 
   return (
     <div className="loginPageBox">
-      <h2>Login</h2>
+      <h2>Bruker innlogging</h2>
       <form>
-        {/* Email field */}
-        <div className="userBox">
-          <input
-            type="email"
-            value={email}
-            placeholder="Enter email address here"
-            onChange={(e) => setEmail(e.target.value)}
-            className="userBox"
-          />
-          <label className="errorLabel">{emailError}</label>
-        </div>
-
         {/* Username field */}
         <div className="userBox">
           <input
             type="text"
-            value={username}
-            placeholder="Enter username here"
+            value={user}
+            placeholder="Enter user here"
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"
           />
@@ -101,6 +67,51 @@ function Login() {
       </form>
     </div>
   );
+}
+
+export type LoginValidation =
+  | {
+      type: "user";
+      message: string;
+      valid: boolean;
+    }
+  | {
+      type: "password";
+      message: string;
+      valid: boolean;
+    }
+  | { type: ""; valid: boolean };
+
+export function loginInputValidation(
+  user: string,
+  password: string
+): LoginValidation {
+  // Username validation
+  if (user === "") {
+    return {
+      type: "user",
+      message: "Skriv inn brukerinformasjon",
+      valid: false,
+    };
+  }
+
+  // Password validation
+  if (password === "") {
+    return { type: "password", message: "Skriv inn passord", valid: false };
+  }
+
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return {
+      type: "password",
+      message: `Passordet må minst være ${MIN_PASSWORD_LENGTH} tegn`,
+      valid: false,
+    };
+  }
+
+  return {
+    type: "",
+    valid: true,
+  };
 }
 
 export default Login;

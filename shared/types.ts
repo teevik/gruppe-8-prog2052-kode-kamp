@@ -36,7 +36,6 @@ interface Challenge {
   tests: Test[];
 }
 
-
 type TestResult =
   | {
       kind: "Success";
@@ -60,4 +59,9 @@ interface TestResults {
   results: TestResult[];
 }
 
-export type { SocketData, Challenge, Participant, Test, TestResults};
+export type UserJWT = {
+  id: string;
+  username: string;
+};
+
+export type { Challenge, Participant, SocketData, Test, TestResults };

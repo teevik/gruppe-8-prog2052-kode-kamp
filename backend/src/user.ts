@@ -1,8 +1,7 @@
 import { z, ZodType } from "zod";
-import type { User } from "../../shared/types";
+import type { UserJWT } from "../../shared/types";
 
-export const userSchema: ZodType<User> = z.object({
-  kind: z.literal("guest"),
+export const userSchema: ZodType<UserJWT> = z.object({
   id: z.string(),
   username: z.string(),
 });

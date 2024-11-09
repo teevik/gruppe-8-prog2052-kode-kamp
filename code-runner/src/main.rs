@@ -1,12 +1,9 @@
-mod endpoints;
-mod runner;
-
 use axum::{
     response::Redirect,
     routing::{get, post},
     Json,
 };
-use endpoints::execute;
+use code_runner::endpoints::execute;
 use std::{env, net::SocketAddr};
 use tokio::net::TcpListener;
 use utoipa::OpenApi;

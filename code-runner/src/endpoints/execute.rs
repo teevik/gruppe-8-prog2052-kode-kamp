@@ -18,13 +18,13 @@ pub struct ExecutionRequest {
     pub tests: Vec<Test>,
 }
 
-#[derive(Serialize, ToSchema, Clone)]
+#[derive(Debug, Serialize, ToSchema, Clone, PartialEq, Eq)]
 pub struct TestDifference {
     pub expected: Vec<String>,
     pub actual: Vec<String>,
 }
 
-#[derive(Serialize, ToSchema, Clone)]
+#[derive(Debug, Serialize, ToSchema, Clone, PartialEq, Eq)]
 #[serde(tag = "kind")]
 pub enum CodeRunOutput {
     Success,

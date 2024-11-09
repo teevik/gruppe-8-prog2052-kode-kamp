@@ -41,9 +41,9 @@ static RUNTIME_SNAPSHOT: &[u8] =
     include_bytes!(concat!(env!("OUT_DIR"), "/CODE_RUNNER_SNAPSHOT.bin"));
 
 pub struct CodeRunResult {
-    output: Vec<String>,
-    error: Option<String>,
-    execution_time: Duration,
+    pub output: Vec<String>,
+    pub error: Option<String>,
+    pub execution_time: Duration,
 }
 
 pub fn run_code(code: String, input: Vec<String>) -> CodeRunResult {

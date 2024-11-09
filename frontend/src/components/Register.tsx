@@ -38,7 +38,7 @@ function Register() {
       if (err.data.httpStatus == 500) {
         setServerErrorMessage("Oops. Something went wrong. Try again later.");
       } else if (err.data.httpStatus == 409) {
-        setServerErrorMessage("Username already taken");
+        setServerErrorMessage("Username already taken or email already in use");
       }
     }
   }

@@ -47,7 +47,7 @@ function Login() {
       if (err.data.httpStatus == 500) {
         setServerErrorMessage("Oops. Something went wrong. Try again later.");
       } else if (err.data.httpStatus == 401) {
-        setServerErrorMessage("Wrong username/email or password");
+        setServerErrorMessage("Incorrect username/email or password");
       }
     }
   }
@@ -85,7 +85,7 @@ function Login() {
         </div>
 
         {/* Submit button */}
-        {serverErrorMessage}
+        <p className="errorLabel">{serverErrorMessage}</p>
         <button onClick={onButtonClick} className="inputButton">
           Submit
         </button>

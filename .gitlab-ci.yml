@@ -3,7 +3,7 @@ stages: # List of stages for jobs, and their order of execution
 
 test frontend and backend:
   image: node:20.17.0
-  stage: check
+  stage: test
   script:
     - cd backend
     - npm install

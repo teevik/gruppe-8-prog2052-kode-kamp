@@ -22,7 +22,7 @@ const register = publicProcedure.input(
   const hashedPassword = await argon2.hash(password);
 
   try {
-    const newUser = new UserSchema({username: username, hashedPassword: hashedPassword, email: email});
+    const newUser = new UserSchema({username, hashedPassword, email});
     const user = await newUser.save();
     
     if(user){

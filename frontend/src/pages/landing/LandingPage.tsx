@@ -1,11 +1,11 @@
-import { FC, useState, useEffect } from "react";
-import "./LandingPage.css"; // Ensure this path is correct
-import { socket } from "../../socket";
-import { SocketData, Challenge } from "../../../../shared/types";
-
-import GamePage from "../game/GamePage";
-import Lobby from "../lobby/Lobby";
+import { FC, lazy, useEffect, useState } from "react";
+import { Challenge, SocketData } from "../../../../shared/types";
 import Footer from "../../components/Footer";
+import { socket } from "../../socket";
+import Lobby from "../lobby/Lobby";
+import "./LandingPage.css"; // Ensure this path is correct
+
+const GamePage = lazy(() => import("../game/GamePage"));
 
 const LandingPage: FC = () => {
   const [gameTime, setGameTime] = useState<number>(0);

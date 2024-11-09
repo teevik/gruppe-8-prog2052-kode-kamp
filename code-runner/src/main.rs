@@ -1,12 +1,9 @@
-mod endpoints;
-mod runner;
-
 use axum::{
     response::Redirect,
     routing::{get, post},
     Json,
 };
-use endpoints::execute;
+use code_runner::endpoints::execute;
 use std::{env, net::SocketAddr};
 use tokio::net::TcpListener;
 use utoipa::OpenApi;
@@ -30,7 +27,13 @@ async fn openapi() -> Json<utoipa::openapi::OpenApi> {
 #[derive(OpenApi)]
 #[openapi(
     paths(openapi, execute::execute),
-    components(schemas(execute::Test, execute::ExecutionRequest, execute::ExecutionResult))
+    components(schemas(
+        execute::Test,
+        execute::ExecutionRequest,
+        execute::ExecutionResult,
+        execute::CodeRunOutput,
+        execute::TestDifference
+    ))
 )]
 struct ApiDoc;
 

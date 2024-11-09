@@ -1,5 +1,6 @@
 import { Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
+import type { SocketServer } from "..";
 import { GAME_MODES } from "../../../shared/const";
 import type { Challenge, Participant } from "../../../shared/types";
 import {
@@ -8,8 +9,12 @@ import {
   MAX_PLAYERS_PR_GAME,
   TIME_AT_ENDSCREEN_SECONDS,
 } from "../const";
+import {GAME_MODES} from "../../../shared/const";
+import type { Challenge, Participant, TestResults } from "../../../shared/types";
+import type { Game } from "./types";
+import { lobby, emitLobbyUpdate } from "./lobby";
+import { getRandomChallenge } from "./challenge";
 import { submitCode } from "../consumers/coderunner";
-import { io } from "../index";
 import { getRandomChallenge } from "./challenge";
 import { emitLobbyUpdate, lobby } from "./lobby";
 import type { Game, TestResults } from "./types";
@@ -47,7 +52,12 @@ function createGameRoom() {
   lobby.gameMode = GAME_MODES[Math.floor(Math.random() * GAME_MODES.length)];
 }
 
-function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
+function startGame(
+  gameRoomID: string,
+  players: Socket[],
+  gameMode: string,
+  io: SocketServer
+) {
   let timeOfStart: number = performance.now();
 
   //Initialize som datastructure to hold gameresults ???
@@ -66,8 +76,7 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
           challenge.sampleTests
         );
         if (testResults) {
-          let result = `${testResults.passedTests}/${testResults.totalTests}`;
-          socket.emit("runResults", result);
+          socket.emit("runResults", testResults);
         }
       } catch (_) {
         console.error("Failed when running code");
@@ -130,7 +139,7 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
             io.to(gameRoomID).emit("updateScoreboard", game.scoreboard);
 
             if (game.scoreboard.length == players.length) {
-              endGame(gameRoomID, players);
+              endGame(gameRoomID, players, io);
             }
           } else {
             socket.emit("fail", result);
@@ -141,7 +150,6 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
       }
     });
   });
-
   //Listen for game events (and disconnect), and broadcast the events to the same room
   //When code is submitted, pass the code to code runner,
   //if the code is accepted by the code runner
@@ -152,11 +160,45 @@ function startGame(gameRoomID: string, players: Socket[], gameMode: string) {
   //Also register statistics for all sockets that has a userID, use the userID to update stats in the database
   //Start new timeout for terminating the game by making all sockets to leave the current room
   setTimeout(() => {
-    endGame(gameRoomID, players);
+    endGame(gameRoomID, players, io);
   }, GAME_LENGTH_MINUTES * 60 * 1000);
 }
 
-function endGame(gameRoomID: string, players: Socket[]) {
+function createGameRoom(io: SocketServer) {
+  let gameRoomID: string = uuidv4();
+
+  //Move players into gameroom
+  let players: Socket[] = lobby.players.splice(0, MAX_PLAYERS_PR_GAME);
+
+  players.forEach((socket) => {
+    socket.leave("lobby");
+    socket.join(gameRoomID);
+    socket.emit("gameJoined", gameRoomID);
+  });
+
+  //Emitting the gamemode to gameroom so that they see the gamemode already before the game begins
+
+  let countDown = COUNTDOWN_LENGTH_SECONDS;
+  const countDownInterval = setInterval(() => {
+    io.to(gameRoomID).emit("countdown", countDown);
+    countDown--;
+  }, 1000);
+
+  emitLobbyUpdate(io);
+
+  let currentGameMode = "" + lobby.gameMode;
+
+  io.to(gameRoomID).emit("gameMode", currentGameMode);
+  setTimeout(() => {
+    clearInterval(countDownInterval);
+    startGame(gameRoomID, players, currentGameMode, io);
+  }, COUNTDOWN_LENGTH_SECONDS * 1000 + 1000);
+
+  //Change gamemode for the refreshed lobby
+  lobby.gameMode = GAME_MODES[Math.floor(Math.random() * GAME_MODES.length)];
+}
+
+function endGame(gameRoomID: string, players: Socket[], io: SocketServer) {
   //TODO: update stats and give points
 
   io.to(gameRoomID).emit("gameOver", TIME_AT_ENDSCREEN_SECONDS);

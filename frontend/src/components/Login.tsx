@@ -1,75 +1,69 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { REGISTER_ROUTE } from "../const";
+import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
+import { trpc } from "../trpc";
+import { ACCESS_TOKEN } from "../const";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [user, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const login = trpc.auth.login.useMutation();
 
   const onButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Prevent form submission (default behavior)
-    setEmailError("");
     setUsernameError("");
     setPasswordError("");
 
-    // Email validation
-    if (email === "") {
-      setEmailError("Please enter your email");
-      return;
+    const validation: LoginValidation = loginInputValidation(user, password);
+    if (validation.valid) {
+      submitLogin();
+    } else {
+      if (validation.type == "user") {
+        setUsernameError(validation.message);
+      } else if (validation.type == "password") {
+        setPasswordError(validation.message);
+      }
     }
-
-    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-      setEmailError("Please enter a valid email address");
-      return;
-    }
-
-    // Username validation
-    if (username === "") {
-      setUsernameError("Please enter a username");
-      return;
-    }
-
-    // Password validation
-    if (password === "") {
-      setPasswordError("Please enter a password");
-      return;
-    }
-
-    if (password.length < 8) {
-      setPasswordError("Password must be 8 characters or longer");
-      return;
-    }
-
-    // If all validations pass, proceed
-    alert("Form submitted successfully!");
   };
+
+  async function submitLogin() {
+    try {
+      const res = await login.mutateAsync({
+        user: user,
+        password: password,
+      });
+
+      setServerErrorMessage("");
+      if (res) {
+        localStorage.setItem(ACCESS_TOKEN, res);
+        navigate("/");
+      }
+    } catch (err: any) {
+      if (err.data.httpStatus == 500) {
+        setServerErrorMessage("Oops. Something went wrong. Try again later.");
+      } else if (err.data.httpStatus == 401) {
+        setServerErrorMessage("Incorrect username/email or password");
+      }
+    }
+  }
 
   return (
     <div className="loginPageBox">
-      <h2>Login</h2>
+      <h2>Sign in</h2>
       <form>
-        {/* Email field */}
-        <div className="userBox">
-          <input
-            type="email"
-            value={email}
-            placeholder="Enter email address here"
-            onChange={(e) => setEmail(e.target.value)}
-            className="userBox"
-          />
-          <label className="errorLabel">{emailError}</label>
-        </div>
-
         {/* Username field */}
         <div className="userBox">
+          <label htmlFor="user">Username or email:</label>
           <input
+            name="user"
             type="text"
-            value={username}
-            placeholder="Enter username here"
+            value={user}
+            placeholder="Username or email"
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"
           />
@@ -78,10 +72,12 @@ function Login() {
 
         {/* Password field */}
         <div className="userBox">
+          <label htmlFor="password">Password:</label>
           <input
+            name="password"
             type="password"
             value={password}
-            placeholder="Enter password here"
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             className="userBox"
           />
@@ -89,6 +85,7 @@ function Login() {
         </div>
 
         {/* Submit button */}
+        <p className="errorLabel">{serverErrorMessage}</p>
         <button onClick={onButtonClick} className="inputButton">
           Submit
         </button>
@@ -101,6 +98,51 @@ function Login() {
       </form>
     </div>
   );
+}
+
+export type LoginValidation =
+  | {
+      type: "user";
+      message: string;
+      valid: boolean;
+    }
+  | {
+      type: "password";
+      message: string;
+      valid: boolean;
+    }
+  | { type: ""; valid: boolean };
+
+export function loginInputValidation(
+  user: string,
+  password: string
+): LoginValidation {
+  // Username validation
+  if (user === "") {
+    return {
+      type: "user",
+      message: "Enter username or email here",
+      valid: false,
+    };
+  }
+
+  // Password validation
+  if (password === "") {
+    return { type: "password", message: "Enter password here", valid: false };
+  }
+
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return {
+      type: "password",
+      message: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`,
+      valid: false,
+    };
+  }
+
+  return {
+    type: "",
+    valid: true,
+  };
 }
 
 export default Login;

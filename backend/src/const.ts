@@ -11,7 +11,7 @@ const CODE_RUNNER_URL: string =
   process.env.NODE_ENV === "production"
     ? "http://192.168.10.180/execute"
     : "https://code-runner-small-sky-5409.fly.dev/execute";
-
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const EMOJIS = ["🧑", "🐸", "🐱", "🐶", "🦄", "🐼", "🐧", "🦁", "🐝", "🐢"];
 const RANDOM_USERNAMES: string[] = [
   "ShadowHunter",
@@ -108,5 +108,6 @@ export {
   EMOJIS,
   RATE_LIMIT_MINUTE_INTERVAL,
   RATE_LIMIT_MAX,
-  JWT_EXPIRESIN
+  JWT_EXPIRESIN,
+  EMAIL_REGEX
 };

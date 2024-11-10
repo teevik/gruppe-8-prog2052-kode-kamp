@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 
-import { ACCESS_TOKEN } from "../../../shared/const";
+import { ACCESS_TOKEN } from "../const";
 
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
 import { LOGIN_ROUTE } from "../const";
@@ -36,9 +36,9 @@ function Register() {
       }
     } catch (err: any) {
       if (err.data.httpStatus == 500) {
-        setServerErrorMessage("Noe skjedde gærent på tjeneren");
+        setServerErrorMessage("Oops. Something went wrong. Try again later.");
       } else if (err.data.httpStatus == 409) {
-        setServerErrorMessage("Brukernavn opptatt");
+        setServerErrorMessage("Username already taken or email already in use");
       }
     }
   }

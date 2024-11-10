@@ -1,19 +1,36 @@
-stages:
-  - triggers
+stages: # List of stages for jobs, and their order of execution
+  - test
 
-trigger_frontend:
-  stage: triggers
-  trigger:
-    include: frontend/.gitlab-ci.yml
-    strategy: depend
-  rules:
-    - changes:
-        - frontend/*
-trigger_code_runner:
-  stage: triggers
-  trigger:
-    include: code-runner/.gitlab-ci.yml
-    strategy: depend
-  rules:
-    - changes:
-        - code-runner/*
+test frontend and backend:
+  image: node:20.17.0
+  stage: test
+  script:
+    - cd backend
+    - npm install
+    - npm run check
+    - npm run test
+    - cd ../frontend
+    - npm install
+    - npm run check
+    - npm run test
+  cache:
+    key:
+      files:
+        - ./frontend/package-lock.json
+        - ./backend/package-lock.json
+      prefix: npm
+    paths:
+      - ./frontend/node_modules/
+      - ./backend/node_modules/
+
+test code-runner:
+  image: rust:1.81
+  stage: test
+  script:
+    - cd code-runner
+    - cargo build --verbose
+    - cargo test --verbose
+  cache:
+    key: shared-cache
+    paths:
+      - ./code-runner/target/

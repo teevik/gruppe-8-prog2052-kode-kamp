@@ -10,6 +10,14 @@ post {
   auth: none
 }
 
+body:json {
+  {
+    "username": "Fred",
+    "password": "Georgewfwfw",
+    "email": "uri@gmail.com"
+  }
+}
+
 vars:post-response {
   jwtToken: res.body.result.data
 }

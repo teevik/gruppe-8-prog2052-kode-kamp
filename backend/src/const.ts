@@ -5,14 +5,13 @@ const GAME_LENGTH_MINUTES: number = 10;
 const LOBBY_TIMER_SECONDS: number = 30;
 const RATE_LIMIT_MINUTE_INTERVAL : number = 1;
 const RATE_LIMIT_MAX : number = 100;
-const MIN_PASSWORD_LENGTH : number = 8;
 const JWT_EXPIRESIN : string = "12h"
 const GAME_MODES: string[] = ["First to finish", "Fastest code"];
 const CODE_RUNNER_URL: string =
   process.env.NODE_ENV === "production"
     ? "http://192.168.10.180/execute"
     : "https://code-runner-small-sky-5409.fly.dev/execute";
-
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const EMOJIS = ["🧑", "🐸", "🐱", "🐶", "🦄", "🐼", "🐧", "🦁", "🐝", "🐢"];
 const RANDOM_USERNAMES: string[] = [
   "ShadowHunter",
@@ -109,6 +108,6 @@ export {
   EMOJIS,
   RATE_LIMIT_MINUTE_INTERVAL,
   RATE_LIMIT_MAX,
-  MIN_PASSWORD_LENGTH,
-  JWT_EXPIRESIN
+  JWT_EXPIRESIN,
+  EMAIL_REGEX
 };

@@ -66,4 +66,4 @@ interface TestResults {
   results: TestResult[];
 }
 
-export type { SocketData, Challenge, Participant, Test, TestResults};
+export type { Challenge, Participant, SocketData, Test, TestResults };

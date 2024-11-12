@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
-import type { User } from "../../../shared/types";
+import { useAuth } from "../user";
 
-interface NavProps {
-  user: User | undefined;
-}
 // Functional component for the navigation bar
-export default function Nav({ user }: NavProps) {
+export default function Nav() {
+  const { user, logOut } = useAuth();
+
   return (
     <nav className="header">
       {/* Link to the home page */}
@@ -36,6 +35,8 @@ export default function Nav({ user }: NavProps) {
         <Link to="/GamePage" className="link">
           <button>Play</button>
         </Link>
+
+        {user && <button onClick={logOut}>Log out</button>}
       </div>
     </nav>
   );

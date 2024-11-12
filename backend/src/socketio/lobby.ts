@@ -15,6 +15,7 @@ import type { Lobby } from "./types";
 import { JWT_SECRET } from "../env";
 import type { User } from "../../../shared/types";
 import { userSchema } from "../user";
+import { User as UserSchema } from "../database/model/user";
 
 // Function to randomly pick an emoji
 function getRandomEmoji(): string {
@@ -55,7 +56,7 @@ function initLobby(socket: Socket, io: SocketServer) {
   console.log("client with socket.id: ", socket.id, " connected!");
   emitLobbyUpdate(io);
 
-  socket.on("joinLobby", (jwtToken) => {
+  socket.on("joinLobby", async (jwtToken) => {
     //This is so that we can track the stats of the player
 
     if (jwtToken !== "") {
@@ -64,6 +65,11 @@ function initLobby(socket: Socket, io: SocketServer) {
       socket.data.registeredUser = true;
       socket.data.userID = user.id;
       socket.data.userName = user.username;
+
+      const userDb = await UserSchema.findOne({ _id: user.id });
+      if (userDb) {
+        socket.data.points = userDb.points;
+      }
     } else {
       socket.data.registeredUser = false;
       socket.data.userID = uuidv4();

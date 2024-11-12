@@ -7,6 +7,7 @@ interface SocketData {
   emoji: string;
   complete: boolean;
   registeredUser: boolean;
+  points: number | undefined;
 }
 
 interface Participant {

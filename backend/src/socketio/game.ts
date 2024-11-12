@@ -2,6 +2,7 @@ import { Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
 import type { SocketServer } from "..";
 import { GAME_MODES } from "../../../shared/const";
+import { calculatePoints } from "../../../shared/functions";
 import type {
   Challenge,
   Participant,
@@ -17,6 +18,7 @@ import { submitCode } from "../consumers/coderunner";
 import { getRandomChallenge } from "./challenge";
 import { emitLobbyUpdate, lobby } from "./lobby";
 import type { Game } from "./types";
+import { User } from "../database/model/user";
 
 function startGame(
   gameRoomID: string,
@@ -108,7 +110,7 @@ function startGame(
 
             if (game.scoreboard.length == players.length) {
               gameEnded = true;
-              endGame(gameRoomID, players, io);
+              endGame(gameRoomID, game.scoreboard, io);
             }
           } else {
             socket.emit("fail", result);
@@ -132,7 +134,7 @@ function startGame(
   setTimeout(() => {
     //Check if game is not already ended if all players have left
     if (!gameEnded) {
-      endGame(gameRoomID, players, io);
+      endGame(gameRoomID, game.scoreboard, io);
     }
   }, GAME_LENGTH_MINUTES * 60 * 1000);
 }
@@ -171,8 +173,29 @@ function createGameRoom(io: SocketServer) {
   lobby.gameMode = GAME_MODES[Math.floor(Math.random() * GAME_MODES.length)];
 }
 
-function endGame(gameRoomID: string, players: Socket[], io: SocketServer) {
+function endGame(gameRoomID: string, players: Participant[], io: SocketServer) {
   //TODO: update stats and give points
+
+  players.forEach(async (player, index) => {
+    if (player.socket.registeredUser) {
+      //Give the user the amount of points based on amount of players
+      const amountPoints = calculatePoints(players.length, index + 1);
+      const updatedUser = await User.updateOne(
+        { _id: player.socket.userID },
+        { $inc: { points: amountPoints } }
+      );
+      if (!updatedUser.acknowledged) {
+        throw new Error("Failed to update points of a player");
+      } else {
+        console.log(
+          "Oppdaterte poeng!",
+          player.socket.userName,
+          " ",
+          amountPoints
+        );
+      }
+    }
+  });
 
   io.to(gameRoomID).emit("gameOver", TIME_AT_ENDSCREEN_SECONDS);
 

@@ -1,5 +1,14 @@
 services:
+  db:
+    image: mongo
+    volumes:
+      - ./data:/data/db
   web:
+    depends_on:
+      - db
     build: .
     ports:
       - "80:3000"
+    environment:
+      - DATABASE_URL=mongodb://db:27017/kode-kamp
+      - JWT_SECRET=

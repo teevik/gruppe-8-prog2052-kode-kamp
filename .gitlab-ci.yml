@@ -1,6 +1,9 @@
 stages: # List of stages for jobs, and their order of execution
   - test
 
+variables:
+  GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/kodekamp
+
 test frontend and backend:
   image: node:20.17.0
   stage: test

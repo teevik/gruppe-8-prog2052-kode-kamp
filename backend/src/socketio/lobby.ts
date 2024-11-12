@@ -24,7 +24,7 @@ let lobby: Lobby = {
 
 let lobbyCountdownCounter: number = LOBBY_TIMER_SECONDS;
 
-let lobbyInterval: NodeJS.Timeout | null = null;
+let lobbyInterval: ReturnType<typeof setTimeout> | null = null;
 
 function lobbyCountdown(io: SocketServer) {
   //Emit countdown event to all cients

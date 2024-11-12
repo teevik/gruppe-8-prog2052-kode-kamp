@@ -1,5 +1,4 @@
 import { TRPCError } from "@trpc/server";
-import argon2 from "argon2";
 import { sign as signJwt } from "jsonwebtoken";
 import { z } from "zod";
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
@@ -30,7 +29,7 @@ const register = publicProcedure
     }
 
     try {
-      const hashedPassword = await argon2.hash(password);
+      const hashedPassword = await Bun.password.hash(password);
 
       const newUser = new UserSchema({ username, hashedPassword, email });
       const user = await newUser.save();
@@ -71,12 +70,7 @@ const login = publicProcedure
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
 
-    const hashedPassword = await argon2.hash(password);
-    if (!hashedPassword) {
-      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-    }
-
-    const correctPassword: boolean = await argon2.verify(
+    const correctPassword: boolean = await Bun.password.verify(
       userDocument.hashedPassword,
       password
     );

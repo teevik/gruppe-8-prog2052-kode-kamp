@@ -83,11 +83,8 @@ function startGame(
             gameMode
           );
 
-          //Emitting to the client that code ran successfully for all the tests
-          socket.emit(
-            "success",
-            `${testResults.passedTests}/${testResults.totalTests}`
-          );
+          //Emitting to the client that code ran successfully
+          socket.emit("success");
           socket.data.complete = true;
 
           //Emitting to all clients that the scoreboard is updated
@@ -128,8 +125,6 @@ function createGameRoom(io: SocketServer) {
     socket.emit("gameJoined", gameRoomID);
   });
 
-  //Emitting the gamemode to gameroom so that they see the gamemode already before the game begins
-
   let countDown = COUNTDOWN_LENGTH_SECONDS;
   const countDownInterval = setInterval(() => {
     io.to(gameRoomID).emit("countdown", countDown);
@@ -138,6 +133,7 @@ function createGameRoom(io: SocketServer) {
 
   emitLobbyUpdate(io);
 
+  //Emitting the gamemode to gameroom so that they see the gamemode already before the game begins
   let currentGameMode: GameMode = lobby.gameMode;
 
   io.to(gameRoomID).emit("gameMode", currentGameMode);
@@ -154,12 +150,6 @@ function endGame(gameRoomID: string, players: Socket[], io: SocketServer) {
   //TODO: update stats and give points
 
   io.to(gameRoomID).emit("gameOver", TIME_AT_ENDSCREEN_SECONDS);
-
-  // setTimeout(()=>{
-  //     players.forEach((socket)=>{
-  //         socket.disconnect(true);
-  //     })
-  // }, TIME_AT_ENDSCREEN_SECONDS * 1000)
 }
 
 /**

@@ -13,15 +13,6 @@ test frontend and backend:
     - npm install
     - npm run check
     - npm run test
-  cache:
-    key:
-      files:
-        - ./frontend/package-lock.json
-        - ./backend/package-lock.json
-      prefix: npm
-    paths:
-      - ./frontend/node_modules/
-      - ./backend/node_modules/
 
 test code-runner:
   image: rust:1.81
@@ -30,7 +21,3 @@ test code-runner:
     - cd code-runner
     - cargo build --verbose
     - cargo test --verbose
-  cache:
-    key: shared-cache
-    paths:
-      - ./code-runner/target/

@@ -1,10 +1,9 @@
 import { Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
-
+import { GAME_MODES } from "../../../shared/const";
 import type { SocketServer } from "..";
 import {
   EMOJIS,
-  GAME_MODES,
   LOBBY_TIMER_SECONDS,
   MAX_PLAYERS_PR_GAME,
   RANDOM_USERNAMES,

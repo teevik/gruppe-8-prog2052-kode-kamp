@@ -1,10 +1,6 @@
 import { Socket } from "socket.io";
 import type { Challenge, Participant, SocketData } from "../../../shared/types";
-
-interface Score {
-  userID: string;
-  time: number;
-}
+import type { GameMode } from "../../../shared/const";
 
 interface ServerToClientEvents {
   lobbyJoined: (playerIDs: string[]) => void;
@@ -32,13 +28,7 @@ interface Game {
 
 interface Lobby {
   players: Socket[];
-  gameMode: string;
+  gameMode: GameMode;
 }
 
-
-export type {
-  ClientToServerEvents,
-  Game,
-  Lobby,
-  ServerToClientEvents,
-};
+export type { ClientToServerEvents, Game, Lobby, ServerToClientEvents };

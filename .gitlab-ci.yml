@@ -1,10 +1,8 @@
 stages: # List of stages for jobs, and their order of execution
   - test
 
-variables:
-  GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/kodekamp
-
 test frontend and backend:
+  resource_group: all
   image: node:20.17.0
   stage: test
   script:
@@ -18,6 +16,7 @@ test frontend and backend:
     - npm run test
 
 test code-runner:
+  resource_group: all
   image: rust:1.81
   stage: test
   script:

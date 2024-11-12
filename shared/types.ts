@@ -6,6 +6,7 @@ interface SocketData {
   userName: string;
   emoji: string;
   complete: boolean;
+  registeredUser: boolean;
 }
 
 interface Participant {

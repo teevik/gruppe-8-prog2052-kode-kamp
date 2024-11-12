@@ -29,6 +29,8 @@ function startGame(
   //Initialize som datastructure to hold gameresults ???
   let game: Game = { scoreboard: [] };
 
+  let gameEnded: boolean = false;
+
   const challenge: Challenge = getRandomChallenge();
 
   //Emit the taskID so that the client can fetch the
@@ -105,6 +107,7 @@ function startGame(
             io.to(gameRoomID).emit("updateScoreboard", game.scoreboard);
 
             if (game.scoreboard.length == players.length) {
+              gameEnded = true;
               endGame(gameRoomID, players, io);
             }
           } else {
@@ -125,8 +128,12 @@ function startGame(
   //When the game is finished, emit gameOver event to all clients, together with data for scores and scoreboard
   //Also register statistics for all sockets that has a userID, use the userID to update stats in the database
   //Start new timeout for terminating the game by making all sockets to leave the current room
+
   setTimeout(() => {
-    endGame(gameRoomID, players, io);
+    //Check if game is not already ended if all players have left
+    if (!gameEnded) {
+      endGame(gameRoomID, players, io);
+    }
   }, GAME_LENGTH_MINUTES * 60 * 1000);
 }
 

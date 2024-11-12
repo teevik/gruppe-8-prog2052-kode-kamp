@@ -18,3 +18,7 @@ dev:
 prettier:
   npx prettier --write ./backend
   npx prettier --write ./frontend
+
+check:
+  (cd ./backend && npm run check)
+  (cd ./frontend && npm run check)

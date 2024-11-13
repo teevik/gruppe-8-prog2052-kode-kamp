@@ -1,13 +1,15 @@
 import "./Button.css";
 
+import { ReactNode } from "react";
+
 interface ButtonProps {
-  children: string;
+  children: ReactNode;
   onClick: () => void;
-  variant: "primary" | "secondary" | "tertiary";
+  variant?: "primary" | "secondary" | "tertiary";
 }
 
 export function Button(props: ButtonProps) {
-  const { variant, children } = props;
+  const { variant = "primary", children } = props;
 
   return <button className={`button ${variant}`}>{children}</button>;
 }

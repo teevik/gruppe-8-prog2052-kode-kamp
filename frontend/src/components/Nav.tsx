@@ -1,5 +1,8 @@
-import { Link } from "react-router-dom";
 import "./Nav.css";
+
+import { LinkButton } from "./LinkButton.tsx";
+
+import { Link, useNavigate } from "react-router-dom";
 
 // Functional component for the navigation bar
 export function Nav() {
@@ -11,12 +14,8 @@ export function Nav() {
       </Link>
       <div>
         {/* Link to the login page with a login icon */}
-        <Link to="/Sign-in" className="link">
-          <button>Sign in</button>
-        </Link>
-        <Link to="/GamePage" className="link">
-          <button>Play</button>
-        </Link>
+        <LinkButton to="/Sign-in">Sign in</LinkButton>
+        <LinkButton to="/GamePage">Play</LinkButton>
       </div>
     </nav>
   );

@@ -21,7 +21,7 @@ export function MockModeExplanation() {
   return (
     <ModeExplanation
       gameMode="First to Finish"
-      time={time ? time : 10}
+      time={time ? time : 0}
       explanation="Makka Pakka make the code go Fasta"
     />
   );

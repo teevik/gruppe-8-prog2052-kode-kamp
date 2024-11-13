@@ -1,0 +1,61 @@
+/* Container styling */
+.loginPageBox {
+    background-color: #333; /* Dark background */
+    padding: 2rem;
+    margin: 2rem auto;
+    width: 300px; /* Adjust width as needed */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: white;
+    text-align: center;
+}
+
+/* Heading */
+.loginPageBox h2 {
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+}
+
+/* Form input styling */
+.userBox input {
+    width: 80%;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #555555;
+    background-color: #444444; /* Dark input background */
+    color: #ffffff; /* Text color */
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Input focus state */
+.userBox input:focus {
+    border-color: #61dafb; /* Light blue border on focus */
+}
+
+/* Error label styling */
+.errorLabel {
+    color: #ff6b6b; /* Red color for error messages */
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    display: block; /* Show on a new line */
+}
+
+/* Submit button */
+.inputButton {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #61dafb; /* Button background */
+    color: #333333; /* Dark text */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover state */
+.inputButton:hover {
+    background-color: #4fa6d8; /* Darken the button on hover */
+}
+

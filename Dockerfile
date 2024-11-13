@@ -10,7 +10,7 @@ COPY ./shared ./shared
 
 # Build frontend
 WORKDIR /usr/src/app/frontend
-RUN npm install
+RUN npm install --build-from-source
 RUN npm run build
 
 # Build backend

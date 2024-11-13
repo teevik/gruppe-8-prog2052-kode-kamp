@@ -18,12 +18,27 @@ pub struct ExecutionRequest {
     pub tests: Vec<Test>,
 }
 
+#[derive(Debug, Serialize, ToSchema, Clone, PartialEq, Eq)]
+pub struct TestDifference {
+    pub expected: Vec<String>,
+    pub actual: Vec<String>,
+}
+
+#[derive(Debug, Serialize, ToSchema, Clone, PartialEq, Eq)]
+#[serde(tag = "kind")]
+pub enum CodeRunOutput {
+    Success,
+    Error { message: String },
+    FailedTests { differences: TestDifference },
+}
+
 #[derive(Serialize, ToSchema, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct ExecutionResult {
     pub passed_tests: usize,
     pub total_tests: usize,
     pub execution_time_us: u128,
+    pub results: Vec<CodeRunOutput>,
 }
 
 #[utoipa::path(

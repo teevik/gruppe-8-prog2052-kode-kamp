@@ -1,16 +1,16 @@
 import { Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
 
+import type { SocketServer } from "..";
 import {
   EMOJIS,
   GAME_MODES,
-  RANDOM_USERNAMES,
-  MAX_PLAYERS_PR_GAME,
   LOBBY_TIMER_SECONDS,
+  MAX_PLAYERS_PR_GAME,
+  RANDOM_USERNAMES,
 } from "../const";
-import type { Lobby } from "./types";
-import { io } from "../index";
 import { createGameRoom } from "./game";
+import type { Lobby } from "./types";
 
 // Function to randomly pick an emoji
 function getRandomEmoji(): string {
@@ -24,9 +24,9 @@ let lobby: Lobby = {
 
 let lobbyCountdownCounter: number = LOBBY_TIMER_SECONDS;
 
-let lobbyInterval: NodeJS.Timeout | null = null;
+let lobbyInterval: ReturnType<typeof setTimeout> | null = null;
 
-function lobbyCountdown() {
+function lobbyCountdown(io: SocketServer) {
   //Emit countdown event to all cients
   let countDownValue = `${lobbyCountdownCounter}s`;
 
@@ -40,22 +40,22 @@ function lobbyCountdown() {
   }
 
   if (lobbyCountdownCounter == 0) {
-    createGameRoom();
-    resetLobbyCountdown();
+    createGameRoom(io);
+    resetLobbyCountdown(io);
   } else {
     io.emit("lobbyCountdown", countDownValue);
   }
 }
 
-function initLobby(socket: Socket) {
+function initLobby(socket: Socket, io: SocketServer) {
   console.log("client with socket.id: ", socket.id, " connected!");
-  emitLobbyUpdate();
+  emitLobbyUpdate(io);
 
   socket.on("joinLobby", () => {
     //Makes sure that each user can only fill one spot in the lobby
     if (!lobby.players.find((p) => socket.id == p.id)) {
-      joinLobby(socket);
-      handleLobbyCountdown();
+      joinLobby(socket, io);
+      handleLobbyCountdown(io);
     }
   });
 
@@ -64,7 +64,7 @@ function initLobby(socket: Socket) {
   });
 }
 
-function joinLobby(socket: Socket) {
+function joinLobby(socket: Socket, io: SocketServer) {
   //TODO: call middleware function to validate jwt token and set socket.data.userID to the ID of the player
   //This is so that we can track the stats of the player
   socket.data.userID = uuidv4();
@@ -88,51 +88,51 @@ function joinLobby(socket: Socket) {
   socket.emit(
     "lobbyJoined",
     socket.data,
-    lobby.players.map((player) => player.data),
+    lobby.players.map((player) => player.data)
   );
 
   //Emit to entire lobby that player has joined (does not emit to itself)
   socket.broadcast.to("lobby").emit("playerJoinedLobby", socket.data);
 
   //Emit to all clients that amount of players in lobby is updated
-  emitLobbyUpdate();
+  emitLobbyUpdate(io);
 
   //Create game room if lobby is full createGameRoom()
   if (lobby.players.length == MAX_PLAYERS_PR_GAME) {
-    createGameRoom();
+    createGameRoom(io);
   }
 
   socket.on("leaveLobby", () => {
-    leaveLobby(socket);
+    leaveLobby(socket, io);
   });
 
   //Listen for disconnect event and remove from lobby
   socket.on("disconnect", () => {
-    leaveLobby(socket);
+    leaveLobby(socket, io);
     console.log("client with socket.id", socket.id, " disconnected");
   });
 }
 
-function leaveLobby(socket: Socket) {
+function leaveLobby(socket: Socket, io: SocketServer) {
   lobby.players = lobby.players.filter((player) => player !== socket);
   io.to("lobby").emit("playerLeftLobby", socket.data);
-  emitLobbyUpdate();
-  handleLobbyCountdown();
+  emitLobbyUpdate(io);
+  handleLobbyCountdown(io);
 }
 
-function handleLobbyCountdown() {
+function handleLobbyCountdown(io: SocketServer) {
   if (!lobbyInterval && lobby.players.length > 1) {
-    lobbyInterval = setInterval(lobbyCountdown, 1000);
+    lobbyInterval = setInterval(() => lobbyCountdown(io), 1000);
   } else if (lobby.players.length < 2) {
-    resetLobbyCountdown();
+    resetLobbyCountdown(io);
   }
 }
 
-function emitLobbyUpdate() {
+function emitLobbyUpdate(io: SocketServer) {
   io.emit("lobbyUpdate", lobby.players.length, MAX_PLAYERS_PR_GAME);
 }
 
-function resetLobbyCountdown() {
+function resetLobbyCountdown(io: SocketServer) {
   if (lobbyInterval) {
     clearInterval(lobbyInterval);
   }

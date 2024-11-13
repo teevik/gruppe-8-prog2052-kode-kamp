@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { socket } from "../../socket";
 import { SocketData } from "../../../../shared/types";
+import { ACCESS_TOKEN } from "../../const";
 
 interface LobbyProps {
   gameMode: string;
@@ -39,7 +40,8 @@ export default function Lobby({
   }, [countdownLobby]);
 
   function joinLobby() {
-    socket.emit("joinLobby");
+    const jwtToken = localStorage.getItem(ACCESS_TOKEN);
+    socket.emit("joinLobby", jwtToken || "");
   }
 
   function leaveLobby() {

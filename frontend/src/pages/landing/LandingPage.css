@@ -14,7 +14,6 @@ body {
   height: 100vh;
   justify-content: space-evenly;
   text-align: center;
-  background-color: #ffffff;
 }
 
 /* Header styling */
@@ -34,7 +33,7 @@ header p {
 
 /* Lobby container */
 .lobbyContainer {
-  background-color: #e6e6e6;
+  background-color: var(--semi-background);
   width: 300px;
   margin: 0 auto;
   padding: 20px;
@@ -128,20 +127,4 @@ header p {
 .code span {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-}
-
-/* Footer styling */
-footer {
-  font-size: 0.9em;
-  color: #777;
-  padding-top: 4rem;
-}
-
-footer a {
-  color: #777;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
 }

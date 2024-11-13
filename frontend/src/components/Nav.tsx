@@ -10,14 +10,16 @@ interface NavProps {
   user: User | undefined;
 }
 // Functional component for the navigation bar
-export default function Nav({ user }: NavProps) {
+export function Nav({ user }: NavProps) {
   return (
     <nav className="header">
       {/* Link to the home page */}
-      <Link to="/" className="link">
-        <h1>Kode Kamp</h1>
-      </Link>
-      <div>
+      <h1>
+        <Link to="/" className="link">
+          Kode Kamp
+        </Link>
+      </h1>
+      <div className="buttonArray">
         {!user && (
           <>
             <LinkButton to={LOGIN_ROUTE}>Sign in</LinkButton>

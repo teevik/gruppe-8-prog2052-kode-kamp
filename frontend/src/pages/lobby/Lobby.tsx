@@ -10,6 +10,8 @@ interface LobbyProps {
   player: SocketData | undefined;
 }
 
+function PlayerBox() {}
+
 export default function Lobby({
   gameMode,
   updatePlayer,

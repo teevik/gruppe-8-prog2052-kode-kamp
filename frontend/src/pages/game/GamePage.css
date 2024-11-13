@@ -4,7 +4,7 @@
   flex-direction: column;
   height: 100vh;
   font-family: Arial, sans-serif;
-  background-color: #fff;
+  background-color: var(--background);
 }
 
 /* Header Section */
@@ -13,19 +13,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border-bottom: 1px solid #e2e8f0;
-  background-color: #f7f7f7;
+  background-color: var(--semi-background);
 }
 
 .gamePageHeaderTitle {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: var(--default-text);
 }
 
 .gamePageHeaderMode {
   font-size: 1rem;
-  color: #555;
+  color: var(--default-text);
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -37,16 +36,17 @@
 
 /* Main content section */
 .gamePageMain {
+  margin: 0;
   display: flex;
   flex-grow: 1;
   padding: 16px;
-  background-color: #f1f1f1;
+  background-color: var(--background);
 }
 
 /* Left Section: Task Description */
 .gamePageTaskDescription {
   width: 25%;
-  background-color: #ddd;
+  background-color: var(--semi-background);
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -68,7 +68,7 @@
 .gamePageEditor {
   flex-grow: 1;
   padding: 0 16px;
-  background-color: #333;
+  background-color: var(--semi-background);
   align-items: center;
   justify-content: center;
 }
@@ -80,57 +80,6 @@
 .submitButton {
   background-color: #357f30;
   color: #eeeeee;
-}
-
-/* Footer Section */
-.gamePageFooter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background-color: #f7f7f7;
-  border-top: 1px solid #e2e8f0;
-}
-
-/* Footer Buttons */
-.primaryButton,
-.secondaryButton {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-}
-
-.primaryButton {
-  background-color: #4a5568; /* Chakra UI gray.700 */
-  color: white;
-  margin-right: 16px;
-}
-
-.secondaryButton {
-  background-color: #2d3748; /* Chakra UI gray.800 */
-  color: white;
-}
-
-.primaryButton:hover {
-  background-color: #2c5282; /* Chakra UI blue.700 */
-}
-
-.secondaryButton:hover {
-  background-color: #2b6cb0; /* Chakra UI blue.600 */
-}
-
-/* Footer Link styles (for terms of service) */
-.footerLinks {
-  font-size: 0.875rem;
-  color: #718096;
-  text-decoration: none;
-  margin-left: 16px;
-}
-
-.footerLinks:hover {
-  text-decoration: underline;
 }
 
 .io {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { socket } from "../../socket";
 import { SocketData } from "../../../../shared/types";
 import ModeExplanation from "../mode-explanation/ModeExplanation";
+import { Button } from "../../components/Button";
 
 interface LobbyProps {
   gameMode: string;
@@ -9,8 +10,6 @@ interface LobbyProps {
   players: SocketData[];
   player: SocketData | undefined;
 }
-
-function PlayerBox() {}
 
 export default function Lobby({
   gameMode,
@@ -37,14 +36,14 @@ export default function Lobby({
     };
   }, [countdownLobby]);
 
-  function joinLobby() {
+  const joinLobby = () => {
     socket.emit("joinLobby");
-  }
+  };
 
-  function leaveLobby() {
+  const leaveLobby = () => {
     socket.emit("leaveLobby");
     updatePlayer(undefined);
-  }
+  };
 
   function lobbyUpdate(amountPlayers: number, totalPlayers: number) {
     setAmountPlayersLobby(amountPlayers);
@@ -86,6 +85,7 @@ export default function Lobby({
               <p>Join the upcoming challenge and compete with others</p>
             </div>
             {/* Players section, placeholder for real one for now, here we see how many players are in the lobby, could just be a number out of 4 or 8 based on lobby size for now */}
+
             <div className="playerGrid">
               {player !== undefined &&
                 Array.from({ length: totalPlayersLobby }, (_, index) => (
@@ -113,27 +113,13 @@ export default function Lobby({
               {amountPlayersLobby}/{totalPlayersLobby} Players in lobby
             </p>
             <p>{countdownLobby}</p>
-
             {/* Join button, fix this so that this sends you to the correct game based on gameID */}
             {player == undefined ? (
-              <button
-                className="joinButton"
-                onClick={() => {
-                  joinLobby();
-                }}
-              >
-                {" "}
-                Join{" "}
-              </button>
+              <Button onClick={joinLobby}>Join</Button>
             ) : (
-              <button
-                className="leaveButton"
-                onClick={() => {
-                  leaveLobby();
-                }}
-              >
+              <Button onClick={leaveLobby} variant="secondary">
                 Leave
-              </button>
+              </Button>
             )}
           </div>
         </>

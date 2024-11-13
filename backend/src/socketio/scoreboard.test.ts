@@ -1,6 +1,9 @@
-import { test, expect } from "vitest";
-import { binaryUpdateScoreboard, fastestCodeUpdateScoreboard } from "./game";
+import { expect, test } from "vitest";
 import type { Participant } from "../../../shared/types";
+import {
+  binaryUpdateScoreboard,
+  fastestCodeUpdateScoreboard,
+} from "./scoreboard";
 
 test("Testing scoreboard binary search and insert function w only different execution time", () => {
   //Creates mock data for current scoreboard (this must be sorted)

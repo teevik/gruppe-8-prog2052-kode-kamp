@@ -8,7 +8,7 @@ import ComponentView from "./pages/component-view/ComponentView";
 import GamePage from "./pages/game/GamePage";
 
 // Import the Nav component, will see what is best here, import it here or import it in the pages...
-import Nav from "./components/Nav";
+import { Nav } from "./components/Nav";
 import LoginPage from "./pages/userLogin/LoginPage";
 import RegisterPage from "./pages/userRegister/RegisterPage";
 import { REGISTER_ROUTE, LOGIN_ROUTE } from "./const";
@@ -57,14 +57,13 @@ const App: React.FC = () => {
             }
           />
           <Route path="/landing-page" element={<LandingPage />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/mode-explanation" element={<MockModeExplanation />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
 
           {/* Define routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path={LOGIN_ROUTE} element={<LoginPage />} />
           <Route path={REGISTER_ROUTE} element={<RegisterPage />} />
-          <Route path="/TermsOfService" element={<TermsOfService />} />
         </Routes>
       </Router>
     </>

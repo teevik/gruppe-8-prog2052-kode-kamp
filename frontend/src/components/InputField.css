@@ -1,0 +1,47 @@
+:root {
+  --border-radius: 6px;
+}
+
+.inputFieldWrapperWrapper {
+  font: inherit;
+  font-size: 1.5em;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputFieldLabel {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.inputFieldWrapper {
+  font-family: inherit;
+  font-weight: 500;
+
+  display: inline-block;
+}
+
+.inputField {
+  font: inherit;
+  color: var(--default-text);
+
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.95rem;
+  padding-right: 1.75rem;
+
+  background-color: var(--background);
+  border: none;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  outline: none;
+}
+
+.inputFieldUnderscore {
+  margin-top: -1px;
+  width: 100%;
+  height: var(--border-radius);
+  background-color: var(--primary);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}

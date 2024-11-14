@@ -31,5 +31,5 @@ createRoot(document.getElementById("root")!).render(
         <App />
       </QueryClientProvider>
     </trpc.Provider>
-  </StrictMode>
+  </StrictMode>,
 );

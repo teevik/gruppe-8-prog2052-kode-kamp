@@ -8,7 +8,6 @@ const TermsOfService: FC = () => {
     setIsModalOpen(false); // Close the modal
   };
 
-
   return (
     <div>
       <p onClick={() => setIsModalOpen(true)} className="termsButton">
@@ -18,7 +17,7 @@ const TermsOfService: FC = () => {
       {isModalOpen && (
         <div className="modalOverlay">
           <div className="modal">
-              <h1>Terms of Service</h1>
+            <h1>Terms of Service</h1>
             <div className="termsOfServiceContent">
               <p>
                 By using this application, you acknowledge that the code you

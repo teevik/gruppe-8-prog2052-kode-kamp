@@ -12,7 +12,7 @@ import TestResultsComponent from "../../components/TestResults";
 import ResultPage from "../results/ResultsPage";
 import "./GamePage.css"; // Import the CSS file
 
-interface GameProps {
+export interface GameProps {
   challenge: Challenge | undefined;
   gameMode: string;
   gameTime: number;

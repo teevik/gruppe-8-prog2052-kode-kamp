@@ -1,0 +1,30 @@
+.header {
+  background-color: var(--semi-background);
+  color: var(--default-text);
+  padding: 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header .link {
+  text-decoration: none;
+  color: white;
+  transition-duration: 0.3s;
+}
+.header h1 {
+  font-size: 2rem;
+}
+
+.header svg {
+  vertical-align: middle;
+}
+
+.header .link:hover {
+  opacity: 0.8;
+}
+
+.buttonArray {
+  display: flex;
+  gap: 10px;
+}

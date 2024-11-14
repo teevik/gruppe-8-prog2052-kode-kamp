@@ -1,4 +1,5 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { Button } from "./Button";
 import { Editor, Monaco } from "@monaco-editor/react";
 import { socket } from "../socket";
 
@@ -52,10 +53,11 @@ export default function CodeEditor({
   return (
     <Box>
       {/* Action buttons like Reset, mby have test cases here?*/}
-      <Button colorScheme="gray" onClick={() => setCode(template)}>
+      <Button onClick={() => setCode(template)} variant="tertiary">
         Reset
       </Button>
       <Button
+        variant="secondary"
         disabled={submittedCode}
         onClick={() => {
           if (code) {
@@ -67,7 +69,6 @@ export default function CodeEditor({
         Run
       </Button>
       <Button
-        className="submitButton"
         disabled={submittedCode}
         onClick={() => {
           if (code) {

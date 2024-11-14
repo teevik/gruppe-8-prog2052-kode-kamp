@@ -22,7 +22,7 @@ interface ServerToClientEvents {
 
 interface ClientToServerEvents {
   submitCode: () => void;
-  joinLobby: () => void;
+  joinLobby: (jwtToken: string) => void;
   leaveLobby: () => void;
 }
 
@@ -35,10 +35,4 @@ interface Lobby {
   gameMode: string;
 }
 
-
-export type {
-  ClientToServerEvents,
-  Game,
-  Lobby,
-  ServerToClientEvents,
-};
+export type { ClientToServerEvents, Game, Lobby, ServerToClientEvents };

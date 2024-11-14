@@ -33,9 +33,9 @@ export default function Nav({ user }: NavProps) {
           </p>
         )}
 
-        <Link to="/GamePage" className="link">
+        {/* <Link to="/GamePage" className="link">
           <button>Play</button>
-        </Link>
+        </Link> */}
       </div>
     </nav>
   );

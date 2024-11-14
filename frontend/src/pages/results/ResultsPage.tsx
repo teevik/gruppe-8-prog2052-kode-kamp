@@ -4,6 +4,7 @@ import CountDown, { formatSeconds } from "../../components/CountDown";
 import type { Participant, SocketData } from "../../../../shared/types";
 import { GAME_MODES } from "../../../../shared/const";
 import "./ResultsPage.css";
+import { Button } from "../../components/Button";
 
 export interface ResultPageProps {
   scoreboard: Participant[] | undefined;
@@ -64,8 +65,7 @@ export default function ResultsPage({
                     {gameMode == GAME_MODES[1] &&
                       `Execution time: ${score.stats.executionTime / 1000} ms`}
                   </span>
-                  <button
-                    className="solutionButton"
+                  <Button
                     onClick={() => {
                       setSolution(score.solution);
                       setSolutionNumber(index);
@@ -73,7 +73,7 @@ export default function ResultsPage({
                     }}
                   >
                     Submission
-                  </button>
+                  </Button>
                 </div>
                 {showSolution && solutionNumber == index && (
                   <div className="code">
@@ -96,7 +96,7 @@ export default function ResultsPage({
         }}
       >
         Play again
-      </button>{" "}
+      </button>
       {/* TODO: add link to the "/"" page (landing) */}
     </div>
   );

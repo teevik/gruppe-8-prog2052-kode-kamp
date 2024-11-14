@@ -53,6 +53,9 @@ const LandingPage: FC = () => {
 
   useEffect(() => {
     socket.connect();
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   useEffect(() => {

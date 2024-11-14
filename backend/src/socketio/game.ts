@@ -8,6 +8,7 @@ import type {
   Participant,
   TestResults,
 } from "../../../shared/types";
+import type { GameMode } from "../../../shared/const";
 import {
   COUNTDOWN_LENGTH_SECONDS,
   GAME_LENGTH_MINUTES,
@@ -18,13 +19,13 @@ import { submitCode } from "../consumers/coderunner";
 import { User } from "../database/model/user";
 import { getRandomChallenge } from "./challenge";
 import { emitLobbyUpdate, lobby } from "./lobby";
-import { fastestCodeUpdateScoreboard } from "./scoreboard";
+import { updateScoreboard } from "./scoreboard";
 import type { Game } from "./types";
 
 function startGame(
   gameRoomID: string,
   players: Socket[],
-  gameMode: string,
+  gameMode: GameMode,
   io: SocketServer
 ) {
   let timeOfStart: number = performance.now();
@@ -67,54 +68,35 @@ function startGame(
           challenge.tests
         );
         if (testResults) {
-          let result = `${testResults.passedTests}/${testResults.totalTests}`;
+          let now: number = performance.now();
 
-          //if all tests passed, push player onto scoreboard
-          if (testResults.passedTests == testResults.totalTests) {
-            let now: number = performance.now();
+          //Creating the scoreboard entry
+          let scoreboardEntry: Participant = {
+            socket: socket.data,
+            stats: {
+              executionTime: testResults.executionTimeUs,
+              usedTime: now - timeOfStart,
+            },
+            solution: code,
+            results: testResults,
+          };
 
-            //Creating the scoreboard entry
-            let scoreboardEntry = {
-              socket: socket.data,
-              stats: {
-                executionTime: testResults.executionTimeUs,
-                usedTime: now - timeOfStart,
-              },
-              solution: code,
-            };
+          //Handling code submission differently based on gamemode
+          game.scoreboard = updateScoreboard(
+            [...game.scoreboard],
+            scoreboardEntry,
+            gameMode
+          );
 
-            //Handling code submission differently based on gamemode
-            switch (gameMode) {
-              //Handle "first to finish"
-              case GAME_MODES[0]:
-                console.log("Updating first to finish");
-                game.scoreboard.push(scoreboardEntry);
+          //Emitting to the client that code ran successfully
+          socket.emit("success");
+          socket.data.complete = true;
 
-                break;
+          //Emitting to all clients that the scoreboard is updated
+          io.to(gameRoomID).emit("updateScoreboard", game.scoreboard);
 
-              //Handle "fastest code"
-              case GAME_MODES[1]:
-                console.log("Updating fastest code");
-                game.scoreboard = fastestCodeUpdateScoreboard(
-                  [...game.scoreboard],
-                  scoreboardEntry
-                );
-                break;
-            }
-
-            //Emitting to the client that code ran successfully for all the tests
-            socket.emit("success", result);
-            socket.data.complete = true;
-
-            //Emitting to all clients that the scoreboard is updated
-            io.to(gameRoomID).emit("updateScoreboard", game.scoreboard);
-
-            if (game.scoreboard.length == players.length) {
-              gameEnded = true;
-              endGame(gameRoomID, game.scoreboard, io);
-            }
-          } else {
-            socket.emit("fail", result);
+          if (game.scoreboard.length == players.length) {
+            endGame(gameRoomID, game.scoreboard, io);
           }
         }
       } catch {
@@ -152,8 +134,6 @@ function createGameRoom(io: SocketServer) {
     socket.emit("gameJoined", gameRoomID);
   });
 
-  //Emitting the gamemode to gameroom so that they see the gamemode already before the game begins
-
   let countDown = COUNTDOWN_LENGTH_SECONDS;
   const countDownInterval = setInterval(() => {
     io.to(gameRoomID).emit("countdown", countDown);
@@ -162,7 +142,8 @@ function createGameRoom(io: SocketServer) {
 
   emitLobbyUpdate(io);
 
-  let currentGameMode = "" + lobby.gameMode;
+  //Emitting the gamemode to gameroom so that they see the gamemode already before the game begins
+  let currentGameMode: GameMode = lobby.gameMode;
 
   io.to(gameRoomID).emit("gameMode", currentGameMode);
   setTimeout(() => {
@@ -199,12 +180,6 @@ function endGame(gameRoomID: string, players: Participant[], io: SocketServer) {
   });
 
   io.to(gameRoomID).emit("gameOver", TIME_AT_ENDSCREEN_SECONDS);
-
-  // setTimeout(()=>{
-  //     players.forEach((socket)=>{
-  //         socket.disconnect(true);
-  //     })
-  // }, TIME_AT_ENDSCREEN_SECONDS * 1000)
 }
 
 export { createGameRoom };

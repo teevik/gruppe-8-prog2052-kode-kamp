@@ -1,5 +1,5 @@
 .resultsPage {
-  text-align: center;
+  text-align: left;
   font-family: Arial, sans-serif;
   padding: 20px;
   background-color: var(--background-color);
@@ -131,21 +131,10 @@ header h2 {
 .resultsPlayAgain:hover {
   background-color: #444;
 }
+.buttonsContainer {
+  display: flex;
+  gap: 15px;
+  justify-content: right;
 
-footer {
-  font-size: 0.9em;
-  color: #777;
-  background: linear-gradient(145deg, #d7d7d7, #b5b5b5);
-  box-shadow:
-    20px 20px 60px #979797,
-    -20px -20px 60px #fbfbfb;
-}
-
-footer a {
-  color: #777;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
+  margin-top: 40px;
 }

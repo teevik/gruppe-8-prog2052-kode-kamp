@@ -6,6 +6,7 @@ import { GAME_MODES } from "../../../../shared/const";
 import "./ResultsPage.css";
 import { Button } from "../../components/Button";
 import { calculatePoints } from "../../../../shared/functions";
+import { LinkButton } from "../../components/LinkButton";
 
 export interface ResultPageProps {
   scoreboard: Participant[] | undefined;
@@ -28,16 +29,10 @@ export default function ResultsPage({
 
   return (
     <div className="resultsPage">
-      <header>
-        <h1>KodeKamp</h1>
-        <p>Compete together, grow together</p>
-      </header>
       {/* Results section, placeholder for real one for now*/}
       <section className="resultsContainer">
         <h2>Results</h2>
-        <p>gamemode</p>
-        <h3>{gameMode}</h3>
-        {gameIsOver && <CountDown initialCounter={initialTimer} />}
+        {/* {gameIsOver && <CountDown initialCounter={initialTimer} />} */}
         <ul className="resultsList">
           {scoreboard &&
             scoreboard.map((score, index) => (
@@ -101,15 +96,19 @@ export default function ResultsPage({
               </li>
             ))}
         </ul>
+        <div className="buttonsContainer">
+          <LinkButton variant="secondary" to="/">
+            Home
+          </LinkButton>
+          <Button
+            onClick={() => {
+              location.reload();
+            }}
+          >
+            Play again
+          </Button>
+        </div>
       </section>
-      <button
-        className="resultsPlayAgain"
-        onClick={() => {
-          location.reload();
-        }}
-      >
-        Play again
-      </button>
       {/* TODO: add link to the "/"" page (landing) */}
     </div>
   );

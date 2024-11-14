@@ -5,7 +5,7 @@ import type { Participant, SocketData } from "../../../../shared/types";
 import { GAME_MODES } from "../../../../shared/const";
 import "./ResultsPage.css";
 
-interface ResultPageProps {
+export interface ResultPageProps {
   scoreboard: Participant[] | undefined;
   gameMode: string;
   initialTimer: number;

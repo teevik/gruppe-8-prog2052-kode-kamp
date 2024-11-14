@@ -39,21 +39,40 @@
   margin: 0;
   display: flex;
   flex-grow: 1;
-  padding: 16px;
-  background-color: var(--background);
 }
 
 /* Left Section: Task Description */
 .gamePageTaskDescription {
   width: 25%;
-  background-color: var(--semi-background);
+  background-color: var(--background);
   padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: top;
   text-align: left;
-  border-right: 1px solid #ccc;
   width: 50em;
+}
+
+.css-0 button {
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.css-0 div.margin {
+  background: var(--darker);
+}
+
+.css-0 div {
+  background: none;
+  border: none;
+  background: var(--background-color);
+}
+.css-0 div.overflow-guard {
+  border-radius: 10px;
+  box-shadow: 0 0 10px 3px #111;
 }
 
 .gamePageTaskTitle {

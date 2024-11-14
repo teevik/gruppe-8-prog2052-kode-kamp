@@ -31,6 +31,10 @@ export function Nav({ user }: NavProps) {
             {user.username} {user.email}
           </p>
         )}
+
+        {/* <Link to="/GamePage" className="link">
+          <button>Play</button>
+        </Link> */}
       </div>
     </nav>
   );

@@ -65,6 +65,12 @@ export default function ResultsPage({
                     )}
                   </span>
 
+                  <span
+                    className={`resultLabel score score-${score.results.passedTests}`}
+                  >
+                    {score.results.passedTests}/{score.results.totalTests}
+                  </span>
+
                   <span className="resultLabel">
                     {gameMode == GAME_MODES[0] &&
                       `${formatSeconds(

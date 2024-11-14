@@ -69,9 +69,7 @@ header p {
 .emptySlot {
   border-radius: 50px;
   background: #e0e0e0;
-  box-shadow:
-    inset 20px 20px 60px #bebebe,
-    inset -20px -20px 60px #ffffff;
+  box-shadow: inset 20px 20px 60px #bebebe, inset -20px -20px 60px #ffffff;
 }
 
 /* Individual player slot */
@@ -88,9 +86,7 @@ header p {
 
 .playerYou {
   background: linear-gradient(145deg, #d7d7d7, #b5b5b5);
-  box-shadow:
-    20px 20px 60px #979797,
-    -20px -20px 60px #fbfbfb;
+  box-shadow: 20px 20px 60px #979797, -20px -20px 60px #fbfbfb;
   border: thin solid #979797;
 }
 /* Empty slot styling */

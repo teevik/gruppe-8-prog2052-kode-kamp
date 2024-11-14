@@ -1,9 +1,7 @@
-import { expect, test } from "vitest";
+import { test, expect } from "vitest";
+import { binaryUpdateScoreboard, updateScoreboard } from "./scoreboard";
 import type { Participant } from "../../../shared/types";
-import {
-  binaryUpdateScoreboard,
-  fastestCodeUpdateScoreboard,
-} from "./scoreboard";
+import { GAME_MODES } from "../../../shared/const";
 
 test("Testing scoreboard binary search and insert function w only different execution time", () => {
   //Creates mock data for current scoreboard (this must be sorted)
@@ -17,7 +15,13 @@ test("Testing scoreboard binary search and insert function w only different exec
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   });
   scoreboard.push({
@@ -29,7 +33,13 @@ test("Testing scoreboard binary search and insert function w only different exec
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   });
   scoreboard.push({
@@ -41,11 +51,17 @@ test("Testing scoreboard binary search and insert function w only different exec
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   });
 
-  let newScoreboardEntry = {
+  let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 428743248 },
     solution: "",
     socket: {
@@ -54,7 +70,13 @@ test("Testing scoreboard binary search and insert function w only different exec
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   };
 
@@ -80,11 +102,17 @@ test("Testing edge-case scoreboard binary search and insert function w only diff
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   });
 
-  let newScoreboardEntry = {
+  let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 428743248 },
     solution: "",
     socket: {
@@ -93,7 +121,13 @@ test("Testing edge-case scoreboard binary search and insert function w only diff
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   };
 
@@ -117,7 +151,13 @@ test("Testing scoreboard binary search and insert function w some that have same
         complete: false,
         userName: "",
         registeredUser: false,
-        points: undefined,
+        points: 0,
+      },
+      results: {
+        passedTests: 10,
+        executionTimeUs: 1000,
+        totalTests: 10,
+        results: [{ kind: "Success" }],
       },
     },
     {
@@ -129,7 +169,13 @@ test("Testing scoreboard binary search and insert function w some that have same
         complete: false,
         userName: "",
         registeredUser: false,
-        points: undefined,
+        points: 0,
+      },
+      results: {
+        passedTests: 10,
+        executionTimeUs: 1000,
+        totalTests: 10,
+        results: [{ kind: "Success" }],
       },
     },
     {
@@ -141,7 +187,13 @@ test("Testing scoreboard binary search and insert function w some that have same
         complete: false,
         userName: "",
         registeredUser: false,
-        points: undefined,
+        points: 0,
+      },
+      results: {
+        passedTests: 10,
+        executionTimeUs: 1000,
+        totalTests: 10,
+        results: [{ kind: "Success" }],
       },
     },
     {
@@ -153,12 +205,18 @@ test("Testing scoreboard binary search and insert function w some that have same
         complete: false,
         userName: "",
         registeredUser: false,
-        points: undefined,
+        points: 0,
+      },
+      results: {
+        passedTests: 10,
+        executionTimeUs: 1000,
+        totalTests: 10,
+        results: [{ kind: "Success" }],
       },
     },
   ];
 
-  let newScoreboardEntry = {
+  let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 0 },
     solution: "",
     socket: {
@@ -167,7 +225,13 @@ test("Testing scoreboard binary search and insert function w some that have same
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   };
 
@@ -189,7 +253,13 @@ test("Testing scoreboard insert function w different execution time", () => {
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   });
   scoreboard.push({
@@ -201,7 +271,13 @@ test("Testing scoreboard insert function w different execution time", () => {
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   });
   scoreboard.push({
@@ -213,11 +289,17 @@ test("Testing scoreboard insert function w different execution time", () => {
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   });
 
-  let newScoreboardEntry = {
+  let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 0 },
     solution: "",
     socket: {
@@ -226,16 +308,284 @@ test("Testing scoreboard insert function w different execution time", () => {
       complete: false,
       userName: "",
       registeredUser: false,
-      points: undefined,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
     },
   };
 
-  let updateScoreboard = fastestCodeUpdateScoreboard(
+  let updatedScoreboard = updateScoreboard(
     [...scoreboard],
-    newScoreboardEntry
+    newScoreboardEntry,
+    GAME_MODES[0]
   );
-  expect(updateScoreboard[0]).toBe(scoreboard[0]);
-  expect(updateScoreboard[1]).toBe(newScoreboardEntry);
-  expect(updateScoreboard[2]).toBe(scoreboard[1]);
-  expect(updateScoreboard[3]).toBe(scoreboard[2]);
+  expect(updatedScoreboard[0]).toBe(scoreboard[0]);
+  expect(updatedScoreboard[1]).toBe(newScoreboardEntry);
+  expect(updatedScoreboard[2]).toBe(scoreboard[1]);
+  expect(updatedScoreboard[3]).toBe(scoreboard[2]);
+});
+
+test("Testing scoreboard insert function w different amount passed tests", () => {
+  let scoreboard: Participant[] = [];
+  scoreboard.push({
+    stats: { executionTime: 1000, usedTime: 0 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+  scoreboard.push({
+    stats: { executionTime: 3000, usedTime: 0 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+  scoreboard.push({
+    stats: { executionTime: 4000, usedTime: 0 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 9,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+
+  let newScoreboardEntry: Participant = {
+    stats: { executionTime: 2000, usedTime: 0 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 8,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  };
+
+  let updatedScoreboard = updateScoreboard(
+    [...scoreboard],
+    newScoreboardEntry,
+    GAME_MODES[0]
+  );
+  expect(updatedScoreboard[0]).toBe(scoreboard[0]);
+  expect(updatedScoreboard[1]).toBe(scoreboard[1]);
+  expect(updatedScoreboard[2]).toBe(scoreboard[2]);
+  expect(updatedScoreboard[3]).toBe(newScoreboardEntry);
+});
+
+test("Testing scoreboard insert function w different amount passed tests and different execution time", () => {
+  let scoreboard: Participant[] = [];
+  scoreboard.push({
+    stats: { executionTime: 1000, usedTime: 0 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+  scoreboard.push({
+    stats: { executionTime: 3000, usedTime: 0 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+  scoreboard.push({
+    stats: { executionTime: 4000, usedTime: 0 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 9,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+
+  let newScoreboardEntry: Participant = {
+    stats: { executionTime: 2000, usedTime: 0 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 9,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  };
+
+  let updatedScoreboard = updateScoreboard(
+    [...scoreboard],
+    newScoreboardEntry,
+    GAME_MODES[0]
+  );
+  expect(updatedScoreboard[0]).toBe(scoreboard[0]);
+  expect(updatedScoreboard[1]).toBe(scoreboard[1]);
+  expect(updatedScoreboard[2]).toBe(newScoreboardEntry);
+  expect(updatedScoreboard[3]).toBe(scoreboard[2]);
+});
+
+test("Testing scoreboard insert function w different amount passed tests and different used time", () => {
+  let scoreboard: Participant[] = [];
+  scoreboard.push({
+    stats: { executionTime: 1000, usedTime: 1 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+  scoreboard.push({
+    stats: { executionTime: 3000, usedTime: 4 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+  scoreboard.push({
+    stats: { executionTime: 4000, usedTime: 8 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 9,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  });
+
+  let newScoreboardEntry: Participant = {
+    stats: { executionTime: 2000, usedTime: 2 },
+    solution: "",
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
+    results: {
+      passedTests: 10,
+      executionTimeUs: 1000,
+      totalTests: 10,
+      results: [{ kind: "Success" }],
+    },
+  };
+
+  let updatedScoreboard = updateScoreboard(
+    [...scoreboard],
+    newScoreboardEntry,
+    GAME_MODES[1]
+  );
+  expect(updatedScoreboard[0]).toBe(scoreboard[0]);
+  expect(updatedScoreboard[1]).toBe(newScoreboardEntry);
+  expect(updatedScoreboard[2]).toBe(scoreboard[1]);
+  expect(updatedScoreboard[3]).toBe(scoreboard[2]);
 });

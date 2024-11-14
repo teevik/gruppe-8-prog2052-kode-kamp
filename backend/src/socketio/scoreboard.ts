@@ -1,4 +1,6 @@
 import type { Participant } from "../../../shared/types";
+import { GAME_MODES } from "../../../shared/const";
+import type { GameMode } from "../../../shared/const";
 
 /**
  * Function that updates the scoreboard based on the results of the new
@@ -63,9 +65,10 @@ export function binaryUpdateScoreboard(
  * @param currentScoreboard
  * @return The updated scoreboard
  */
-export function fastestCodeUpdateScoreboard(
+export function updateScoreboard(
   currentScoreboard: Participant[],
-  scoreboardEntry: Participant
+  scoreboardEntry: Participant,
+  gameMode: GameMode
 ): Participant[] {
   let newScoreboard: Participant[] = [];
   let scoreboardEntryInserted: boolean = false;
@@ -74,14 +77,34 @@ export function fastestCodeUpdateScoreboard(
     newScoreboard.push(scoreboardEntry);
   } else {
     for (let participant of currentScoreboard) {
+      let gameCondition: boolean;
+      if (gameMode == GAME_MODES[0]) {
+        gameCondition =
+          scoreboardEntry.stats.executionTime < participant.stats.executionTime;
+      } else {
+        gameCondition =
+          scoreboardEntry.stats.usedTime < participant.stats.usedTime;
+      }
+
       if (
         !scoreboardEntryInserted &&
-        scoreboardEntry.stats.executionTime < participant.stats.executionTime
+        scoreboardEntry.results.passedTests > participant.results.passedTests
       ) {
         newScoreboard.push(scoreboardEntry);
         scoreboardEntryInserted = true;
+      } else if (
+        !scoreboardEntryInserted &&
+        scoreboardEntry.results.passedTests == participant.results.passedTests
+      ) {
+        if (gameCondition) {
+          newScoreboard.push(scoreboardEntry);
+          scoreboardEntryInserted = true;
+        }
       }
       newScoreboard.push(participant);
+    }
+    if (!scoreboardEntryInserted) {
+      newScoreboard.push(scoreboardEntry);
     }
   }
 

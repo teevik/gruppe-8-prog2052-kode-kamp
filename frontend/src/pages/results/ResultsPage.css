@@ -109,6 +109,50 @@ header h2 {
   background-color: rgb(0, 126, 0);
 }
 
+.score {
+  color: black;
+}
+
+.score-1 {
+  background-color: #ff2323;
+}
+
+.score-2 {
+  background-color: #ff582f;
+}
+
+.score-3 {
+  background-color: #ff862f;
+}
+
+.score-4 {
+  background-color: #ffc12f;
+}
+
+.score-5 {
+  background-color: #ffe72f;
+}
+
+.score-6 {
+  background-color: #eeff2f;
+}
+
+.score-7 {
+  background-color: #c8ff2f;
+}
+
+.score-8 {
+  background-color: #97ff2f;
+}
+
+.score-9 {
+  background-color: #24ff0b;
+}
+
+.score-10 {
+  background-color: #13a103;
+  color: white;
+}
 .point-label {
   margin-left: 1rem;
   margin-right: 1rem;

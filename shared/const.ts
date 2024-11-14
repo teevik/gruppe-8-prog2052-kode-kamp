@@ -1,8 +1,5 @@
-const GAME_MODES: string[] = ["First to finish", "Fastest code"];
-const MIN_PASSWORD_LENGTH : number = 8;
+const GAME_MODES = ["First to finish", "Fastest code"] as const;
+export type GameMode = (typeof GAME_MODES)[number];
+const MIN_PASSWORD_LENGTH: number = 8;
 
-
-export {
-    GAME_MODES,
-    MIN_PASSWORD_LENGTH,
-}
+export { GAME_MODES, MIN_PASSWORD_LENGTH };

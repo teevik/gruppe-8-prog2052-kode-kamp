@@ -3,8 +3,8 @@ import "./Nav.css";
 import { LinkButton } from "./LinkButton.tsx";
 
 import { Link } from "react-router-dom";
-import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
 import type { User } from "../../../shared/types";
+import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
 
 interface NavProps {
   user: User | undefined;
@@ -31,7 +31,6 @@ export function Nav({ user }: NavProps) {
             {user.username} {user.email}
           </p>
         )}
-        <LinkButton to="/GamePage">Play</LinkButton>
       </div>
     </nav>
   );

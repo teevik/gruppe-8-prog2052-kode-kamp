@@ -12,7 +12,7 @@ import TestResultsComponent from "../../components/TestResults";
 import ResultPage from "../results/ResultsPage";
 import "./GamePage.css"; // Import the CSS file
 
-interface GameProps {
+export interface GameProps {
   challenge: Challenge | undefined;
   gameMode: string;
   gameTime: number;
@@ -48,14 +48,8 @@ export default function SpeedCodingPage({
     setScoreboard(scores);
   }
 
-  function success(result: string) {
-    console.log("Success! Results: ", result);
+  function success() {
     setShowResultPage(true);
-  }
-
-  function fail(result: string) {
-    setAmountTestsPassed(result);
-    setSubmittedCode(false);
   }
 
   function runResults(result: TestResults) {
@@ -79,7 +73,6 @@ export default function SpeedCodingPage({
     // Event to emit when code is to be submitted
     // socket.emit("submitCode", code);
     socket.on("success", success);
-    socket.on("fail", fail);
     socket.on("runResults", runResults);
 
     socket.on("gameOver", gameOver);
@@ -87,7 +80,6 @@ export default function SpeedCodingPage({
     return () => {
       socket.off("updateScoreboard", updateScoreboard);
       socket.off("success", success);
-      socket.off("fail", fail);
       socket.off("gameOver", gameOver);
       socket.off("runResults", runResults);
     };

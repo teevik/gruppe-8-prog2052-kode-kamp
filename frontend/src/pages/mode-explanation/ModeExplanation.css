@@ -1,0 +1,42 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+}
+
+.centerBox {
+  overflow: none;
+  padding-right: 30%;
+}
+
+/* Header should have default style maybe? */
+h1 {
+  font-size: 64px;
+  font-weight: 700;
+  margin: 0;
+}
+h3 {
+  margin-top: 1rem;
+}
+
+#timerDiv {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  background-color: var(--semi-background);
+  animation: lower linear;
+}
+
+@keyframes lower {
+  from {
+    height: 100vh;
+  }
+  to {
+    height: 0vh;
+  }
+}

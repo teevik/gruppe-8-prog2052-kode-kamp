@@ -34,5 +34,5 @@ createRoot(document.getElementById("root")!).render(
         </AuthContextProvider>
       </QueryClientProvider>
     </trpc.Provider>
-  </StrictMode>
+  </StrictMode>,
 );

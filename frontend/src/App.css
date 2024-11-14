@@ -1,51 +1,32 @@
-/* Global styles */
+:root {
+  --background: #0d0a16;
+  --semi-background: #ffffff1a;
+  --darker: #00000033;
+  --primary: #a493d6;
+  --secondary: #ff0000;
+
+  --default-text: #e4e0ee;
+  --background-text: #e4e0ee;
+}
+
+@media (prefers-color-scheme: light) {
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f7fa;
-  color: #333;
+
+  font-family: "Inter", Arial, sans-serif;
+  font-optical-sizing: auto;
+  /*font-weight: 500;*/
+  font-style: normal;
+
+  background-color: var(--background);
+  color: var(--default-text);
 }
 
 /* Ensure the App container takes full viewport height */
 #root {
   min-height: 100vh;
   flex-direction: column;
-}
-
-/* Nav component styles */
-.header {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header .link {
-  color: white;
-  text-decoration: none;
-  margin: 0 15px;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.header svg {
-  vertical-align: middle;
-}
-
-.header .link:hover {
-  opacity: 0.8;
-}
-
-/* Styles for the footer */
-footer {
-  background-color: #f8f9fa;
-  padding: 10px 0;
-  text-align: center;
-  margin-top: bottom; /* Pushes the footer to the bottom */
 }

@@ -4,8 +4,11 @@ import CountDown, { formatSeconds } from "../../components/CountDown";
 import type { Participant, SocketData } from "../../../../shared/types";
 import { GAME_MODES } from "../../../../shared/const";
 import "./ResultsPage.css";
+import { Button } from "../../components/Button";
+import { calculatePoints } from "../../../../shared/functions";
+import { LinkButton } from "../../components/LinkButton";
 
-interface ResultPageProps {
+export interface ResultPageProps {
   scoreboard: Participant[] | undefined;
   gameMode: string;
   initialTimer: number;
@@ -26,16 +29,10 @@ export default function ResultsPage({
 
   return (
     <div className="resultsPage">
-      <header>
-        <h1>KodeKamp</h1>
-        <p>Compete together, grow together</p>
-      </header>
       {/* Results section, placeholder for real one for now*/}
       <section className="resultsContainer">
         <h2>Results</h2>
-        <p>gamemode</p>
-        <h3>{gameMode}</h3>
-        {gameIsOver && <CountDown initialCounter={initialTimer} />}
+        {/* {gameIsOver && <CountDown initialCounter={initialTimer} />} */}
         <ul className="resultsList">
           {scoreboard &&
             scoreboard.map((score, index) => (
@@ -52,20 +49,37 @@ export default function ResultsPage({
                     {score.socket.userName}
                     {score.socket.emoji}
                     {score.socket.userID == player?.userID && (
-                      <span className="you-label resultLabel">you</span>
+                      <span className="green-label resultLabel">you</span>
                     )}
+
+                    {score.socket.points && (
+                      <>
+                        <span className="resultLabel">
+                          {score.socket.points} points
+                          <span className="green-label point-label">
+                            +{calculatePoints(scoreboard.length, index + 1)}{" "}
+                            point
+                          </span>
+                        </span>
+                      </>
+                    )}
+                  </span>
+
+                  <span
+                    className={`resultLabel score score-${score.results.passedTests}`}
+                  >
+                    {score.results.passedTests}/{score.results.totalTests}
                   </span>
 
                   <span className="resultLabel">
                     {gameMode == GAME_MODES[0] &&
                       `${formatSeconds(
-                        Math.round(score.stats.usedTime / 1000)
+                        Math.round(score.stats.usedTime / 1000),
                       )}`}
                     {gameMode == GAME_MODES[1] &&
                       `Execution time: ${score.stats.executionTime / 1000} ms`}
                   </span>
-                  <button
-                    className="solutionButton"
+                  <Button
                     onClick={() => {
                       setSolution(score.solution);
                       setSolutionNumber(index);
@@ -73,7 +87,7 @@ export default function ResultsPage({
                     }}
                   >
                     Submission
-                  </button>
+                  </Button>
                 </div>
                 {showSolution && solutionNumber == index && (
                   <div className="code">
@@ -88,15 +102,19 @@ export default function ResultsPage({
               </li>
             ))}
         </ul>
+        <div className="buttonsContainer">
+          <LinkButton variant="secondary" to="/">
+            Home
+          </LinkButton>
+          <Button
+            onClick={() => {
+              location.reload();
+            }}
+          >
+            Play again
+          </Button>
+        </div>
       </section>
-      <button
-        className="resultsPlayAgain"
-        onClick={() => {
-          location.reload();
-        }}
-      >
-        Play again
-      </button>{" "}
       {/* TODO: add link to the "/"" page (landing) */}
     </div>
   );

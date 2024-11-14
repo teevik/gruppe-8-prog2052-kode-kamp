@@ -1,6 +1,11 @@
+import "./Nav.css";
+
+import { LinkButton } from "./LinkButton.tsx";
+
 import { Link } from "react-router-dom";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
 import { useAuth } from "../user";
+import { Button } from "./Button.tsx";
 
 // Functional component for the navigation bar
 export default function Nav() {
@@ -9,21 +14,16 @@ export default function Nav() {
   return (
     <nav className="header">
       {/* Link to the home page */}
-      <Link to="/" className="link">
-        <h1>Kode Kamp</h1>
-      </Link>
-      <div>
-        {/* Link to the login page with a login icon */}
+      <h1>
+        <Link to="/" className="link">
+          Kode Kamp
+        </Link>
+      </h1>
+      <div className="buttonArray">
         {!user && (
           <>
-            <Link to={LOGIN_ROUTE} className="link">
-              <button>Sign in</button>
-            </Link>
-
-            {/* Link to the register page with a register icon */}
-            <Link to={REGISTER_ROUTE} className="link">
-              <button>Register</button>
-            </Link>
+            <LinkButton to={LOGIN_ROUTE}>Sign in</LinkButton>
+            <LinkButton to={REGISTER_ROUTE}>Register</LinkButton>
           </>
         )}
         {user && (
@@ -32,11 +32,7 @@ export default function Nav() {
           </p>
         )}
 
-        <Link to="/GamePage" className="link">
-          <button>Play</button>
-        </Link>
-
-        {user && <button onClick={logOut}>Log out</button>}
+        {user && <Button onClick={logOut}>Log out</Button>}
       </div>
     </nav>
   );

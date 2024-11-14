@@ -4,7 +4,7 @@
   flex-direction: column;
   height: 100vh;
   font-family: Arial, sans-serif;
-  background-color: #fff;
+  background-color: var(--background);
 }
 
 /* Header Section */
@@ -13,47 +13,66 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border-bottom: 1px solid #e2e8f0;
-  background-color: #f7f7f7;
+  background-color: var(--semi-background);
 }
 
 .gamePageHeaderTitle {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: var(--default-text);
 }
 
 .gamePageHeaderMode {
   font-size: 1rem;
-  color: #555;
+  color: var(--default-text);
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.gamePageHeaderMode *{
+.gamePageHeaderMode * {
   margin: 0;
 }
 
 /* Main content section */
 .gamePageMain {
+  margin: 0;
   display: flex;
   flex-grow: 1;
-  padding: 16px;
-  background-color: #f1f1f1;
 }
 
 /* Left Section: Task Description */
 .gamePageTaskDescription {
   width: 25%;
-  background-color: #ddd;
+  background-color: var(--background);
   padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: top;
   text-align: left;
-  border-right: 1px solid #ccc;
   width: 50em;
+}
+
+.css-0 button {
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.css-0 div.margin {
+  background: var(--darker);
+}
+
+.css-0 div {
+  background: none;
+  border: none;
+  background: var(--background-color);
+}
+.css-0 div.overflow-guard {
+  border-radius: 10px;
+  box-shadow: 0 0 10px 3px #111;
 }
 
 .gamePageTaskTitle {
@@ -68,7 +87,7 @@
 .gamePageEditor {
   flex-grow: 1;
   padding: 0 16px;
-  background-color: #333;
+  background-color: var(--semi-background);
   align-items: center;
   justify-content: center;
 }
@@ -80,57 +99,6 @@
 .submitButton {
   background-color: #357f30;
   color: #eeeeee;
-}
-
-/* Footer Section */
-.gamePageFooter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background-color: #f7f7f7;
-  border-top: 1px solid #e2e8f0;
-}
-
-/* Footer Buttons */
-.primaryButton,
-.secondaryButton {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-}
-
-.primaryButton {
-  background-color: #4a5568; /* Chakra UI gray.700 */
-  color: white;
-  margin-right: 16px;
-}
-
-.secondaryButton {
-  background-color: #2d3748; /* Chakra UI gray.800 */
-  color: white;
-}
-
-.primaryButton:hover {
-  background-color: #2c5282; /* Chakra UI blue.700 */
-}
-
-.secondaryButton:hover {
-  background-color: #2b6cb0; /* Chakra UI blue.600 */
-}
-
-/* Footer Link styles (for terms of service) */
-.footerLinks {
-  font-size: 0.875rem;
-  color: #718096;
-  text-decoration: none;
-  margin-left: 16px;
-}
-
-.footerLinks:hover {
-  text-decoration: underline;
 }
 
 .io {
@@ -175,6 +143,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -27,10 +27,10 @@ test code-runner:
   resource_group: all
   image: rust:1.81
   stage: test
-  cache:
-    key: code-runner-cache
-    paths:
-      - code-runner/target
+  # cache:
+  #   key: code-runner-cache
+  #   paths:
+  #     - code-runner/target
   script:
     - cd code-runner
     - cargo build --verbose

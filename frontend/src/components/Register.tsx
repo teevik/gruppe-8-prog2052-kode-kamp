@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
 import { LOGIN_ROUTE } from "../const";
 import { useAuth } from "../user";
+import { LinkButton } from "./LinkButton";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -142,9 +143,7 @@ function Register() {
 
         <h2>Already a user?</h2>
 
-        <Link to={LOGIN_ROUTE}>
-          <button>Login</button>
-        </Link>
+        <LinkButton to={LOGIN_ROUTE}>Login</LinkButton>
       </form>
     </div>
   );

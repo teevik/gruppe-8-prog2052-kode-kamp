@@ -7,9 +7,11 @@ and format them into toml files using our desired format.
 
 ```bash
 # Interactive mode (<C-c> to exit)
-python3 kattis_scraper.py 
-# scrape all problems listed in file
-python3 kattis_scraper.py <problem_list_file>
+python3 kattis_scraper.py
+# Scrape a single problem
+python3 kattis_scraper.py <problem_list>
+# scrape all problems in "problem_list" file, separated by \n
+python3 kattis_scraper.py --list
 ```
 
 The problem_list_file should contain the name of the problems to scrape,

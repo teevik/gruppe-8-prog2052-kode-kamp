@@ -78,13 +78,16 @@ export function AuthContextProvider(props: { children: ReactNode }) {
 
   // Decode user from token
   const user = useMemo(() => userFromToken(token), [token]);
+  const isAuthenticated = user !== null;
 
   const logOut = useCallback(() => {
     setToken(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, user, setToken, logOut }}>
+    <AuthContext.Provider
+      value={{ token: isAuthenticated ? token : null, user, setToken, logOut }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

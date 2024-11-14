@@ -11,7 +11,11 @@ interface ButtonProps {
 }
 
 export function Button(props: ButtonProps) {
-  const { variant = "primary", children } = props;
+  const { variant = "primary", onClick, children } = props;
 
-  return <button className={`button ${variant}`}>{children}</button>;
+  return (
+    <button className={`button ${variant}`} onClick={onClick}>
+      {children}
+    </button>
+  );
 }

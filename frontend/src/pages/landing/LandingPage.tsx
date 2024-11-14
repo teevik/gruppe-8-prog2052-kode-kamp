@@ -1,13 +1,14 @@
-import { FC, lazy, useEffect, useState } from "react";
-import { Challenge, SocketData } from "../../../../shared/types";
+import { lazy, useEffect, useState } from "react";
+import { Challenge, SocketData, User } from "../../../../shared/types";
+import { Footer } from "../../components/Footer";
+import { Nav } from "../../components/Nav";
 import { socket } from "../../socket";
 import Lobby from "../lobby/Lobby";
 import "./LandingPage.css"; // Ensure this path is correct
-import { Footer } from "../../components/Footer";
 
 const GamePage = lazy(() => import("../game/GamePage"));
 
-const LandingPage: FC = () => {
+const LandingPage = ({ user }: { user: User | undefined }) => {
   const [gameTime, setGameTime] = useState<number>(0);
   const [inGame, setInGame] = useState<boolean>(false);
   const [players, setPlayers] = useState<SocketData[]>([]);
@@ -84,12 +85,16 @@ const LandingPage: FC = () => {
           player={player}
         />
       ) : (
-        <Lobby
-          gameMode={gameMode}
-          updatePlayer={updatePlayer}
-          player={player}
-          players={players}
-        />
+        <>
+          <Nav user={user} />
+
+          <Lobby
+            gameMode={gameMode}
+            updatePlayer={updatePlayer}
+            player={player}
+            players={players}
+          />
+        </>
       )}
       {!inGame && <Footer />}
     </>

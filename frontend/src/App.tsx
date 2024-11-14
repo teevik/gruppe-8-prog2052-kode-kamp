@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import LandingPage from "./pages/landing/LandingPage";
-import TermsOfService from "./pages/terms/TermsOfService";
-import { MockModeExplanation } from "./pages/mode-explanation/ModeExplanation";
 import ComponentView from "./pages/component-view/ComponentView";
 import GamePage, { GameProps } from "./pages/game/GamePage";
+import LandingPage from "./pages/landing/LandingPage";
+import { MockModeExplanation } from "./pages/mode-explanation/ModeExplanation";
+import TermsOfService from "./pages/terms/TermsOfService";
 
 // Import the Nav component, will see what is best here, import it here or import it in the pages...
-import { Nav } from "./components/Nav";
+import type { User } from "../../shared/types";
+import { LOGIN_ROUTE, REGISTER_ROUTE } from "./const";
+import ResultsPage, { ResultPageProps } from "./pages/results/ResultsPage";
 import LoginPage from "./pages/userLogin/LoginPage";
 import RegisterPage from "./pages/userRegister/RegisterPage";
-import { REGISTER_ROUTE, LOGIN_ROUTE } from "./const";
-import type { User } from "../../shared/types";
 import { isUserLoggedIn } from "./user";
-import ResultsPage, { ResultPageProps } from "./pages/results/ResultsPage";
 
 const ResultMockProps: ResultPageProps = {
   scoreboard: [
@@ -87,7 +86,6 @@ const App: React.FC = () => {
     <>
       <Router>
         {/* Nav component will be present on all routes */}
-        <Nav user={user} />
         <Routes>
           {/* mock routes */}
           <Route path="/component-view" element={<ComponentView />} />
@@ -99,12 +97,12 @@ const App: React.FC = () => {
             path="/results-page"
             element={<ResultsPage {...ResultMockProps}></ResultsPage>}
           ></Route>
-          <Route path="/landing-page" element={<LandingPage />} />
+          <Route path="/landing-page" element={<LandingPage user={user} />} />
           <Route path="/mode-explanation" element={<MockModeExplanation />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
 
           {/* Define routes */}
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage user={user} />} />
           <Route path={LOGIN_ROUTE} element={<LoginPage />} />
           <Route path={REGISTER_ROUTE} element={<RegisterPage />} />
         </Routes>

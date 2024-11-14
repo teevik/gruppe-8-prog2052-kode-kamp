@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { socket } from "../../socket";
 import { SocketData } from "../../../../shared/types";
-import ModeExplanation from "../mode-explanation/ModeExplanation";
 import { Button } from "../../components/Button";
 import { ACCESS_TOKEN } from "../../const";
+import { socket } from "../../socket";
+import ModeExplanation from "../mode-explanation/ModeExplanation";
 
 interface LobbyProps {
   gameMode: string;

@@ -60,21 +60,22 @@ function initLobby(socket: Socket, io: SocketServer) {
     //This is so that we can track the stats of the player
 
     if (jwtToken !== "") {
-      const userData = jwt.verify(jwtToken, JWT_SECRET);
-      const user = userSchema.parse(userData);
-      socket.data.registeredUser = true;
-      socket.data.userID = user.id;
-      socket.data.userName = user.username;
+      try {
+        const userData = jwt.verify(jwtToken, JWT_SECRET);
+        const user = userSchema.parse(userData);
+        socket.data.registeredUser = true;
+        socket.data.userID = user.id;
+        socket.data.userName = user.username;
 
-      const userDb = await UserSchema.findOne({ _id: user.id });
-      if (userDb) {
-        socket.data.points = userDb.points;
+        const userDb = await UserSchema.findOne({ _id: user.id });
+        if (userDb) {
+          socket.data.points = userDb.points;
+        }
+      } catch (error) {
+        playAsGuest(socket);
       }
     } else {
-      socket.data.registeredUser = false;
-      socket.data.userID = uuidv4();
-      socket.data.userName =
-        RANDOM_USERNAMES[Math.floor(Math.random() * RANDOM_USERNAMES.length)];
+      playAsGuest(socket);
     }
 
     //Makes sure that each user can only fill one spot in the lobby
@@ -151,6 +152,14 @@ function resetLobbyCountdown(io: SocketServer) {
   lobbyInterval = null;
   lobbyCountdownCounter = LOBBY_TIMER_SECONDS;
   io.emit("lobbyCountdown", "");
+}
+
+function playAsGuest(socket: Socket): Socket {
+  socket.data.registeredUser = false;
+  socket.data.userID = uuidv4();
+  socket.data.userName =
+    RANDOM_USERNAMES[Math.floor(Math.random() * RANDOM_USERNAMES.length)];
+  return socket;
 }
 
 export { emitLobbyUpdate, initLobby, lobby };

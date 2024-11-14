@@ -4,6 +4,7 @@ import CountDown, { formatSeconds } from "../../components/CountDown";
 import type { Participant, SocketData } from "../../../../shared/types";
 import { GAME_MODES } from "../../../../shared/const";
 import "./ResultsPage.css";
+import { calculatePoints } from "../../../../shared/functions";
 
 interface ResultPageProps {
   scoreboard: Participant[] | undefined;
@@ -52,7 +53,19 @@ export default function ResultsPage({
                     {score.socket.userName}
                     {score.socket.emoji}
                     {score.socket.userID == player?.userID && (
-                      <span className="you-label resultLabel">you</span>
+                      <span className="green-label resultLabel">you</span>
+                    )}
+
+                    {score.socket.points && (
+                      <>
+                        <span className="resultLabel">
+                          {score.socket.points} points
+                          <span className="green-label point-label">
+                            +{calculatePoints(scoreboard.length, index + 1)}{" "}
+                            point
+                          </span>
+                        </span>
+                      </>
                     )}
                   </span>
 

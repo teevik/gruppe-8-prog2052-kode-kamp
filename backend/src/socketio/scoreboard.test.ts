@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { binaryUpdateScoreboard, updateScoreboard } from "./game";
+import { binaryUpdateScoreboard, updateScoreboard } from "./scoreboard";
 import type { Participant } from "../../../shared/types";
 import { GAME_MODES } from "../../../shared/const";
 
@@ -9,7 +9,14 @@ test("Testing scoreboard binary search and insert function w only different exec
   scoreboard.push({
     stats: { executionTime: 1000, usedTime: 428743248 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -20,7 +27,14 @@ test("Testing scoreboard binary search and insert function w only different exec
   scoreboard.push({
     stats: { executionTime: 3000, usedTime: 428743248 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -31,7 +45,14 @@ test("Testing scoreboard binary search and insert function w only different exec
   scoreboard.push({
     stats: { executionTime: 4000, usedTime: 428743248 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -43,7 +64,14 @@ test("Testing scoreboard binary search and insert function w only different exec
   let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 428743248 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -68,7 +96,14 @@ test("Testing edge-case scoreboard binary search and insert function w only diff
   scoreboard.push({
     stats: { executionTime: 3000, usedTime: 428743248 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -80,7 +115,14 @@ test("Testing edge-case scoreboard binary search and insert function w only diff
   let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 428743248 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -103,7 +145,14 @@ test("Testing scoreboard binary search and insert function w some that have same
     {
       stats: { executionTime: 1000, usedTime: 0 },
       solution: "",
-      socket: { userID: "", emoji: "", complete: false, userName: "" },
+      socket: {
+        userID: "",
+        emoji: "",
+        complete: false,
+        userName: "",
+        registeredUser: false,
+        points: 0,
+      },
       results: {
         passedTests: 10,
         executionTimeUs: 1000,
@@ -114,7 +163,14 @@ test("Testing scoreboard binary search and insert function w some that have same
     {
       stats: { executionTime: 2000, usedTime: 0 },
       solution: "",
-      socket: { userID: "", emoji: "", complete: false, userName: "" },
+      socket: {
+        userID: "",
+        emoji: "",
+        complete: false,
+        userName: "",
+        registeredUser: false,
+        points: 0,
+      },
       results: {
         passedTests: 10,
         executionTimeUs: 1000,
@@ -125,7 +181,14 @@ test("Testing scoreboard binary search and insert function w some that have same
     {
       stats: { executionTime: 3000, usedTime: 0 },
       solution: "",
-      socket: { userID: "", emoji: "", complete: false, userName: "" },
+      socket: {
+        userID: "",
+        emoji: "",
+        complete: false,
+        userName: "",
+        registeredUser: false,
+        points: 0,
+      },
       results: {
         passedTests: 10,
         executionTimeUs: 1000,
@@ -136,7 +199,14 @@ test("Testing scoreboard binary search and insert function w some that have same
     {
       stats: { executionTime: 4000, usedTime: 0 },
       solution: "",
-      socket: { userID: "", emoji: "", complete: false, userName: "" },
+      socket: {
+        userID: "",
+        emoji: "",
+        complete: false,
+        userName: "",
+        registeredUser: false,
+        points: 0,
+      },
       results: {
         passedTests: 10,
         executionTimeUs: 1000,
@@ -149,7 +219,14 @@ test("Testing scoreboard binary search and insert function w some that have same
   let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -170,7 +247,14 @@ test("Testing scoreboard insert function w different execution time", () => {
   scoreboard.push({
     stats: { executionTime: 1000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -181,7 +265,14 @@ test("Testing scoreboard insert function w different execution time", () => {
   scoreboard.push({
     stats: { executionTime: 3000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -192,7 +283,14 @@ test("Testing scoreboard insert function w different execution time", () => {
   scoreboard.push({
     stats: { executionTime: 4000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -204,7 +302,14 @@ test("Testing scoreboard insert function w different execution time", () => {
   let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -229,7 +334,14 @@ test("Testing scoreboard insert function w different amount passed tests", () =>
   scoreboard.push({
     stats: { executionTime: 1000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -240,7 +352,14 @@ test("Testing scoreboard insert function w different amount passed tests", () =>
   scoreboard.push({
     stats: { executionTime: 3000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -251,7 +370,14 @@ test("Testing scoreboard insert function w different amount passed tests", () =>
   scoreboard.push({
     stats: { executionTime: 4000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 9,
       executionTimeUs: 1000,
@@ -263,7 +389,14 @@ test("Testing scoreboard insert function w different amount passed tests", () =>
   let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 8,
       executionTimeUs: 1000,
@@ -288,7 +421,14 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   scoreboard.push({
     stats: { executionTime: 1000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -299,7 +439,14 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   scoreboard.push({
     stats: { executionTime: 3000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -310,7 +457,14 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   scoreboard.push({
     stats: { executionTime: 4000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 9,
       executionTimeUs: 1000,
@@ -322,7 +476,14 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 0 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 9,
       executionTimeUs: 1000,
@@ -347,7 +508,14 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   scoreboard.push({
     stats: { executionTime: 1000, usedTime: 1 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -358,7 +526,14 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   scoreboard.push({
     stats: { executionTime: 3000, usedTime: 4 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,
@@ -369,7 +544,14 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   scoreboard.push({
     stats: { executionTime: 4000, usedTime: 8 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 9,
       executionTimeUs: 1000,
@@ -381,7 +563,14 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   let newScoreboardEntry: Participant = {
     stats: { executionTime: 2000, usedTime: 2 },
     solution: "",
-    socket: { userID: "", emoji: "", complete: false, userName: "" },
+    socket: {
+      userID: "",
+      emoji: "",
+      complete: false,
+      userName: "",
+      registeredUser: false,
+      points: 0,
+    },
     results: {
       passedTests: 10,
       executionTimeUs: 1000,

@@ -18,7 +18,7 @@ interface ServerToClientEvents {
 
 interface ClientToServerEvents {
   submitCode: () => void;
-  joinLobby: () => void;
+  joinLobby: (jwtToken: string) => void;
   leaveLobby: () => void;
 }
 

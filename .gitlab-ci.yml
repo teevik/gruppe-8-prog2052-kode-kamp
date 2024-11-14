@@ -2,8 +2,16 @@ stages: # List of stages for jobs, and their order of execution
   - test
 
 test frontend and backend:
+  resource_group: all
   image: node:20.17.0
   stage: test
+  cache:
+    key: frontend-cache
+    paths:
+      - frontend/node_modules
+    key: backend-cache
+    paths:
+      - backend/node_modules
   script:
     - cd backend
     - npm install
@@ -13,24 +21,17 @@ test frontend and backend:
     - npm install
     - npm run check
     - npm run test
-  cache:
-    key:
-      files:
-        - ./frontend/package-lock.json
-        - ./backend/package-lock.json
-      prefix: npm
-    paths:
-      - ./frontend/node_modules/
-      - ./backend/node_modules/
+    
 
 test code-runner:
+  resource_group: all
   image: rust:1.81
   stage: test
+  # cache:
+  #   key: code-runner-cache
+  #   paths:
+  #     - code-runner/target
   script:
     - cd code-runner
     - cargo build --verbose
     - cargo test --verbose
-  cache:
-    key: shared-cache
-    paths:
-      - ./code-runner/target/

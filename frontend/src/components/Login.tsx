@@ -1,25 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { REGISTER_ROUTE } from "../const";
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
+import { REGISTER_ROUTE } from "../const";
 import { trpc } from "../trpc";
-import { ACCESS_TOKEN } from "../const";
+import { useAuth } from "../user";
 
 function Login() {
-  const [user, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   const navigate = useNavigate();
   const login = trpc.auth.login.useMutation();
+  const { user, setToken } = useAuth();
+
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user, navigate]);
 
   const onButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Prevent form submission (default behavior)
     setUsernameError("");
     setPasswordError("");
 
-    const validation: LoginValidation = loginInputValidation(user, password);
+    const validation: LoginValidation = loginInputValidation(
+      username,
+      password
+    );
     if (validation.valid) {
       submitLogin();
     } else {
@@ -34,13 +42,14 @@ function Login() {
   async function submitLogin() {
     try {
       const res = await login.mutateAsync({
-        user: user,
+        user: username,
         password: password,
       });
 
       setServerErrorMessage("");
       if (res) {
-        localStorage.setItem(ACCESS_TOKEN, res);
+        setToken(res);
+
         navigate("/");
       }
     } catch (err: any) {
@@ -62,7 +71,7 @@ function Login() {
           <input
             name="user"
             type="text"
-            value={user}
+            value={username}
             placeholder="Username or email"
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"

@@ -3,14 +3,14 @@ import "./Nav.css";
 import { LinkButton } from "./LinkButton.tsx";
 
 import { Link } from "react-router-dom";
-import type { User } from "../../../shared/types";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
+import { useAuth } from "../user";
+import { Button } from "./Button.tsx";
 
-interface NavProps {
-  user: User | undefined;
-}
 // Functional component for the navigation bar
-export function Nav({ user }: NavProps) {
+export default function Nav() {
+  const { user, logOut } = useAuth();
+
   return (
     <nav className="header">
       {/* Link to the home page */}
@@ -32,9 +32,7 @@ export function Nav({ user }: NavProps) {
           </p>
         )}
 
-        {/* <Link to="/GamePage" className="link">
-          <button>Play</button>
-        </Link> */}
+        {user && <Button onClick={logOut}>Log out</Button>}
       </div>
     </nav>
   );

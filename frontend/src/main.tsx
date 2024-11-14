@@ -6,6 +6,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { getUrl } from "./socket.ts";
 import { trpc } from "./trpc.ts";
+import { AuthContextProvider } from "./user.tsx";
 
 const trpcClient = trpc.createClient({
   links: [
@@ -28,7 +29,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <AuthContextProvider>
+          <App />
+        </AuthContextProvider>
       </QueryClientProvider>
     </trpc.Provider>
   </StrictMode>,

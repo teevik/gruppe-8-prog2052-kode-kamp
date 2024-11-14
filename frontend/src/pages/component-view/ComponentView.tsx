@@ -1,9 +1,9 @@
-import "./ComponentView.css";
-import { Nav } from "../../components/Nav.tsx";
-import { Footer } from "../../components/Footer.tsx";
-import { Button } from "../../components/Button.tsx";
-import { InputField } from "../../components/InputField.tsx";
 import { useState } from "react";
+import { Button } from "../../components/Button.tsx";
+import { Footer } from "../../components/Footer.tsx";
+import { InputField } from "../../components/InputField.tsx";
+import Nav from "../../components/Nav.tsx";
+import "./ComponentView.css";
 
 export default function ComponentView() {
   const [value, setValue] = useState("");

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { SocketData } from "../../../../shared/types";
 import { Button } from "../../components/Button";
-import { ACCESS_TOKEN } from "../../const";
 import { socket } from "../../socket";
+import { useAuth } from "../../user";
 import ModeExplanation from "../mode-explanation/ModeExplanation";
 
 interface LobbyProps {
@@ -23,6 +23,7 @@ export default function Lobby({
 
   const [amountPlayersLobby, setAmountPlayersLobby] = useState(0);
   const [totalPlayersLobby, setTotalPlayersLobby] = useState(0);
+  const { token } = useAuth();
 
   useEffect(() => {
     socket.on("lobbyCountdown", setCountdownLobby);
@@ -38,8 +39,7 @@ export default function Lobby({
   }, [countdownLobby]);
 
   const joinLobby = () => {
-    const jwtToken = localStorage.getItem(ACCESS_TOKEN);
-    socket.emit("joinLobby", jwtToken || "");
+    socket.emit("joinLobby", token || "");
   };
 
   const leaveLobby = () => {

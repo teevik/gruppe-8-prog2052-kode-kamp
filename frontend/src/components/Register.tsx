@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
-
-import { ACCESS_TOKEN } from "../const";
 
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
 import { LOGIN_ROUTE } from "../const";
+import { useAuth } from "../user";
 import { LinkButton } from "./LinkButton";
 
 function Register() {
@@ -18,8 +17,13 @@ function Register() {
   const [passwordError, setPasswordError] = useState("");
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   const register = trpc.auth.register.useMutation();
+  const { user, setToken } = useAuth();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user, navigate]);
 
   async function submitRegistration() {
     try {
@@ -32,7 +36,7 @@ function Register() {
       setServerErrorMessage("");
 
       if (res) {
-        localStorage.setItem(ACCESS_TOKEN, res);
+        setToken(res);
         navigate("/");
       }
     } catch (err: any) {

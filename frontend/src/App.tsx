@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
+import { LOGIN_ROUTE, REGISTER_ROUTE } from "./const";
 import ComponentView from "./pages/component-view/ComponentView";
 import GamePage, { GameProps } from "./pages/game/GamePage";
 import LandingPage from "./pages/landing/LandingPage";
 import { MockModeExplanation } from "./pages/mode-explanation/ModeExplanation";
-import TermsOfService from "./pages/terms/TermsOfService";
-
-// Import the Nav component, will see what is best here, import it here or import it in the pages...
-import type { User } from "../../shared/types";
-import { LOGIN_ROUTE, REGISTER_ROUTE } from "./const";
 import ResultsPage, { ResultPageProps } from "./pages/results/ResultsPage";
+import TermsOfService from "./pages/terms/TermsOfService";
 import LoginPage from "./pages/userLogin/LoginPage";
 import RegisterPage from "./pages/userRegister/RegisterPage";
-import { isUserLoggedIn } from "./user";
 
 const ResultMockProps: ResultPageProps = {
   scoreboard: [
@@ -73,15 +69,6 @@ const GamePageMockProps: GameProps = {
 };
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<User | undefined>(undefined);
-
-  useEffect(() => {
-    const user: User | null = isUserLoggedIn();
-    if (user) {
-      setUser(user);
-    }
-  }, []);
-
   return (
     <>
       <Router>
@@ -97,12 +84,12 @@ const App: React.FC = () => {
             path="/results-page"
             element={<ResultsPage {...ResultMockProps}></ResultsPage>}
           ></Route>
-          <Route path="/landing-page" element={<LandingPage user={user} />} />
+          <Route path="/landing-page" element={<LandingPage />} />
           <Route path="/mode-explanation" element={<MockModeExplanation />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
 
           {/* Define routes */}
-          <Route path="/" element={<LandingPage user={user} />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path={LOGIN_ROUTE} element={<LoginPage />} />
           <Route path={REGISTER_ROUTE} element={<RegisterPage />} />
         </Routes>

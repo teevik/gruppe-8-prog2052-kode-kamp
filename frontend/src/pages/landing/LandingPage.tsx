@@ -1,20 +1,22 @@
 import { lazy, useEffect, useState } from "react";
-import { Challenge, SocketData, User } from "../../../../shared/types";
+import { Challenge, SocketData } from "../../../../shared/types";
 import { Footer } from "../../components/Footer";
-import { Nav } from "../../components/Nav";
+import Nav from "../../components/Nav";
 import { socket } from "../../socket";
+import { useAuth } from "../../user";
 import Lobby from "../lobby/Lobby";
 import "./LandingPage.css"; // Ensure this path is correct
 
 const GamePage = lazy(() => import("../game/GamePage"));
 
-const LandingPage = ({ user }: { user: User | undefined }) => {
+const LandingPage = () => {
   const [gameTime, setGameTime] = useState<number>(0);
   const [inGame, setInGame] = useState<boolean>(false);
   const [players, setPlayers] = useState<SocketData[]>([]);
   const [player, setPlayer] = useState<SocketData | undefined>(undefined);
   const [challenge, setChallenge] = useState<Challenge | undefined>();
   const [gameMode, setGameMode] = useState<string>("");
+  const { user } = useAuth();
 
   function updatePlayers(p: SocketData[]) {
     setPlayers(p);
@@ -86,7 +88,7 @@ const LandingPage = ({ user }: { user: User | undefined }) => {
         />
       ) : (
         <>
-          <Nav user={user} />
+          <Nav />
 
           <Lobby
             gameMode={gameMode}

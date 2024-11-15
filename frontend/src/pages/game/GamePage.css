@@ -3,8 +3,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  font-family: Arial, sans-serif;
-  background-color: var(--background);
+  background-color: var(--bg);
 }
 
 /* Header Section */
@@ -13,18 +12,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background-color: var(--semi-background);
+  background-color: var(--bg-alt);
 }
 
 .gamePageHeaderTitle {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--default-text);
+  color: var(--fg);
 }
 
 .gamePageHeaderMode {
   font-size: 1rem;
-  color: var(--default-text);
+  color: var(--fg);
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -44,7 +43,7 @@
 /* Left Section: Task Description */
 .gamePageTaskDescription {
   width: 25%;
-  background-color: var(--background);
+  background-color: var(--bg);
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -68,7 +67,7 @@
 .css-0 div {
   background: none;
   border: none;
-  background: var(--background-color);
+  background: var(--bg);
 }
 .css-0 div.overflow-guard {
   border-radius: 10px;
@@ -87,7 +86,7 @@
 .gamePageEditor {
   flex-grow: 1;
   padding: 0 16px;
-  background-color: var(--semi-background);
+  background-color: var(--bg-alt);
   align-items: center;
   justify-content: center;
 }

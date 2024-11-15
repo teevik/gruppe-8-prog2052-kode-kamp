@@ -1,12 +1,17 @@
 :root {
-  --background: #0d0a16;
-  --semi-background: #ffffff1a;
+  --bg: #0d0a16;
+  --bg-alt: color-mix(in lab, var(--bg), #ffffff 10%);
   --darker: #00000033;
+
   --primary: #a493d6;
   --secondary: #ff0000;
 
-  --default-text: #e4e0ee;
+  --fg: #e4e0ee;
   --background-text: #e4e0ee;
+
+  --success: green;
+  --error: red;
+  --warning: yellow;
 }
 
 @media (prefers-color-scheme: light) {
@@ -21,8 +26,8 @@ body {
   /*font-weight: 500;*/
   font-style: normal;
 
-  background-color: var(--background);
-  color: var(--default-text);
+  background-color: var(--bg);
+  color: var(--fg);
 }
 
 /* Ensure the App container takes full viewport height */

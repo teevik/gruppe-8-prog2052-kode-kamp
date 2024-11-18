@@ -7,7 +7,12 @@ import { Server as Httpserver } from "http";
 import path from "path";
 import { Server } from "socket.io";
 import type { SocketData } from "../../shared/types";
-import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL, PORT } from "./const";
+import {
+  RATE_LIMIT_MAX,
+  RATE_LIMIT_MINUTE_INTERVAL,
+  PORT,
+  VERIFY_ROUTE,
+} from "./const";
 import connectdb from "./database/db";
 import { authRouter } from "./routers/auth";
 import { initLobby } from "./socketio/lobby";
@@ -16,7 +21,11 @@ import type {
   ServerToClientEvents,
 } from "./socketio/types";
 import { createContext, publicProcedure, router } from "./trpc";
-import { sendVerifyEmail } from "./mailer/mailer";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "./env";
+import { userSchema } from "./user";
+import { User as UserSchema } from "./database/model/user";
+import { verifyHandler } from "./routers/verify";
 
 const app: Express = express();
 
@@ -57,6 +66,8 @@ app.use(
     createContext,
   })
 );
+
+app.get(`${VERIFY_ROUTE}/:jwtToken`, verifyHandler);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(root, "./public/index.html"));

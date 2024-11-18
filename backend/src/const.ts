@@ -1,4 +1,4 @@
-const PORT = 3000;
+import { PORT } from "./env";
 const MAX_PLAYERS_PR_GAME: number = 8;
 const COUNTDOWN_LENGTH_SECONDS: number = 5;
 const TIME_AT_ENDSCREEN_SECONDS: number = 180;
@@ -15,7 +15,7 @@ const SERVER_URL: string =
   process.env.NODE_ENV === "production"
     ? "http://10.212.173.135"
     : `http://localhost:${PORT}`;
-const VERIFY_ROUTE = "/verify/";
+const VERIFY_ROUTE = "/verify";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const EMOJIS = ["🧑", "🐸", "🐱", "🐶", "🦄", "🐼", "🐧", "🦁", "🐝", "🐢"];
 const RANDOM_USERNAMES: string[] = [

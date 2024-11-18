@@ -3,8 +3,7 @@ import type { Transporter, SendMailOptions } from "nodemailer";
 import { SERVER_URL, VERIFY_ROUTE } from "../const";
 import type { User } from "../../../shared/types";
 import { getToken } from "../routers/auth";
-
-const { EMAIL_USER, EMAIL_PASS } = process.env;
+import { EMAIL_USER, EMAIL_PASS } from "../env";
 
 const transporter: Transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",

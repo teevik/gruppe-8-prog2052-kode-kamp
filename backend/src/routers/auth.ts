@@ -36,10 +36,11 @@ const register = publicProcedure
       const userDoc = await newUser.save();
 
       if (userDoc) {
-        const user = {
+        const user: User = {
           username: userDoc.username,
           id: userDoc._id.toString(),
           email: userDoc.email,
+          verified: userDoc.verified,
         };
 
         const jwtToken = getToken(user);
@@ -91,6 +92,7 @@ const login = publicProcedure
       username: userDocument.username,
       id: userDocument._id.toString(),
       email: userDocument.email,
+      verified: userDocument.verified,
     });
 
     return jwtToken;

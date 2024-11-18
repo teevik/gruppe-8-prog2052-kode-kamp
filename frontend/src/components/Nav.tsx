@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
 import { useAuth } from "../user";
 import { Button } from "./Button.tsx";
+import { VERIFY_ROUTE } from "../../../shared/const.ts";
 
 // Functional component for the navigation bar
 export default function Nav() {
@@ -27,9 +28,19 @@ export default function Nav() {
           </>
         )}
         {user && (
-          <p>
-            {user.username} {user.email}
-          </p>
+          <div className="column">
+            <p>
+              {user.username} {user.email}
+            </p>
+            {!user.verified && (
+              <p>
+                You are not verified.
+                <Link to={VERIFY_ROUTE} className="link">
+                  verify
+                </Link>
+              </p>
+            )}
+          </div>
         )}
 
         {user && <Button onClick={logOut}>Log out</Button>}

@@ -1,3 +1,4 @@
+const PORT = 3000;
 const MAX_PLAYERS_PR_GAME: number = 8;
 const COUNTDOWN_LENGTH_SECONDS: number = 5;
 const TIME_AT_ENDSCREEN_SECONDS: number = 180;
@@ -10,6 +11,11 @@ const CODE_RUNNER_URL: string =
   process.env.NODE_ENV === "production"
     ? "http://192.168.10.180/execute"
     : "https://code-runner-small-sky-5409.fly.dev/execute";
+const SERVER_URL: string =
+  process.env.NODE_ENV === "production"
+    ? "http://10.212.173.135"
+    : `http://localhost:${PORT}`;
+const VERIFY_ROUTE = "/verify/";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const EMOJIS = ["🧑", "🐸", "🐱", "🐶", "🦄", "🐼", "🐧", "🦁", "🐝", "🐢"];
 const RANDOM_USERNAMES: string[] = [
@@ -108,4 +114,7 @@ export {
   RATE_LIMIT_MAX,
   JWT_EXPIRESIN,
   EMAIL_REGEX,
+  PORT,
+  SERVER_URL,
+  VERIFY_ROUTE,
 };

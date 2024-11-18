@@ -98,3 +98,5 @@ export const authRouter = router({
   register,
   login,
 });
+
+export { getToken };

@@ -7,7 +7,7 @@ import { Server as Httpserver } from "http";
 import path from "path";
 import { Server } from "socket.io";
 import type { SocketData } from "../../shared/types";
-import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
+import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL, PORT } from "./const";
 import connectdb from "./database/db";
 import { authRouter } from "./routers/auth";
 import { initLobby } from "./socketio/lobby";
@@ -16,9 +16,9 @@ import type {
   ServerToClientEvents,
 } from "./socketio/types";
 import { createContext, publicProcedure, router } from "./trpc";
+import { sendVerifyEmail } from "./mailer/mailer";
 
 const app: Express = express();
-const PORT = 3000;
 
 const root = process.cwd();
 const limiter = rateLimit({
@@ -29,6 +29,12 @@ const limiter = rateLimit({
 connectdb();
 // const testUser = new User({username: "testuser", points: 0, hashedPassword: "fefef", email: "hello@gmail.com"});
 // testUser.save();
+
+// sendVerifyEmail({
+//   username: "Ulrik",
+//   email: "ulrik.hesmyr@gmail.com",
+//   id: "testid",
+// });
 
 app.use(limiter);
 

@@ -7,6 +7,7 @@ import { EMAIL_REGEX, JWT_EXPIRESIN } from "../const";
 import { User as UserSchema } from "../database/model/user";
 import { JWT_SECRET } from "../env";
 import { publicProcedure, router } from "../trpc";
+import { sendVerifyEmail } from "../mailer/mailer";
 
 const register = publicProcedure
   .input(
@@ -32,14 +33,22 @@ const register = publicProcedure
       const hashedPassword = await Bun.password.hash(password);
 
       const newUser = new UserSchema({ username, hashedPassword, email });
-      const user = await newUser.save();
+      const userDoc = await newUser.save();
 
-      if (user) {
-        const jwtToken = getToken({
-          username: user.username,
-          id: user._id.toString(),
-          email: user.email,
-        });
+      if (userDoc) {
+        const user = {
+          username: userDoc.username,
+          id: userDoc._id.toString(),
+          email: userDoc.email,
+        };
+
+        const jwtToken = getToken(user);
+
+        try {
+          sendVerifyEmail(user);
+        } catch (error) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        }
 
         return jwtToken;
       }

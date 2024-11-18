@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 
-import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
+import { MIN_PASSWORD_LENGTH, VERIFY_ROUTE } from "../../../shared/const";
 import { LOGIN_ROUTE } from "../const";
 import { useAuth } from "../user";
 import { LinkButton } from "./LinkButton";
@@ -37,7 +37,7 @@ function Register() {
 
       if (res) {
         setToken(res);
-        navigate("/");
+        navigate(VERIFY_ROUTE);
       }
     } catch (err: any) {
       if (err.data.httpStatus == 500) {

@@ -10,6 +10,8 @@ import ResultsPage, { ResultPageProps } from "./pages/results/ResultsPage";
 import TermsOfService from "./pages/terms/TermsOfService";
 import LoginPage from "./pages/userLogin/LoginPage";
 import RegisterPage from "./pages/userRegister/RegisterPage";
+import { VERIFY_ROUTE } from "../../shared/const";
+import Verify from "./pages/verify/Verify";
 
 const ResultMockProps: ResultPageProps = {
   scoreboard: [
@@ -118,6 +120,7 @@ const App: React.FC = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path={LOGIN_ROUTE} element={<LoginPage />} />
           <Route path={REGISTER_ROUTE} element={<RegisterPage />} />
+          <Route path={VERIFY_ROUTE} element={<Verify />} />
         </Routes>
       </Router>
     </>

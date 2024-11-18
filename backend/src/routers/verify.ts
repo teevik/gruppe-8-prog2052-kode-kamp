@@ -20,6 +20,6 @@ export async function verifyHandler(
     return res.sendStatus(400);
   } else {
     res.redirect(CLIENT_URL + "/");
-    return res.sendStatus(200);
+    return res;
   }
 }

@@ -81,8 +81,8 @@ const login = publicProcedure
     }
 
     const correctPassword: boolean = await Bun.password.verify(
-      userDocument.hashedPassword,
-      password
+      password,
+      userDocument.hashedPassword
     );
     if (!correctPassword) {
       throw new TRPCError({ code: "UNAUTHORIZED" });

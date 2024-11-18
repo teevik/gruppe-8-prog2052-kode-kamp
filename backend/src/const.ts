@@ -15,6 +15,8 @@ const SERVER_URL: string =
   process.env.NODE_ENV === "production"
     ? "http://10.212.173.135"
     : `http://localhost:${PORT}`;
+const CLIENT_URL: string =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:5173";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const EMOJIS = ["🧑", "🐸", "🐱", "🐶", "🦄", "🐼", "🐧", "🦁", "🐝", "🐢"];
 const RANDOM_USERNAMES: string[] = [
@@ -115,4 +117,5 @@ export {
   EMAIL_REGEX,
   PORT,
   SERVER_URL,
+  CLIENT_URL,
 };

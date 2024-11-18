@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { User as UserSchema } from "../database/model/user";
 import { userSchema } from "../user";
 import { JWT_SECRET } from "../env";
+import { CLIENT_URL } from "../const";
 
 export async function verifyHandler(
   req: Request,
@@ -18,6 +19,7 @@ export async function verifyHandler(
   if (!userDoc.acknowledged) {
     return res.sendStatus(400);
   } else {
-    return res.send("Your account is successfully verified!");
+    res.redirect(CLIENT_URL + "/");
+    return res.sendStatus(200);
   }
 }

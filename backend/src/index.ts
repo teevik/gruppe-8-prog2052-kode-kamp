@@ -61,7 +61,7 @@ app.use(
 
 app.get(`${VERIFY_ROUTE}/:jwtToken`, verifyHandler);
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(root, "./public/index.html"));
 });
 

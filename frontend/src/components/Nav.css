@@ -1,6 +1,6 @@
 .header {
-  background-color: var(--semi-background);
-  color: var(--default-text);
+  background-color: var(--bg-alt);
+  color: var(--fg);
   padding: 10px 10px;
   display: flex;
   justify-content: space-between;

@@ -4,6 +4,8 @@ import { Button } from "../../components/Button";
 import { socket } from "../../socket";
 import { useAuth } from "../../user";
 import ModeExplanation from "../mode-explanation/ModeExplanation";
+import { Footer } from "../../components/Footer";
+import Nav from "../../components/Nav";
 
 interface LobbyProps {
   gameMode: string;
@@ -123,6 +125,7 @@ export default function Lobby({
                 Leave
               </Button>
             )}
+            <Footer />
           </div>
         </>
       )}

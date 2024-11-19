@@ -1,7 +1,7 @@
 .button {
   text-decoration: none;
   font-family: inherit;
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: 700;
 
   padding: 0.2rem 1.2rem;
@@ -9,15 +9,30 @@
   border-radius: 0.3rem;
 
   cursor: pointer;
+  transition-duration: 0.3s;
+
+  white-space: nowrap;
+
+  background: none;
+}
+
+.button:hover {
+  filter: brightness(1.05);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #ffffff22;
+}
+.button:active {
+  transform: scale(0.95);
+  box-shadow: none;
 }
 
 .button.primary {
   background-color: var(--primary);
-  color: var(--background);
+  color: var(--bg);
   border: 3px solid var(--primary);
 }
 
 .button.secondary {
-  border: 3px solid var(--default-text);
-  color: var(--default-text);
+  border: 3px solid var(--fg);
+  color: var(--fg);
 }

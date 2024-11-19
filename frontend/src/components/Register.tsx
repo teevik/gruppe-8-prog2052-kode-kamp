@@ -159,7 +159,12 @@ export function registerInputValidation(
     return ["email", "Please enter your email", false];
   }
 
-  if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+  // From https://emailregex.com/index.html
+  if (
+    !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    )
+  ) {
     return ["email", "Please enter a valid email address", false];
   }
 

@@ -7,6 +7,8 @@
 
   --default-text: #e4e0ee;
   --background-text: #e4e0ee;
+
+  --max-width: 1300px;
 }
 
 @media (prefers-color-scheme: light) {

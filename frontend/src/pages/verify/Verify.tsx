@@ -1,21 +1,19 @@
-import { useNavigate } from "react-router-dom";
+import { Layout } from "../../components/Layout";
+import { LinkButton } from "../../components/LinkButton";
+import "./Verify.css";
 
 export default function Verify() {
-  const navigate = useNavigate();
   return (
-    <>
+    <Layout showFooter showNav className="verify">
       <h1>Verify your email</h1>
       <p>
         We have sent you a verification email, please check your spam as well.
       </p>
-      <p>Verified?</p>
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        Return to homepage
-      </button>
-    </>
+
+      <div className="row">
+        <p>Already verified?</p>
+        <LinkButton to="/">Return to homepage</LinkButton>
+      </div>
+    </Layout>
   );
 }

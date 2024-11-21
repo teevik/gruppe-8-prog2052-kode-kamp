@@ -1,12 +1,35 @@
 import { useAuth } from "../../user";
+import "./ProfilePage.css";
+import Nav from "../../components/Nav";
+import { ScoreRanking } from "../../components/ScoreRanking";
+import { MAX_POINTS } from "../../../../shared/const";
+import { Button } from "../../components/Button";
 
 export default function ProfilePage() {
   const { user, logOut } = useAuth();
 
+  const points = 47;
+
   return (
-    <div className="profilePage">
-      <p>{user?.username}</p>
-      <p>{user?.email}</p>
-    </div>
+    <>
+      <Nav />
+      <div className="profilePage">
+        <h1>Your profile</h1>
+        <h2>User info</h2>
+        <div className="userInfo">
+          {/** TODO: Add show icon if user is verified, show text "you are not verified... check email" if not */}
+          <p>Username: {user?.username}</p>
+          <p>Email: {user?.email}</p>
+          <Button
+            children={"Slett bruker"}
+            onClick={() => {}}
+            variant="danger"
+          ></Button>
+        </div>
+        <h2>Ranking</h2>
+        <p>Points: {points}</p>
+        <ScoreRanking progress={points} />
+      </div>
+    </>
   );
 }

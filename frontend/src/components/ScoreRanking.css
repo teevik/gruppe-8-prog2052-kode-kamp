@@ -1,0 +1,60 @@
+.progress-bar-container {
+  position: relative;
+  width: 90%;
+  padding: 2rem;
+  padding-bottom: 4rem;
+}
+
+.progress-bar-track {
+  position: relative;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  height: 10px;
+  background-color: var(--primary);
+  border-radius: 5px 0 0 5px;
+  transition: width 0.3s ease;
+}
+
+.milestone {
+  position: absolute;
+  top: -20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  transform: translateX(-50%);
+}
+
+.milestone-icon {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 12px;
+}
+
+.milestone-content {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.milestone-content img {
+  width: 3.5rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.milestone-content p {
+  font-size: 1rem;
+  margin: 5px 0 0 0;
+}

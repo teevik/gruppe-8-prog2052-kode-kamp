@@ -14,6 +14,7 @@
   white-space: nowrap;
 
   background: none;
+  width: fit-content;
 }
 
 .button:hover {
@@ -35,4 +36,9 @@
 .button.secondary {
   border: 3px solid var(--fg);
   color: var(--fg);
+}
+
+.danger {
+  background-color: var(--red);
+  color: white;
 }

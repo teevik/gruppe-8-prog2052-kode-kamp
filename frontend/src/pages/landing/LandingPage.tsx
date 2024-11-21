@@ -79,6 +79,7 @@ const LandingPage = () => {
 
   return (
     <>
+      <Nav />
       {inGame ? (
         <GamePage
           challenge={challenge}

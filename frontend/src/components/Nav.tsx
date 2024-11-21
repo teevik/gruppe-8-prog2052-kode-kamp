@@ -3,7 +3,7 @@ import "./Nav.css";
 import { LinkButton } from "./LinkButton.tsx";
 
 import { Link } from "react-router-dom";
-import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
+import { LOGIN_ROUTE, REGISTER_ROUTE, PROFILE_ROUTE } from "../const";
 import { useAuth } from "../user";
 import { Button } from "./Button.tsx";
 
@@ -27,9 +27,14 @@ export default function Nav() {
           </>
         )}
         {user && (
-          <p>
-            {user.username} {user.email}
-          </p>
+          <Link className="profileInfo" to={PROFILE_ROUTE}>
+            <img
+              src="/profile.svg"
+              className="profileIcon"
+              alt="Profile icon"
+            ></img>
+            {user.username}
+          </Link>
         )}
 
         {user && <Button onClick={logOut}>Log out</Button>}

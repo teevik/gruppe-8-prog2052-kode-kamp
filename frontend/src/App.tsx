@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import { LOGIN_ROUTE, REGISTER_ROUTE } from "./const";
+import { LOGIN_ROUTE, REGISTER_ROUTE, PROFILE_ROUTE } from "./const";
 import ComponentView from "./pages/component-view/ComponentView";
 import GamePage, { GameProps } from "./pages/game/GamePage";
 import LandingPage from "./pages/landing/LandingPage";
@@ -10,6 +10,7 @@ import ResultsPage, { ResultPageProps } from "./pages/results/ResultsPage";
 import TermsOfService from "./pages/terms/TermsOfService";
 import LoginPage from "./pages/userLogin/LoginPage";
 import RegisterPage from "./pages/userRegister/RegisterPage";
+import ProfilePage from "./pages/profile/ProfilePage";
 
 const ResultMockProps: ResultPageProps = {
   scoreboard: [
@@ -118,6 +119,7 @@ const App: React.FC = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path={LOGIN_ROUTE} element={<LoginPage />} />
           <Route path={REGISTER_ROUTE} element={<RegisterPage />} />
+          <Route path={PROFILE_ROUTE} element={<ProfilePage />} />
         </Routes>
       </Router>
     </>

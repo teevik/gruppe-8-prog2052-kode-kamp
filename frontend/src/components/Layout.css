@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layout .main {
+  flex: 1;
+  padding: 32px 32px;
+  margin: 0 auto;
+
+  /* Subtract padding */
+  width: clamp(0px, calc(100% - 64px), var(--max-width));
+}

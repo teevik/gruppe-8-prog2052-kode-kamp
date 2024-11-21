@@ -88,8 +88,6 @@ const LandingPage = () => {
         />
       ) : (
         <>
-          <Nav />
-
           <Lobby
             gameMode={gameMode}
             updatePlayer={updatePlayer}
@@ -98,7 +96,6 @@ const LandingPage = () => {
           />
         </>
       )}
-      {!inGame && <Footer />}
     </>
   );
 };

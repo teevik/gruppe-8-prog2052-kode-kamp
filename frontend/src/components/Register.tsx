@@ -6,6 +6,7 @@ import { MIN_PASSWORD_LENGTH, VERIFY_ROUTE } from "../../../shared/const";
 import { LOGIN_ROUTE } from "../const";
 import { useAuth } from "../user";
 import { LinkButton } from "./LinkButton";
+import { PasswordInput } from "./PasswordInput";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -16,6 +17,8 @@ function Register() {
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const [viewPassword, setViewPassword] = useState<boolean>(false);
+  const [viewPasswordCheck, setViewPasswordCheck] = useState<boolean>(false);
   const register = trpc.auth.register.useMutation();
   const { user, setToken } = useAuth();
 
@@ -86,6 +89,7 @@ function Register() {
       <form>
         {/* Email field */}
         <div className="userBox">
+          <label htmlFor="username">Email:</label>
           <input
             type="email"
             value={email}
@@ -93,12 +97,14 @@ function Register() {
             onChange={(e) => setEmail(e.target.value)}
             className="userBox"
             required
+            name="email"
           />
           <label className="errorLabel">{emailError}</label>
         </div>
 
         {/* Username field */}
         <div className="userBox">
+          <label htmlFor="username">Create your username:</label>
           <input
             type="text"
             value={username}
@@ -106,35 +112,30 @@ function Register() {
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"
             required
+            name="username"
           />
           <label className="errorLabel">{usernameError}</label>
         </div>
 
         {/* Password field */}
-        <div className="userBox">
-          <input
-            type="password"
-            value={password}
-            placeholder="Enter password here"
-            onChange={(e) => setPassword(e.target.value)}
-            className="userBox"
-            required
-          />
-          <label className="errorLabel">{passwordError}</label>
-        </div>
+        <PasswordInput
+          password={password}
+          setPassword={setPassword}
+          viewPassword={viewPassword}
+          setViewPassword={setViewPassword}
+          passwordError={passwordError}
+          labelText="Password:"
+        />
 
         {/* Confirm password field */}
-        <div className="userBox">
-          <input
-            type="password"
-            value={passwordcheck}
-            placeholder="Confirm password here"
-            onChange={(e) => setPasswordcheck(e.target.value)}
-            className="userBox"
-            required
-          />
-          <label className="errorLabel">{passwordError}</label>
-        </div>
+        <PasswordInput
+          password={passwordcheck}
+          setPassword={setPasswordcheck}
+          viewPassword={viewPasswordCheck}
+          setViewPassword={setViewPasswordCheck}
+          passwordError={passwordError}
+          labelText="Confirm password:"
+        />
 
         <p className="errorLabel">{serverErrorMessage}</p>
         <button onClick={onButtonClick} className="inputButton">

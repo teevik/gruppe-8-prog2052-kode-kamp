@@ -4,7 +4,6 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Arial, sans-serif; /* You can adjust this to your preferred font */
 }
 
 /* Main container styling */
@@ -33,7 +32,7 @@ header p {
 
 /* Lobby container */
 .lobbyContainer {
-  background-color: var(--semi-background);
+  background-color: var(--bg-alt);
   width: 300px;
   margin: 0 auto;
   padding: 20px;
@@ -69,7 +68,9 @@ header p {
 .emptySlot {
   border-radius: 50px;
   background: #e0e0e0;
-  box-shadow: inset 20px 20px 60px #bebebe, inset -20px -20px 60px #ffffff;
+  box-shadow:
+    inset 20px 20px 60px #bebebe,
+    inset -20px -20px 60px #ffffff;
 }
 
 /* Individual player slot */
@@ -86,7 +87,9 @@ header p {
 
 .playerYou {
   background: linear-gradient(145deg, #d7d7d7, #b5b5b5);
-  box-shadow: 20px 20px 60px #979797, -20px -20px 60px #fbfbfb;
+  box-shadow:
+    20px 20px 60px #979797,
+    -20px -20px 60px #fbfbfb;
   border: thin solid #979797;
 }
 /* Empty slot styling */

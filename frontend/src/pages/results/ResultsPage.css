@@ -1,8 +1,7 @@
 .resultsPage {
   text-align: left;
-  font-family: Arial, sans-serif;
   padding: 20px;
-  background-color: var(--background-color);
+  background-color: var(--bg);
   min-height: 100vh; /* Ensures full height */
   display: flex;
   flex-direction: column;
@@ -29,7 +28,7 @@ header h2 {
 /* Container for results section */
 .resultsContainer {
   margin-top: 30px;
-  background-color: var(--semi-background);
+  background-color: var(--bg-alt);
   padding: 20px;
   display: inline-block;
   border-radius: 8px;
@@ -55,7 +54,7 @@ header h2 {
   gap: 1rem;
   margin: 10px 0;
   padding: 10px;
-  background-color: var(--background);
+  background-color: var(--bg);
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -72,7 +71,7 @@ header h2 {
 }
 
 .winnerResultsItem {
-  background: var(--background);
+  background: var(--bg);
   box-shadow:
     20px 20px 60px #a5a5a544,
     -20px -20px 60px #ffffff44;

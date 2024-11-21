@@ -4,6 +4,7 @@ import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
 import { REGISTER_ROUTE } from "../const";
 import { trpc } from "../trpc";
 import { useAuth } from "../user";
+import { PasswordInput } from "./PasswordInput";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -14,6 +15,8 @@ function Login() {
   const navigate = useNavigate();
   const login = trpc.auth.login.useMutation();
   const { user, setToken } = useAuth();
+
+  const [viewPassword, setViewPassword] = useState<boolean>(false);
 
   useEffect(() => {
     if (user) navigate("/");
@@ -76,22 +79,19 @@ function Login() {
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"
           />
+
           <label className="errorLabel">{usernameError}</label>
         </div>
 
         {/* Password field */}
-        <div className="userBox">
-          <label htmlFor="password">Password:</label>
-          <input
-            name="password"
-            type="password"
-            value={password}
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            className="userBox"
-          />
-          <label className="errorLabel">{passwordError}</label>
-        </div>
+        <PasswordInput
+          password={password}
+          setPassword={setPassword}
+          viewPassword={viewPassword}
+          setViewPassword={setViewPassword}
+          passwordError={passwordError}
+          labelText="Password:"
+        />
 
         {/* Submit button */}
         <p className="errorLabel">{serverErrorMessage}</p>

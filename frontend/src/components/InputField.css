@@ -19,18 +19,23 @@
   font-weight: 500;
 
   display: inline-block;
+  transition-duration: 0.3s;
+}
+
+.inputFieldWrapper:hover {
+  transform: scale(1.05);
 }
 
 .inputField {
   font: inherit;
-  color: var(--default-text);
+  color: var(--fg);
 
   padding-top: 0.3rem;
   padding-bottom: 0.3rem;
   padding-left: 0.95rem;
   padding-right: 1.75rem;
 
-  background-color: var(--background);
+  background-color: var(--bg);
   border: none;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);

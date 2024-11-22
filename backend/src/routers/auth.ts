@@ -25,36 +25,33 @@ const register = publicProcedure
   .mutation(async ({ input }) => {
     const { username, password, email } = input;
 
-    if ((await UserSchema.find({ username: username })).length > 0) {
+    const hashedPassword = await Bun.password.hash(password);
+
+    let userDoc = undefined;
+    try {
+      const newUser = new UserSchema({ username, hashedPassword, email });
+      userDoc = await newUser.save();
+    } catch (error) {
       throw new TRPCError({ code: "CONFLICT" });
     }
 
-    try {
-      const hashedPassword = await Bun.password.hash(password);
+    if (userDoc) {
+      const user: User = {
+        username: userDoc.username,
+        id: userDoc._id.toString(),
+        email: userDoc.email,
+        verified: userDoc.verified,
+      };
 
-      const newUser = new UserSchema({ username, hashedPassword, email });
-      const userDoc = await newUser.save();
+      const jwtToken = getToken(user);
 
-      if (userDoc) {
-        const user: User = {
-          username: userDoc.username,
-          id: userDoc._id.toString(),
-          email: userDoc.email,
-          verified: userDoc.verified,
-        };
-
-        const jwtToken = getToken(user);
-
-        try {
-          sendVerifyEmail(user);
-        } catch (error) {
-          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-        }
-
-        return jwtToken;
+      try {
+        sendVerifyEmail(user);
+      } catch (error) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
-    } catch (error) {
-      throw new TRPCError({ code: "CONFLICT" });
+
+      return jwtToken;
     }
   });
 
@@ -105,9 +102,16 @@ function getToken(user: User) {
   return jwt;
 }
 
+function getEmailToken(userID: string) {
+  const jwt = signJwt({ userID: userID }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRESIN,
+  });
+  return jwt;
+}
+
 export const authRouter = router({
   register,
   login,
 });
 
-export { getToken };
+export { getToken, getEmailToken };

@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { VERIFY_ROUTE } from "../../shared/const";
 import "./App.css";
+import { NotFound } from "./components/NotFound";
 import { LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from "./const";
 import ComponentView from "./pages/component-view/ComponentView";
 import { GameProps } from "./pages/game/GamePage";
@@ -125,6 +126,7 @@ const App: React.FC = () => {
           <Route path={REGISTER_ROUTE} element={<RegisterPage />} />
           <Route path={PROFILE_ROUTE} element={<ProfilePage />} />
           <Route path={VERIFY_ROUTE} element={<Verify />} />
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </Router>
     </>

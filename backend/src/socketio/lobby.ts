@@ -1,7 +1,7 @@
+import jwt from "jsonwebtoken";
 import { Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
 import { GAME_MODES } from "../../../shared/const";
-import jwt from "jsonwebtoken";
 
 import type { SocketServer } from "..";
 import {
@@ -10,12 +10,11 @@ import {
   MAX_PLAYERS_PR_GAME,
   RANDOM_USERNAMES,
 } from "../const";
+import { UserModel } from "../database/model/user";
+import { JWT_SECRET } from "../env";
+import { userJWTSchema } from "../schemas/userJWT";
 import { createGameRoom } from "./game";
 import type { Lobby } from "./types";
-import { JWT_SECRET } from "../env";
-import type { User } from "../../../shared/types";
-import { userSchema } from "../user";
-import { User as UserSchema } from "../database/model/user";
 
 // Function to randomly pick an emoji
 function getRandomEmoji(): string {
@@ -62,12 +61,12 @@ function initLobby(socket: Socket, io: SocketServer) {
     if (jwtToken !== "") {
       try {
         const userData = jwt.verify(jwtToken, JWT_SECRET);
-        const user = userSchema.parse(userData);
+        const user = userJWTSchema.parse(userData);
         socket.data.registeredUser = true;
         socket.data.userID = user.id;
         socket.data.userName = user.username;
 
-        const userDb = await UserSchema.findOne({ _id: user.id });
+        const userDb = await UserModel.findOne({ _id: user.id });
         if (userDb) {
           socket.data.points = userDb.points;
         }

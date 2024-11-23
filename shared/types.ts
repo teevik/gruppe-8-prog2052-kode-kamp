@@ -40,7 +40,7 @@ interface Challenge {
 }
 
 /** User that can be stored in a JWT (must contain no sensitive data) */
-export type User = {
+export type UserJWT = {
   id: string;
   username: string;
   email: string;

@@ -18,11 +18,19 @@ export default function ProfilePage() {
           {/** TODO: Add show icon if user is verified, show text "you are not verified... check email" if not */}
           <p>Username: {user?.username}</p>
           <p>Email: {user?.email}</p>
+
           <Button
-            children={"Slett bruker"}
-            onClick={() => {}}
+            onClick={() => {
+              if (
+                window.confirm("Are you sure you want to delete your account?")
+              ) {
+                // TODO: Delete user
+              }
+            }}
             variant="danger"
-          ></Button>
+          >
+            Delete account
+          </Button>
         </div>
         <h2>Ranking</h2>
         <p>Points: {points}</p>

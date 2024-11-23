@@ -41,4 +41,5 @@
 .danger {
   background-color: var(--red);
   color: white;
+  border: 3px solid var(--red);
 }

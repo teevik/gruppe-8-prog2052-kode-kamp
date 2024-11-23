@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 
-import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
+import { MIN_PASSWORD_LENGTH, VERIFY_ROUTE } from "../../../shared/const";
 import { LOGIN_ROUTE } from "../const";
 import { useAuth } from "../user";
 import { LinkButton } from "./LinkButton";
+import { PasswordInput } from "./PasswordInput";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -16,6 +17,8 @@ function Register() {
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const [viewPassword, setViewPassword] = useState<boolean>(false);
+  const [viewPasswordCheck, setViewPasswordCheck] = useState<boolean>(false);
   const register = trpc.auth.register.useMutation();
   const { user, setToken } = useAuth();
 
@@ -37,7 +40,7 @@ function Register() {
 
       if (res) {
         setToken(res);
-        navigate("/");
+        navigate(VERIFY_ROUTE);
       }
     } catch (err: any) {
       if (err.data.httpStatus == 500) {
@@ -86,6 +89,7 @@ function Register() {
       <form>
         {/* Email field */}
         <div className="userBox">
+          <label htmlFor="username">Email:</label>
           <input
             type="email"
             value={email}
@@ -93,12 +97,14 @@ function Register() {
             onChange={(e) => setEmail(e.target.value)}
             className="userBox"
             required
+            name="email"
           />
           <label className="errorLabel">{emailError}</label>
         </div>
 
         {/* Username field */}
         <div className="userBox">
+          <label htmlFor="username">Create your username:</label>
           <input
             type="text"
             value={username}
@@ -106,35 +112,30 @@ function Register() {
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"
             required
+            name="username"
           />
           <label className="errorLabel">{usernameError}</label>
         </div>
 
         {/* Password field */}
-        <div className="userBox">
-          <input
-            type="password"
-            value={password}
-            placeholder="Enter password here"
-            onChange={(e) => setPassword(e.target.value)}
-            className="userBox"
-            required
-          />
-          <label className="errorLabel">{passwordError}</label>
-        </div>
+        <PasswordInput
+          password={password}
+          setPassword={setPassword}
+          viewPassword={viewPassword}
+          setViewPassword={setViewPassword}
+          passwordError={passwordError}
+          labelText="Password:"
+        />
 
         {/* Confirm password field */}
-        <div className="userBox">
-          <input
-            type="password"
-            value={passwordcheck}
-            placeholder="Confirm password here"
-            onChange={(e) => setPasswordcheck(e.target.value)}
-            className="userBox"
-            required
-          />
-          <label className="errorLabel">{passwordError}</label>
-        </div>
+        <PasswordInput
+          password={passwordcheck}
+          setPassword={setPasswordcheck}
+          viewPassword={viewPasswordCheck}
+          setViewPassword={setViewPasswordCheck}
+          passwordError={passwordError}
+          labelText="Confirm password:"
+        />
 
         <p className="errorLabel">{serverErrorMessage}</p>
         <button onClick={onButtonClick} className="inputButton">
@@ -159,7 +160,12 @@ export function registerInputValidation(
     return ["email", "Please enter your email", false];
   }
 
-  if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+  // From https://emailregex.com/index.html
+  if (
+    !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    )
+  ) {
     return ["email", "Please enter a valid email address", false];
   }
 

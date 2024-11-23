@@ -1,11 +1,10 @@
-import "./Nav.css";
-
-import { LinkButton } from "./LinkButton.tsx";
-
 import { Link } from "react-router-dom";
-import { LOGIN_ROUTE, REGISTER_ROUTE, PROFILE_ROUTE } from "../const";
+import { VERIFY_ROUTE } from "../../../shared/const.ts";
+import { LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from "../const";
 import { useAuth } from "../user";
 import { Button } from "./Button.tsx";
+import { LinkButton } from "./LinkButton.tsx";
+import "./Nav.css";
 
 // Functional component for the navigation bar
 export default function Nav() {
@@ -13,31 +12,46 @@ export default function Nav() {
 
   return (
     <nav className="header">
-      {/* Link to the home page */}
-      <h1>
-        <Link to="/" className="link">
-          Kode Kamp
-        </Link>
-      </h1>
-      <div className="buttonArray">
-        {!user && (
-          <>
-            <LinkButton to={LOGIN_ROUTE}>Sign in</LinkButton>
-            <LinkButton to={REGISTER_ROUTE}>Register</LinkButton>
-          </>
-        )}
-        {user && (
-          <Link className="profileInfo" to={PROFILE_ROUTE}>
-            <img
-              src="/profile.svg"
-              className="profileIcon"
-              alt="Profile icon"
-            ></img>
-            {user.username}
+      <div className="container">
+        {/* Link to the home page */}
+        <h1>
+          <Link to="/" className="link">
+            Kode Kamp
           </Link>
-        )}
+        </h1>
+        <div className="buttonArray">
+          {!user && (
+            <>
+              <LinkButton to={LOGIN_ROUTE}>Sign in</LinkButton>
+              <LinkButton to={REGISTER_ROUTE}>Register</LinkButton>
+            </>
+          )}
+          {user && (
+            <>
+              {!user.verified && (
+                <div className="column">
+                  <p>
+                    You are not verified!{" "}
+                    <Link to={VERIFY_ROUTE} className="link">
+                      Verify.
+                    </Link>
+                  </p>
+                </div>
+              )}
 
-        {user && <Button onClick={logOut}>Log out</Button>}
+              <Link className="profileInfo" to={PROFILE_ROUTE}>
+                <img
+                  src="/profile.svg"
+                  className="profileIcon"
+                  alt="Profile icon"
+                ></img>
+                {user.username}
+              </Link>
+            </>
+          )}
+
+          {user && <Button onClick={logOut}>Log out</Button>}
+        </div>
       </div>
     </nav>
   );

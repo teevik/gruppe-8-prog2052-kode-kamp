@@ -85,7 +85,13 @@ export default function SpeedCodingPage({
     };
   }, []);
 
-  //const [code, setCode] = useState<string>("");
+  useEffect(() => {
+    const mathJax = (window as any).MathJax;
+
+    if (typeof mathJax !== "undefined") {
+      mathJax.typeset();
+    }
+  }, [challenge]);
 
   return (
     <div className="gamePageContainer">

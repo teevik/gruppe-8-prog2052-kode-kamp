@@ -5,7 +5,7 @@ import "./App.css";
 import { NotFound } from "./components/NotFound";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "./const";
 import ComponentView from "./pages/component-view/ComponentView";
-import { GameProps } from "./pages/game/GamePage";
+import { GamePageMock } from "./pages/game/mock/GamePageMock";
 import LandingPage from "./pages/landing/LandingPage";
 import { MockModeExplanation } from "./pages/mode-explanation/ModeExplanation";
 import ResultsPage, { ResultPageProps } from "./pages/results/ResultsPage";
@@ -82,23 +82,6 @@ const ResultMockProps: ResultPageProps = {
   },
 };
 
-const GamePageMockProps: GameProps = {
-  challenge: {
-    title: "Challenge 1",
-    license: "MIT",
-    attribution: [{ name: "Author", url: "https://example.com" }],
-    description: "Description",
-    input: "input",
-    output: "output",
-    template: "template",
-    sampleTests: [{ input: ["sampleinput"], output: ["sampleoutput"] }],
-    tests: [{ input: ["input"], output: ["output"] }],
-  },
-  gameMode: "First to Finish",
-  gameTime: 360,
-  player: undefined,
-};
-
 const App: React.FC = () => {
   return (
     <>
@@ -107,10 +90,7 @@ const App: React.FC = () => {
         <Routes>
           {/* mock routes */}
           <Route path="/component-view" element={<ComponentView />} />
-          <Route
-            path="/game-page"
-            element={<GamePage {...GamePageMockProps} />}
-          />
+          <Route path="/game-page" element={<GamePageMock />} />
           <Route
             path="/results-page"
             element={<ResultsPage {...ResultMockProps}></ResultsPage>}

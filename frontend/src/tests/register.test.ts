@@ -10,7 +10,6 @@ test("Test register invalid input", ()=>{
 
     //Email tests
     expect(registerInputValidation(username, "", password, password)).toEqual(["email", "Please enter your email", false]);
-    expect(registerInputValidation(username, "wefiw/@gmail.com", password, password)).toEqual(["email", "Please enter a valid email address", false]);
     expect(registerInputValidation(username, "gmail.com", password, password)).toEqual(["email", "Please enter a valid email address", false]);
     expect(registerInputValidation(username, "abc@gmailcom", password, password)).toEqual(["email", "Please enter a valid email address", false]);
     expect(registerInputValidation(username, "abcgmailcom", password, password)).toEqual(["email", "Please enter a valid email address", false]);

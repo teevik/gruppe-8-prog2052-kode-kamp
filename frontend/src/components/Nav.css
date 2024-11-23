@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--semi-background);
+  background-color: var(--bg-alt);
   color: var(--default-text);
   padding: 10px 32px;
   display: flex;
@@ -8,7 +8,6 @@
 
 .header .container {
   flex: 1;
-  background-color: var(--bg-alt);
   color: var(--fg);
   padding: 10px 10px;
   display: flex;

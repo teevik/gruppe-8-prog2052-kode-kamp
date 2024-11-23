@@ -1,9 +1,8 @@
 import { lazy, useEffect, useState } from "react";
 import { Challenge, SocketData } from "../../../../shared/types";
-import { Footer } from "../../components/Footer";
-import Nav from "../../components/Nav";
+import { useAuth } from "../../auth";
+import { Layout } from "../../components/Layout";
 import { socket } from "../../socket";
-import { useAuth } from "../../user";
 import Lobby from "../lobby/Lobby";
 import "./LandingPage.css"; // Ensure this path is correct
 
@@ -87,14 +86,14 @@ const LandingPage = () => {
           player={player}
         />
       ) : (
-        <>
+        <Layout showNav showFooter>
           <Lobby
             gameMode={gameMode}
             updatePlayer={updatePlayer}
             player={player}
             players={players}
           />
-        </>
+        </Layout>
       )}
     </>
   );

@@ -44,7 +44,6 @@ export type UserJWT = {
   id: string;
   username: string;
   email: string;
-  verified: boolean;
 };
 
 type TestResult =

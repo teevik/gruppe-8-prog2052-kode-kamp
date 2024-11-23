@@ -4,13 +4,13 @@ import { LinkButton } from "./LinkButton.tsx";
 
 import { Link } from "react-router-dom";
 import { VERIFY_ROUTE } from "../../../shared/const.ts";
+import { useAuth } from "../auth.tsx";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
-import { useAuth } from "../user";
 import { Button } from "./Button.tsx";
 
 // Functional component for the navigation bar
 export default function Nav() {
-  const { user, logOut } = useAuth();
+  const { user, logOut, isVerified } = useAuth();
 
   return (
     <nav className="header">
@@ -30,7 +30,7 @@ export default function Nav() {
           )}
           {user && (
             <>
-              {!user.verified && (
+              {!isVerified && (
                 <div className="column">
                   <p>
                     You are not verified!{" "}

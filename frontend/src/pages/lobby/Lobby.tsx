@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { SocketData } from "../../../../shared/types";
+import { useAuth } from "../../auth";
 import { Button } from "../../components/Button";
-import { socket } from "../../socket";
-import { useAuth } from "../../user";
-import ModeExplanation from "../mode-explanation/ModeExplanation";
 import { Footer } from "../../components/Footer";
-import Nav from "../../components/Nav";
+import { socket } from "../../socket";
+import ModeExplanation from "../mode-explanation/ModeExplanation";
 
 interface LobbyProps {
   gameMode: string;

@@ -219,10 +219,12 @@ export default function SpeedCodingPage({
 
             {/* Right Section: Code Editor */}
             <div className="gamePageEditor">
-              <p className="testResults">
-                {amountTestsPassed !== "" &&
-                  `Tests passed: ${amountTestsPassed}`}
-              </p>
+              {amountTestsPassed !== "" && (
+                <p className="testResults">
+                  Tests passed: ${amountTestsPassed}
+                </p>
+              )}
+
               {submittedCode && <div className="loader"></div>}
               <CodeEditor
                 code={code}

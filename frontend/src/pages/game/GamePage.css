@@ -58,7 +58,7 @@
   width: 50em;
 }
 
-.css-0 button {
+.gamePageEditor button {
   border: none;
   outline: none;
   padding: 0.5rem 1rem;
@@ -66,16 +66,16 @@
   margin-bottom: 1rem;
 }
 
-.css-0 div.margin {
+.gamePageEditor div.margin {
   background: var(--darker);
 }
 
-.css-0 div {
+.gamePageEditor div {
   background: none;
   border: none;
   background: var(--bg);
 }
-.css-0 div.overflow-guard {
+.gamePageEditor div.overflow-guard {
   border-radius: 10px;
   box-shadow: 0 0 10px 3px #111;
 }

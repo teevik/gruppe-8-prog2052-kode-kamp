@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { Editor, Monaco } from "@monaco-editor/react";
 
 interface CodeEditorProps {
@@ -41,26 +40,21 @@ export default function CodeEditor({
   }
 
   return (
-    <Box>
-      {/* Monaco Editor */}
-      <Box border="1px solid #e2e8f0">
-        <Editor
-          height="80vh"
-          theme="vs-dark"
-          language="javascript"
-          value={code}
-          onChange={handleChange}
-          beforeMount={handleEditorWillMount}
-          options={{
-            // smaller font size
-            fontSize: 14,
-            // disable minimap
-            minimap: { enabled: false },
-            // enables automatic layout
-            automaticLayout: true,
-          }}
-        />
-      </Box>
-    </Box>
+    <Editor
+      // height="80vh"
+      theme="vs-dark"
+      language="javascript"
+      value={code}
+      onChange={handleChange}
+      beforeMount={handleEditorWillMount}
+      options={{
+        // smaller font size
+        fontSize: 14,
+        // disable minimap
+        minimap: { enabled: false },
+        // enables automatic layout
+        automaticLayout: true,
+      }}
+    />
   );
 }

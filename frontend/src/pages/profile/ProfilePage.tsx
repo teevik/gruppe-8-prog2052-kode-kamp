@@ -1,9 +1,8 @@
+import { Button } from "../../components/Button";
+import { Layout } from "../../components/Layout";
+import { ScoreRanking } from "../../components/ScoreRanking";
 import { useAuth } from "../../user";
 import "./ProfilePage.css";
-import Nav from "../../components/Nav";
-import { ScoreRanking } from "../../components/ScoreRanking";
-import { MAX_POINTS } from "../../../../shared/const";
-import { Button } from "../../components/Button";
 
 export default function ProfilePage() {
   const { user, logOut } = useAuth();
@@ -11,8 +10,7 @@ export default function ProfilePage() {
   const points = 47;
 
   return (
-    <>
-      <Nav />
+    <Layout showNav showFooter>
       <div className="profilePage">
         <h1>Your profile</h1>
         <h2>User info</h2>
@@ -30,6 +28,6 @@ export default function ProfilePage() {
         <p>Points: {points}</p>
         <ScoreRanking progress={points} />
       </div>
-    </>
+    </Layout>
   );
 }

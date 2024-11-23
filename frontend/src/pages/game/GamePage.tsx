@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import type { GameMode } from "../../../../shared/const";
 import type {
   Challenge,
   Participant,
@@ -16,7 +15,7 @@ import "./GamePage.css"; // Import the CSS file
 
 export interface GameProps {
   challenge: Challenge | undefined;
-  gameMode: GameMode;
+  gameMode: string;
   gameTime: number;
   player: SocketData | undefined;
 }

@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
+import type { GameMode } from "../../../../shared/const";
 import type {
   Challenge,
   Participant,
   SocketData,
   TestResults,
 } from "../../../../shared/types";
+import { Button } from "../../components/Button";
 import CodeEditor from "../../components/CodeEditor";
 import CountDown from "../../components/CountDown";
-import { socket } from "../../socket";
 import TestResultsComponent from "../../components/TestResults";
+import { socket } from "../../socket";
 import ResultPage from "../results/ResultsPage";
 import "./GamePage.css"; // Import the CSS file
 
 export interface GameProps {
   challenge: Challenge | undefined;
-  gameMode: string;
+  gameMode: GameMode;
   gameTime: number;
   player: SocketData | undefined;
 }
@@ -93,6 +95,14 @@ export default function SpeedCodingPage({
     }
   }, [challenge]);
 
+  function runCode(code: string) {
+    socket.emit("runCode", code);
+  }
+
+  function submitCode(code: string) {
+    socket.emit("submitCode", code);
+  }
+
   return (
     <div className="gamePageContainer">
       {showResultPage && (
@@ -110,10 +120,43 @@ export default function SpeedCodingPage({
           <div className="gamePageHeader">
             <div className="gamePageHeaderTitle">KodeKamp</div>
             <div className="gamePageHeaderMode">
-              <p>gamemode</p>
+              <p>Gamemode</p>
               <p className="gamePageHeaderTitle">{gameMode}</p>
             </div>
-            <CountDown initialCounter={gameTime} />
+
+            <div className="gamePageHeaderRow">
+              <CountDown initialCounter={gameTime} />
+
+              <Button
+                onClick={() => setCode(challenge.template)}
+                variant="secondary"
+              >
+                Reset
+              </Button>
+              <Button
+                variant="secondary"
+                disabled={submittedCode}
+                onClick={() => {
+                  if (code) {
+                    setSubmittedCode(true);
+                    runCode(code);
+                  }
+                }}
+              >
+                Run
+              </Button>
+              <Button
+                disabled={submittedCode}
+                onClick={() => {
+                  if (code) {
+                    setSubmittedCode(true);
+                    submitCode(code);
+                  }
+                }}
+              >
+                Submit
+              </Button>
+            </div>
           </div>
 
           {/* Main Content Section */}

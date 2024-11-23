@@ -21,6 +21,12 @@
   color: var(--fg);
 }
 
+.gamePageHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .gamePageHeaderMode {
   font-size: 1rem;
   color: var(--fg);
@@ -44,7 +50,7 @@
 .gamePageTaskDescription {
   width: 25%;
   background-color: var(--bg);
-  padding: 16px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: top;
@@ -75,11 +81,9 @@
 }
 
 .gamePageTaskTitle {
-  text-align: center;
-  font-size: 1.125rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 16px;
-  color: #333;
 }
 
 /* Right Section: Code Editor */

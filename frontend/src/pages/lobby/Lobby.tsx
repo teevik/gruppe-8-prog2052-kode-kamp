@@ -6,6 +6,7 @@ import { useAuth } from "../../user";
 import ModeExplanation from "../mode-explanation/ModeExplanation";
 import { Footer } from "../../components/Footer";
 import Nav from "../../components/Nav";
+import "./Lobby.css";
 
 interface LobbyProps {
   gameMode: string;

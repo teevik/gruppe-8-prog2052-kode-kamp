@@ -1,0 +1,67 @@
+/* Lobby container */
+.lobbyContainer {
+  background-color: var(--bg-alt);
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Lobby header */
+.lobbyHeader {
+  margin-bottom: 20px;
+}
+
+.lobbyHeader h3 {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.lobbyHeader p {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* Player grid layout */
+.playerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 50px); /* 4 columns */
+  grid-gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.playerSlot,
+.emptySlot {
+  border-radius: 50px;
+  background: #e0e0e0;
+  box-shadow:
+    inset 20px 20px 60px #bebebe,
+    inset -20px -20px 60px #ffffff;
+}
+
+/* Individual player slot */
+.playerSlot,
+.playerYou {
+  width: 50px;
+  height: 50px;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.playerYou {
+  background: linear-gradient(145deg, #d7d7d7, #b5b5b5);
+  box-shadow: 0 0 20px #ffffff88;
+  border: thin solid #979797;
+}
+/* Empty slot styling */
+.emptySlot {
+  width: 50px;
+  height: 50px;
+  background-color: #d3d3d3;
+  border-radius: 5px;
+}

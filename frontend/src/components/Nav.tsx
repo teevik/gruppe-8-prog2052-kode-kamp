@@ -1,12 +1,10 @@
-import "./Nav.css";
-
-import { LinkButton } from "./LinkButton.tsx";
-
 import { Link } from "react-router-dom";
 import { VERIFY_ROUTE } from "../../../shared/const.ts";
 import { useAuth } from "../auth.tsx";
-import { LOGIN_ROUTE, REGISTER_ROUTE } from "../const";
+import { LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from "../const";
 import { Button } from "./Button.tsx";
+import { LinkButton } from "./LinkButton.tsx";
+import "./Nav.css";
 
 // Functional component for the navigation bar
 export default function Nav() {
@@ -41,9 +39,14 @@ export default function Nav() {
                 </div>
               )}
 
-              <div className="column">
-                <p>{user.username}</p>
-              </div>
+              <Link className="profileInfo" to={PROFILE_ROUTE}>
+                <img
+                  src="/profile.svg"
+                  className="profileIcon"
+                  alt="Profile icon"
+                ></img>
+                {user.username}
+              </Link>
             </>
           )}
 

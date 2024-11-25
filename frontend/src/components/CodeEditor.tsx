@@ -1,7 +1,4 @@
-import { Box } from "@chakra-ui/react";
-import { Button } from "./Button";
 import { Editor, Monaco } from "@monaco-editor/react";
-import { socket } from "../socket";
 
 interface CodeEditorProps {
   template: string;
@@ -34,71 +31,30 @@ export default function CodeEditor({
     }
   };
 
-  function submitCode(code: string) {
-    socket.emit("submitCode", code);
-  }
-
-  function runCode(code: string) {
-    socket.emit("runCode", code);
-  }
-
   // ran when the editor is about to be mounted
   function handleEditorWillMount(monaco: Monaco) {
     monaco.languages?.typescript?.javascriptDefaults.addExtraLib(
       "declare function readline(): string;",
-      "kodekamp.d.ts",
+      "kodekamp.d.ts"
     );
   }
 
   return (
-    <Box>
-      {/* Action buttons like Reset, mby have test cases here?*/}
-      <Button onClick={() => setCode(template)} variant="tertiary">
-        Reset
-      </Button>
-      <Button
-        variant="secondary"
-        disabled={submittedCode}
-        onClick={() => {
-          if (code) {
-            setSubmittedCode(true);
-            runCode(code);
-          }
-        }}
-      >
-        Run
-      </Button>
-      <Button
-        disabled={submittedCode}
-        onClick={() => {
-          if (code) {
-            setSubmittedCode(true);
-            submitCode(code);
-          }
-        }}
-      >
-        Submit
-      </Button>
-
-      {/* Monaco Editor */}
-      <Box border="1px solid #e2e8f0">
-        <Editor
-          height="80vh"
-          theme="vs-dark"
-          language="javascript"
-          value={code}
-          onChange={handleChange}
-          beforeMount={handleEditorWillMount}
-          options={{
-            // smaller font size
-            fontSize: 14,
-            // disable minimap
-            minimap: { enabled: false },
-            // enables automatic layout
-            automaticLayout: true,
-          }}
-        />
-      </Box>
-    </Box>
+    <Editor
+      // height="80vh"
+      theme="vs-dark"
+      language="javascript"
+      value={code}
+      onChange={handleChange}
+      beforeMount={handleEditorWillMount}
+      options={{
+        // smaller font size
+        fontSize: 14,
+        // disable minimap
+        minimap: { enabled: false },
+        // enables automatic layout
+        automaticLayout: true,
+      }}
+    />
   );
 }

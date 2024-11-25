@@ -1,6 +1,5 @@
 import { lazy, useEffect, useState } from "react";
 import { Challenge, SocketData } from "../../../../shared/types";
-import { useAuth } from "../../auth";
 import { Layout } from "../../components/Layout";
 import { socket } from "../../socket";
 import Lobby from "../lobby/Lobby";
@@ -15,7 +14,6 @@ const LandingPage = () => {
   const [player, setPlayer] = useState<SocketData | undefined>(undefined);
   const [challenge, setChallenge] = useState<Challenge | undefined>();
   const [gameMode, setGameMode] = useState<string>("");
-  const { user } = useAuth();
 
   function updatePlayers(p: SocketData[]) {
     setPlayers(p);
@@ -88,7 +86,8 @@ const LandingPage = () => {
       ) : (
         <Layout showNav showFooter>
           <Lobby
-            gameMode={gameMode}
+            // TODO fix typing
+            gameMode={gameMode as any}
             updatePlayer={updatePlayer}
             player={player}
             players={players}

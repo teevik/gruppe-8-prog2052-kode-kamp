@@ -69,4 +69,16 @@ interface TestResults {
   results: TestResult[];
 }
 
-export type { Challenge, Participant, SocketData, Test, TestResults };
+interface Milestone {
+  text: string;
+  imageSrc: string;
+}
+
+export type {
+  Challenge,
+  Participant,
+  SocketData,
+  Test,
+  TestResults,
+  Milestone,
+};

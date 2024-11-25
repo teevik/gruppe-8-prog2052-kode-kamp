@@ -22,3 +22,7 @@ prettier:
 check:
   (cd ./backend && npm run check)
   (cd ./frontend && npm run check)
+
+test:
+  (cd ./backend && npm run test)
+  (cd ./frontend && npm run test)

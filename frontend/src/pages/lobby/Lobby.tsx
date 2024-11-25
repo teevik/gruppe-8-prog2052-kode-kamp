@@ -6,9 +6,12 @@ import { useAuth } from "../../user";
 import ModeExplanation from "../mode-explanation/ModeExplanation";
 import { Footer } from "../../components/Footer";
 import Nav from "../../components/Nav";
+import "./Lobby.css";
+import { Layout } from "../../components/Layout";
+import { GameMode } from "../../../../shared/const";
 
 interface LobbyProps {
-  gameMode: string;
+  gameMode: GameMode;
   updatePlayer: (p: SocketData | undefined) => void;
   players: SocketData[];
   player: SocketData | undefined;
@@ -59,25 +62,17 @@ export default function Lobby({
   }
 
   return (
-    <div className="landingPage">
-      {gameMode !== "" && (
-        <div>
-          <p>gamemode</p>
-          <h1>{gameMode}</h1>
-        </div>
-      )}
-
+    <>
       {countdownStartGame !== "" && (
         <ModeExplanation
           gameMode={gameMode}
           //TODO: change countdownStartGame to int from backend
           time={parseInt(countdownStartGame)}
-          explanation="bingo"
         />
       )}
 
       {countdownStartGame == "" && (
-        <>
+        <Layout showNav showFooter className="landingPage">
           <header>
             <h1>KodeKamp Lobby</h1>
             <p>Compete together, grow together</p>
@@ -95,7 +90,7 @@ export default function Lobby({
                 Array.from({ length: totalPlayersLobby }, (_, index) => (
                   <div key={index}>
                     {index < amountPlayersLobby && players[index] ? (
-                      <span
+                      <div
                         role="img"
                         aria-label="Player icon"
                         className={
@@ -105,7 +100,7 @@ export default function Lobby({
                         }
                       >
                         {players[index].emoji}
-                      </span>
+                      </div>
                     ) : (
                       <div className="emptySlot" />
                     )}
@@ -125,10 +120,9 @@ export default function Lobby({
                 Leave
               </Button>
             )}
-            <Footer />
           </div>
-        </>
+        </Layout>
       )}
-    </div>
+    </>
   );
 }

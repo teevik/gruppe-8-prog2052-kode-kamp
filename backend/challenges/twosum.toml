@@ -1,0 +1,40 @@
+title = "Two-sum"
+license = "Creative Commons License (cc by)"
+
+attribution = [
+  { name = "Johan Sannemo", url = "https://open.kattis.com/problem-authors/Johan%20Sannemo" },
+]
+
+description = '''
+<p>Per-Magnus is trying to add two integers, but he never
+    learned how to.</p>
+
+<p>Write a program to help him with this most difficult
+    task!</p>
+'''
+
+input = '''
+<p>The input consists of a single line with two integers
+    <span class="tex2jax_process">$0 \le a \le 1\, 000$</span> and
+    <span class="tex2jax_process">$0 \le b \le 1\, 000$</span>.</p>
+'''
+
+output = '''
+<p>Output a single integer, the sum <span class="tex2jax_process">$a + b$</span>.</p>
+'''
+
+template = '''
+let input = readline();
+
+// console.log(output);
+'''
+
+sampleTests = [
+  { input = ['1 1'], output = ['2'] },
+  { input = ['2 2'], output = ['4'] },
+]
+
+tests = [
+  { input = ['1 1'], output = ['2'] },
+  { input = ['2 2'], output = ['4'] },
+]

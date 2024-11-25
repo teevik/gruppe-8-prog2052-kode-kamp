@@ -1,0 +1,39 @@
+title = "Add Two Numbers"
+license = "Creative Commons License (cc by)"
+
+attribution = [
+  { name = "Greg Hamerly", url = "https://open.kattis.com/problem-authors/Greg%20Hamerly" },
+]
+
+description = '''
+<p>In this problem, your program should read two whole numbers
+    (also called integers) from the input, and print out their
+    sum.</p>
+'''
+
+input = '''
+<p>The input contains one line, which has two integers
+    <span class="tex2jax_process">$a$</span> and <span class="tex2jax_process">$b$</span>, separated by a single space. The
+    bounds on these values are <span class="tex2jax_process">$0 \le
+    a, b \le 1\, 000\, 000$</span>.</p>
+'''
+
+output = '''
+<p>Output the sum of the two integers, <span class="tex2jax_process">$a + b$</span>.</p>
+'''
+
+template = '''
+let input = readline();
+
+// console.log(output);
+'''
+
+sampleTests = [
+  { input = ['3 4'], output = ['7'] },
+  { input = ['987 23'], output = ['1010'] },
+]
+
+tests = [
+  { input = ['3 4'], output = ['7'] },
+  { input = ['987 23'], output = ['1010'] },
+]

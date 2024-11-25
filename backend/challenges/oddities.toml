@@ -1,0 +1,55 @@
+title = "Oddities"
+license = "Creative Commons License (cc by)"
+
+attribution = [
+  { name = "Greg Hamerly", url = "https://open.kattis.com/problem-authors/Greg%20Hamerly" },
+]
+
+description = '''
+<p>Some numbers are just, well, odd. For example, the number
+    <span class="tex2jax_process">$3$</span> is odd, because it is
+    not a multiple of two. Numbers that are a multiple of two are
+    not odd, they are even. More precisely, if a number
+    <span class="tex2jax_process">$n$</span> can be expressed as
+    <span class="tex2jax_process">$n = 2 \cdot k$</span> for some
+    integer <span class="tex2jax_process">$k$</span>, then
+    <span class="tex2jax_process">$n$</span> is even. For example,
+    <span class="tex2jax_process">$6 = 2 \cdot 3$</span> is
+    even.</p>
+
+<p>Some people get confused about whether numbers are odd or
+    even. To see a common example, do an internet search for the
+    query “is zero even or odd?” (Don’t search for this now! You
+    have a problem to solve!)</p>
+
+<p>Write a program to help these confused people.</p>
+'''
+
+input = '''
+<p>Input begins with an integer <span class="tex2jax_process">$1 \leq n \leq 20$</span> on a line by
+    itself, indicating the number of test cases that follow. Each
+    of the following <span class="tex2jax_process">$n$</span> lines
+    contain a test case consisting of a single integer <span class="tex2jax_process">$-10 \leq x \leq 10$</span>.</p>
+'''
+
+output = '''
+<p>For each <span class="tex2jax_process">$x$</span>, print
+    either ‘<span class="tex2jax_process">$x$</span> is odd’ or
+    ‘<span class="tex2jax_process">$x$</span> is even’ depending on
+    whether <span class="tex2jax_process">$x$</span> is odd or
+    even.</p>
+'''
+
+template = '''
+let input = readline();
+
+// console.log(output);
+'''
+
+sampleTests = [
+  { input = ['3', '10', '9', '-5'], output = ['10 is even', '9 is odd', '-5 is odd'] },
+]
+
+tests = [
+  { input = ['3', '10', '9', '-5'], output = ['10 is even', '9 is odd', '-5 is odd'] },
+]

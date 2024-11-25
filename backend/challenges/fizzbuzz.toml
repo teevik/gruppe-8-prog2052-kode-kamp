@@ -1,0 +1,48 @@
+title = "FizzBuzz"
+license = "Creative Commons License (cc by)"
+
+attribution = [
+  { name = "Darko Aleksic", url = "https://open.kattis.com/problem-authors/Darko%20Aleksic" },
+]
+
+description = '''
+According to Wikipedia, FizzBuzz is a group word game for
+    children to teach them about division. This may or may not be
+    true, but this question is generally used to <del>torture</del>
+
+    screen young computer science graduates during programming
+    interviews.
+    <p>Basically, this is how it works: you print the integers from
+    <span class="tex2jax_process">$1$</span> to <span class="tex2jax_process">$N$</span>, replacing any of them divisible
+    by <span class="tex2jax_process">$X$</span> with <tt class="ttfamily">Fizz</tt> or, if they are divisible by <span class="tex2jax_process">$Y$</span>, with <tt class="ttfamily">Buzz</tt>. If the number is divisible by both
+    <span class="tex2jax_process">$X$</span> and <span class="tex2jax_process">$Y$</span>, you print <tt class="ttfamily">FizzBuzz</tt> instead.</p>
+
+<p>Check the samples for further clarification.</p>'''
+
+input = '''
+<p>Input contains a single test case. Each test case contains
+    three integers on a single line, <span class="tex2jax_process">$X$</span>, <span class="tex2jax_process">$Y$</span> and <span class="tex2jax_process">$N$</span> (<span class="tex2jax_process">$1
+    \leq X &lt; Y \leq N \leq 100$</span>).</p>'''
+
+output = '''
+<p>Print integers from <span class="tex2jax_process">$1$</span>
+    to <span class="tex2jax_process">$N$</span> in order, each on
+    its own line, replacing the ones divisible by <span class="tex2jax_process">$X$</span> with <tt class="ttfamily">Fizz</tt>, the ones divisible by <span class="tex2jax_process">$Y$</span> with <tt class="ttfamily">Buzz</tt> and ones divisible by both <span class="tex2jax_process">$X$</span> and <span class="tex2jax_process">$Y$</span> with <tt class="ttfamily">FizzBuzz</tt>.</p>'''
+
+template = '''
+let input = readline();
+
+// console.log(output);
+'''
+
+sampleTests = [
+  { input = ['2 3 7'], output = ['1', 'Fizz', 'Buzz', 'Fizz', '5', 'FizzBuzz', '7'] },
+  { input = ['2 4 7'], output = ['1', 'Fizz', '3', 'FizzBuzz', '5', 'Fizz', '7'] },
+  { input = ['3 5 7'], output = ['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7'] },
+]
+
+tests = [
+  { input = ['2 3 7'], output = ['1', 'Fizz', 'Buzz', 'Fizz', '5', 'FizzBuzz', '7'] },
+  { input = ['2 4 7'], output = ['1', 'Fizz', '3', 'FizzBuzz', '5', 'Fizz', '7'] },
+  { input = ['3 5 7'], output = ['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7'] },
+]

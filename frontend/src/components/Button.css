@@ -39,7 +39,7 @@
 }
 
 .danger {
-  background-color: var(--red);
+  background-color: var(--error);
   color: white;
-  border: 3px solid var(--red);
+  border: 3px solid var(--error);
 }

@@ -35,7 +35,7 @@
   padding-left: 0.95rem;
   padding-right: 1.75rem;
 
-  background-color: var(--bg);
+  background: var(--bg);
   border: none;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
@@ -46,7 +46,7 @@
   margin-top: -1px;
   width: 100%;
   height: var(--border-radius);
-  background-color: var(--primary);
+  background: var(--primary);
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
 }

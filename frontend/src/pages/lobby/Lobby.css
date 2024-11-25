@@ -41,21 +41,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: inset 0 0 0 3px var(--fg);
 }
 
 .emptySlot {
   background: transparent;
-  box-shadow: inset 0 0 0 2px var(--fg);
 }
 
 .playerSlot,
 .playerYou {
   font-size: 1.8rem;
-  box-shadow: inset 0 0 0 2px var(--fg);
 }
 
 .playerSlot {
 }
 .playerYou {
-  background: var(--default-text);
+  background: var(--fg);
 }

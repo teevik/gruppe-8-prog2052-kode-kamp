@@ -21,6 +21,12 @@
   color: var(--fg);
 }
 
+.gamePageHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .gamePageHeaderMode {
   font-size: 1rem;
   color: var(--fg);
@@ -44,7 +50,7 @@
 .gamePageTaskDescription {
   width: 25%;
   background-color: var(--bg);
-  padding: 16px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: top;
@@ -52,7 +58,7 @@
   width: 50em;
 }
 
-.css-0 button {
+.gamePageEditor button {
   border: none;
   outline: none;
   padding: 0.5rem 1rem;
@@ -60,26 +66,24 @@
   margin-bottom: 1rem;
 }
 
-.css-0 div.margin {
+.gamePageEditor div.margin {
   background: var(--darker);
 }
 
-.css-0 div {
+.gamePageEditor div {
   background: none;
   border: none;
   background: var(--bg);
 }
-.css-0 div.overflow-guard {
+.gamePageEditor div.overflow-guard {
   border-radius: 10px;
   box-shadow: 0 0 10px 3px #111;
 }
 
 .gamePageTaskTitle {
-  text-align: center;
-  font-size: 1.125rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 16px;
-  color: #333;
 }
 
 /* Right Section: Code Editor */

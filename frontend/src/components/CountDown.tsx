@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import "./CountDown.css";
 
 interface CountDownProps {
   initialCounter: number;
@@ -23,7 +24,7 @@ export default function CountDown({ initialCounter }: CountDownProps) {
     };
   }, []);
 
-  return <p>{timer}</p>;
+  return <p className="countDown">{timer}</p>;
 }
 
 function formatSeconds(countdownSeconds: number): string {

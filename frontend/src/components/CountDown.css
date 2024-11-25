@@ -1,0 +1,4 @@
+.countDown {
+  /* Force monospace */
+  font-variant-numeric: tabular-nums;
+}

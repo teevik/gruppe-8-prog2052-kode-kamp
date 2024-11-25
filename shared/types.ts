@@ -1,3 +1,5 @@
+import type { GameMode } from "./const";
+
 /**
  * Contains all type interfaces that are used on both frontend and backend
  */
@@ -75,7 +77,7 @@ export interface ServerToClientEvents {
   playerJoinedLobby: (playerData: SocketData) => void;
   playerLeftLobby: (playerData: SocketData) => void;
   gameJoined: (gameRoomID: string) => void;
-  gameMode: (mode: string) => void;
+  gameMode: (mode: GameMode) => void;
   gameStart: (challenge: Challenge, gameTimeSeconds: number) => void;
   gameOver: (resultPageCountdown: number) => void;
   countdown: (counter: number) => void;

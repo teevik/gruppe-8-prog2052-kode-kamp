@@ -125,7 +125,6 @@ export default function Lobby({
                 Leave
               </Button>
             )}
-            <Footer />
           </div>
         </>
       )}

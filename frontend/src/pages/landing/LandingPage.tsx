@@ -6,6 +6,7 @@ import { socket } from "../../socket";
 import { useAuth } from "../../user";
 import Lobby from "../lobby/Lobby";
 import "./LandingPage.css"; // Ensure this path is correct
+import { Layout } from "../../components/Layout";
 
 const GamePage = lazy(() => import("../game/GamePage"));
 
@@ -78,8 +79,7 @@ const LandingPage = () => {
   }, [player, players, inGame]);
 
   return (
-    <>
-      <Nav />
+    <Layout showNav showFooter>
       {inGame ? (
         <GamePage
           challenge={challenge}
@@ -97,7 +97,7 @@ const LandingPage = () => {
           />
         </>
       )}
-    </>
+    </Layout>
   );
 };
 

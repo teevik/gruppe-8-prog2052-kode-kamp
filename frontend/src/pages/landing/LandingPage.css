@@ -3,14 +3,13 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: 100vh;
 }
 
 /* Main container styling */
 .landingPage {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   justify-content: center;
   text-align: center;
 }

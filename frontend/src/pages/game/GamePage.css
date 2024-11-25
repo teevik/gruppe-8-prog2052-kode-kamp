@@ -118,7 +118,7 @@
 
 .io p {
   margin: 0;
-  display: inline;
+  /* display: inline; */
 }
 
 .examples {

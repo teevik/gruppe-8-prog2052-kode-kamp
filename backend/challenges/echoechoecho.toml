@@ -1,0 +1,46 @@
+title = "Echo Echo Echo"
+license = "Creative Commons License (cc by)"
+
+attribution = [
+  { name = "Greg Hamerly", url = "https://open.kattis.com/problem-authors/Greg%20Hamerly" },
+]
+
+description = '''
+<p>If you have ever visited a canyon or a cave, you may have
+    yelled and heard the echo of your own voice. In this problem,
+    you should simulate that effect:</p>
+
+<center>
+      Hello! Hello! Hello!
+    </center>
+
+<p>Your program will be given as input a single word, and it
+    should print out that word three times, separating the words
+    with spaces.</p>
+'''
+
+input = '''
+<p>Input is a single line, containing exactly one word. The
+    only characters used are upper and/or lowercase letters (a–z).
+    The word contains at least one and at most <span class="tex2jax_process">$15$</span> characters.</p>
+'''
+
+output = '''
+<p>Output the given word three times, separated by spaces.</p>
+'''
+
+template = '''
+let input = readline();
+
+// console.log(output);
+'''
+
+sampleTests = [
+  { input = ['Hello'], output = ['Hello Hello Hello'] },
+  { input = ['ECHO'], output = ['ECHO ECHO ECHO'] },
+]
+
+tests = [
+  { input = ['Hello'], output = ['Hello Hello Hello'] },
+  { input = ['ECHO'], output = ['ECHO ECHO ECHO'] },
+]

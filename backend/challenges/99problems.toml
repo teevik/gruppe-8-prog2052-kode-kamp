@@ -1,0 +1,47 @@
+title = "99 Problems"
+license = "Creative Commons License (cc by)"
+
+attribution = [
+  { name = "Nils Gustafsson", url = "https://open.kattis.com/problem-authors/Nils%20Gustafsson" },
+]
+
+description = '''
+<p>Ingrid is the founder of a company that sells bicycle parts.
+    She used to set the prices of products quite arbitrarily, but
+    now she has decided that it would be more profitable if the
+    prices end in <span class="tex2jax_process">$99$</span>.</p>
+
+<p>You are given a positive integer <span class="tex2jax_process">$N$</span>, the price of a product. Your task
+    is to find the nearest positive integer to <span class="tex2jax_process">$N$</span> which ends in <span class="tex2jax_process">$99$</span>. If there are two such numbers
+    that are equally close, find the bigger one.</p>
+'''
+
+input = '''
+<p>The input contains one integer <span class="tex2jax_process">$N$</span> (<span class="tex2jax_process">$1
+    \leq N \leq 10^4$</span>), the price of a product. It is
+    guaranteed that the number <span class="tex2jax_process">$N$</span> does not end in <span class="tex2jax_process">$99$</span>.</p>
+'''
+
+output = '''
+<p>Print one integer, the closest positive integer that ends in
+    <span class="tex2jax_process">$99$</span>. In case of a tie,
+    print the bigger one.</p>
+'''
+
+template = '''
+let input = readline();
+
+// console.log(output);
+'''
+
+sampleTests = [
+  { input = ['10'], output = ['99'] },
+  { input = ['249'], output = ['299'] },
+  { input = ['10000'], output = ['9999'] },
+]
+
+tests = [
+  { input = ['10'], output = ['99'] },
+  { input = ['249'], output = ['299'] },
+  { input = ['10000'], output = ['9999'] },
+]

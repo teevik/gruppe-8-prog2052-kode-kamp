@@ -5,6 +5,6 @@ and format them into toml files using our desired format.
 
 ## Usage
 
-Change the `problem_name` variable in `kattis_scraper.py`, and run the script.
+Change the `problem_name` variable in `main.py`, and run the script.
 
 The toml output will be saved so it can be viewed at the `/game-page` mock route, and the `challenge.toml` can then be copied into the `backend/challenges` directory when It's validated and ready.

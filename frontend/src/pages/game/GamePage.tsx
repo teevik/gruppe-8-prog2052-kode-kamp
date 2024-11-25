@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Resizable from "react-resizable-layout";
 import type {
   Challenge,
   Participant,
@@ -103,7 +104,7 @@ export default function SpeedCodingPage({
   }
 
   return (
-    <div className="gamePageContainer">
+    <div className="layout">
       {showResultPage && (
         <ResultPage
           scoreboard={scoreboard}
@@ -115,15 +116,10 @@ export default function SpeedCodingPage({
       )}
       {challenge && !showResultPage && (
         <>
-          {/* Header Section */}
-          <div className="gamePageHeader">
-            <div className="gamePageHeaderTitle">KodeKamp</div>
-            <div className="gamePageHeaderMode">
-              <p>Gamemode</p>
-              <p className="gamePageHeaderTitle">{gameMode}</p>
-            </div>
+          <div className="header">
+            <h2>KodeKamp: {gameMode}</h2>
 
-            <div className="gamePageHeaderRow">
+            <div className="headerRow">
               <CountDown initialCounter={gameTime} />
 
               <Button
@@ -159,84 +155,98 @@ export default function SpeedCodingPage({
           </div>
 
           {/* Main Content Section */}
-          <div className="gamePageMain">
-            {/* Left Section: Task Description */}
-            <div className="gamePageTaskDescription">
-              <div className="gamePageTaskTitle">{challenge.title}</div>
+          <div className="mainContainer">
+            <Resizable axis={"x"}>
+              {({ position, separatorProps }) => (
+                <>
+                  <div className="taskDescription" style={{ width: position }}>
+                    <div className="taskTitle">{challenge.title}</div>
 
-              {testResults && (
-                <TestResultsComponent testResults={testResults} />
-              )}
+                    {testResults && (
+                      <TestResultsComponent testResults={testResults} />
+                    )}
 
-              <div
-                dangerouslySetInnerHTML={{ __html: challenge.description }}
-              ></div>
-              <h2>Input:</h2>
-              <div dangerouslySetInnerHTML={{ __html: challenge.input }}></div>
-              <h2>Output:</h2>
-              <div dangerouslySetInnerHTML={{ __html: challenge.output }}></div>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: challenge.description,
+                      }}
+                    ></div>
+                    <h2>Input:</h2>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: challenge.input }}
+                    ></div>
+                    <h2>Output:</h2>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: challenge.output }}
+                    ></div>
 
-              <h2>Examples:</h2>
-              <section>
-                {challenge.sampleTests.map((test, index) => (
-                  <div key={index}>
-                    <section className="examples">
-                      <div>
-                        <p>Samle input {index + 1}:</p>
-                        <div className="io">
-                          {test.input.map((input) => (
-                            <p key={input}>{input}</p>
-                          ))}
+                    <h2>Examples:</h2>
+                    <section>
+                      {challenge.sampleTests.map((test, index) => (
+                        <div key={index}>
+                          <section className="examples">
+                            <div>
+                              <p>Samle input {index + 1}:</p>
+                              <div className="io">
+                                {test.input.map((input) => (
+                                  <p key={input}>{input}</p>
+                                ))}
+                              </div>
+                            </div>
+
+                            <div>
+                              <p>Sample output {index + 1}:</p>
+                              <div className="io">
+                                {test.output.map((output) => (
+                                  <p key={output}>{output}</p>
+                                ))}
+                              </div>
+                            </div>
+                          </section>
                         </div>
-                      </div>
-
-                      <div>
-                        <p>Sample output {index + 1}:</p>
-                        <div className="io">
-                          {test.output.map((output) => (
-                            <p key={output}>{output}</p>
-                          ))}
-                        </div>
-                      </div>
+                      ))}
                     </section>
+                    <cite>
+                      Attribution:
+                      {challenge.attribution.map((attr) => (
+                        <a key={attr.name} href={attr.url}>
+                          {attr.name}
+                        </a>
+                      ))}
+                    </cite>
+                    <p>
+                      License:
+                      {challenge.license}
+                    </p>
                   </div>
-                ))}
-              </section>
-              <cite>
-                Attribution:
-                {challenge.attribution.map((attr) => (
-                  <a key={attr.name} href={attr.url}>
-                    {attr.name}
-                  </a>
-                ))}
-              </cite>
-              <p>
-                License:
-                {challenge.license}
-              </p>
-            </div>
 
-            {/* Right Section: Code Editor */}
-            <div className="gamePageEditor">
-              {amountTestsPassed !== "" && (
-                <p className="testResults">
-                  Tests passed: ${amountTestsPassed}
-                </p>
+                  <div className="separator" {...separatorProps} />
+                  {/* Right Section: Code Editor */}
+                  <div
+                    className="editor"
+                    style={{
+                      width: `calc(100% - ${position}px`,
+                    }}
+                  >
+                    {/* {amountTestsPassed !== "" && ( */}
+                    {/*   <p className="testResults"> */}
+                    {/*     Tests passed: ${amountTestsPassed} */}
+                    {/*   </p> */}
+                    {/* )} */}
+
+                    {/* {submittedCode && <div className="loader"></div>} */}
+                    <CodeEditor
+                      code={code}
+                      setCode={setCode}
+                      template={challenge.template}
+                      submittedCode={submittedCode}
+                      setSubmittedCode={setSubmittedCode}
+                    />
+                  </div>
+                </>
               )}
-
-              {submittedCode && <div className="loader"></div>}
-              <CodeEditor
-                code={code}
-                setCode={setCode}
-                template={challenge.template}
-                submittedCode={submittedCode}
-                setSubmittedCode={setSubmittedCode}
-              />
-            </div>
+            </Resizable>
           </div>
-
-          {/* Footer Section */}
-          <div className="gamePageFooter"></div>
         </>
       )}
     </div>

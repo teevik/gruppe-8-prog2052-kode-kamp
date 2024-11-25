@@ -93,3 +93,8 @@ export interface ClientToServerEvents {
   leaveLobby: () => void;
   runCode: (code: string) => void;
 }
+
+export interface Milestone {
+  text: string;
+  imageSrc: string;
+}

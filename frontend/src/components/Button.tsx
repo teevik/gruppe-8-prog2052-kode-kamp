@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 interface ButtonProps {
   children: ReactNode;
   onClick: () => void;
-  variant?: "primary" | "secondary" | "tertiary";
+  variant?: "primary" | "secondary" | "tertiary" | "danger";
   //TODO: implement disabled behavior
   disabled?: boolean;
 }

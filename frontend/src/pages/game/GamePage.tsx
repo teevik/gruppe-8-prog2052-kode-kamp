@@ -5,10 +5,11 @@ import type {
   SocketData,
   TestResults,
 } from "../../../../shared/types";
+import { Button } from "../../components/Button";
 import CodeEditor from "../../components/CodeEditor";
 import CountDown from "../../components/CountDown";
-import { socket } from "../../socket";
 import TestResultsComponent from "../../components/TestResults";
+import { socket } from "../../socket";
 import ResultPage from "../results/ResultsPage";
 import "./GamePage.css"; // Import the CSS file
 
@@ -85,7 +86,21 @@ export default function SpeedCodingPage({
     };
   }, []);
 
-  //const [code, setCode] = useState<string>("");
+  useEffect(() => {
+    const mathJax = (window as any).MathJax;
+
+    if (typeof mathJax !== "undefined") {
+      mathJax.typeset();
+    }
+  }, [challenge]);
+
+  function runCode(code: string) {
+    socket.emit("runCode", code);
+  }
+
+  function submitCode(code: string) {
+    socket.emit("submitCode", code);
+  }
 
   return (
     <div className="gamePageContainer">
@@ -104,10 +119,43 @@ export default function SpeedCodingPage({
           <div className="gamePageHeader">
             <div className="gamePageHeaderTitle">KodeKamp</div>
             <div className="gamePageHeaderMode">
-              <p>gamemode</p>
+              <p>Gamemode</p>
               <p className="gamePageHeaderTitle">{gameMode}</p>
             </div>
-            <CountDown initialCounter={gameTime} />
+
+            <div className="gamePageHeaderRow">
+              <CountDown initialCounter={gameTime} />
+
+              <Button
+                onClick={() => setCode(challenge.template)}
+                variant="secondary"
+              >
+                Reset
+              </Button>
+              <Button
+                variant="secondary"
+                disabled={submittedCode}
+                onClick={() => {
+                  if (code) {
+                    setSubmittedCode(true);
+                    runCode(code);
+                  }
+                }}
+              >
+                Run
+              </Button>
+              <Button
+                disabled={submittedCode}
+                onClick={() => {
+                  if (code) {
+                    setSubmittedCode(true);
+                    submitCode(code);
+                  }
+                }}
+              >
+                Submit
+              </Button>
+            </div>
           </div>
 
           {/* Main Content Section */}
@@ -170,10 +218,12 @@ export default function SpeedCodingPage({
 
             {/* Right Section: Code Editor */}
             <div className="gamePageEditor">
-              <p className="testResults">
-                {amountTestsPassed !== "" &&
-                  `Tests passed: ${amountTestsPassed}`}
-              </p>
+              {amountTestsPassed !== "" && (
+                <p className="testResults">
+                  Tests passed: ${amountTestsPassed}
+                </p>
+              )}
+
               {submittedCode && <div className="loader"></div>}
               <CodeEditor
                 code={code}

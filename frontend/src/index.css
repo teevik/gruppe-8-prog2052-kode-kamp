@@ -11,11 +11,12 @@
 
   /* Color variables */
   --bg: #0d0a16;
-  --bg-alt: color-mix(in lab, var(--bg), #ffffff 10%);
+  --bg-alt: color-mix(in lab, var(--bg), #ffffff 7%);
   --darker: #00000033;
 
   --primary: #a493d6;
   --secondary: #ff0000;
+  --red: #df5858;
 
   --fg: #e4e0ee;
   --background-text: #e4e0ee;

@@ -1,7 +1,5 @@
 import { lazy, useEffect, useState } from "react";
 import { Challenge, SocketData } from "../../../../shared/types";
-import { Footer } from "../../components/Footer";
-import Nav from "../../components/Nav";
 import { socket } from "../../socket";
 import { useAuth } from "../../user";
 import Lobby from "../lobby/Lobby";
@@ -77,26 +75,20 @@ const LandingPage = () => {
     };
   }, [player, players, inGame]);
 
-  return (
-    <>
-      {inGame ? (
-        <GamePage
-          challenge={challenge}
-          gameMode={gameMode}
-          gameTime={gameTime}
-          player={player}
-        />
-      ) : (
-        <>
-          <Lobby
-            gameMode={gameMode}
-            updatePlayer={updatePlayer}
-            player={player}
-            players={players}
-          />
-        </>
-      )}
-    </>
+  return inGame ? (
+    <GamePage
+      challenge={challenge}
+      gameMode={gameMode}
+      gameTime={gameTime}
+      player={player}
+    />
+  ) : (
+    <Lobby
+      gameMode={gameMode as any}
+      updatePlayer={updatePlayer}
+      player={player}
+      players={players}
+    />
   );
 };
 

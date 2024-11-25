@@ -1,6 +1,5 @@
 import { lazy, useEffect, useState } from "react";
 import { Challenge, SocketData } from "../../../../shared/types";
-import { Layout } from "../../components/Layout";
 import { socket } from "../../socket";
 import Lobby from "../lobby/Lobby";
 import "./LandingPage.css"; // Ensure this path is correct
@@ -84,15 +83,13 @@ const LandingPage = () => {
           player={player}
         />
       ) : (
-        <Layout showNav showFooter>
-          <Lobby
-            // TODO fix typing
-            gameMode={gameMode as any}
-            updatePlayer={updatePlayer}
-            player={player}
-            players={players}
-          />
-        </Layout>
+        <Lobby
+          // TODO fix typing
+          gameMode={gameMode as any}
+          updatePlayer={updatePlayer}
+          player={player}
+          players={players}
+        />
       )}
     </>
   );

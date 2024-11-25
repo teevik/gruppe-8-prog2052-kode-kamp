@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { VERIFY_ROUTE } from "../../../shared/const.ts";
-import { useAuth } from "../auth.tsx";
+import { useAuth } from "../auth";
 import { LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from "../const";
 import { Button } from "./Button.tsx";
 import { LinkButton } from "./LinkButton.tsx";

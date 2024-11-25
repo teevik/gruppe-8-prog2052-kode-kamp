@@ -78,26 +78,20 @@ const LandingPage = () => {
     };
   }, [player, players, inGame]);
 
-  return (
-    <Layout showNav showFooter>
-      {inGame ? (
-        <GamePage
-          challenge={challenge}
-          gameMode={gameMode}
-          gameTime={gameTime}
-          player={player}
-        />
-      ) : (
-        <>
-          <Lobby
-            gameMode={gameMode}
-            updatePlayer={updatePlayer}
-            player={player}
-            players={players}
-          />
-        </>
-      )}
-    </Layout>
+  return inGame ? (
+    <GamePage
+      challenge={challenge}
+      gameMode={gameMode}
+      gameTime={gameTime}
+      player={player}
+    />
+  ) : (
+    <Lobby
+      gameMode={gameMode}
+      updatePlayer={updatePlayer}
+      player={player}
+      players={players}
+    />
   );
 };
 

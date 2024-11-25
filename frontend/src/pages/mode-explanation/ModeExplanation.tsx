@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./ModeExplanation.css";
+import { GameMode, MODE_DESCRIPTION } from "../../../../shared/const";
 
 interface modeExplanationProps {
-  gameMode: string;
+  gameMode: GameMode;
   time: number;
-  explanation: string;
 }
 
 export function MockModeExplanation() {
@@ -18,19 +18,12 @@ export function MockModeExplanation() {
     return () => clearInterval(interval);
   }, []);
 
-  return (
-    <ModeExplanation
-      gameMode="First to Finish"
-      time={time ? time : 0}
-      explanation="Makka Pakka make the code go Fasta"
-    />
-  );
+  return <ModeExplanation gameMode="First to finish" time={time ? time : 0} />;
 }
 
 export default function ModeExplanation({
   gameMode,
   time,
-  explanation,
 }: modeExplanationProps) {
   const [totalTime, setTotalTime] = useState(0);
 
@@ -46,7 +39,7 @@ export default function ModeExplanation({
         <div className="wrapper">
           <div className="centerBox">
             <h1>{gameMode}</h1>
-            <h3>{explanation}</h3>
+            <h3>{MODE_DESCRIPTION[gameMode]}</h3>
             <h1>{time}</h1>
           </div>
         </div>

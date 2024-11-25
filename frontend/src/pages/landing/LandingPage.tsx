@@ -1,12 +1,9 @@
 import { lazy, useEffect, useState } from "react";
 import { Challenge, SocketData } from "../../../../shared/types";
-import { Footer } from "../../components/Footer";
-import Nav from "../../components/Nav";
 import { socket } from "../../socket";
 import { useAuth } from "../../user";
 import Lobby from "../lobby/Lobby";
 import "./LandingPage.css"; // Ensure this path is correct
-import { Layout } from "../../components/Layout";
 
 const GamePage = lazy(() => import("../game/GamePage"));
 
@@ -87,7 +84,7 @@ const LandingPage = () => {
     />
   ) : (
     <Lobby
-      gameMode={gameMode}
+      gameMode={gameMode as any}
       updatePlayer={updatePlayer}
       player={player}
       players={players}

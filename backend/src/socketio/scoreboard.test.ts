@@ -321,7 +321,7 @@ test("Testing scoreboard insert function w different execution time", () => {
   let updatedScoreboard = updateScoreboard(
     [...scoreboard],
     newScoreboardEntry,
-    GAME_MODES[0]
+    GAME_MODES[1]
   );
   expect(updatedScoreboard[0]).toBe(scoreboard[0]);
   expect(updatedScoreboard[1]).toBe(newScoreboardEntry);
@@ -416,10 +416,10 @@ test("Testing scoreboard insert function w different amount passed tests", () =>
   expect(updatedScoreboard[3]).toBe(newScoreboardEntry);
 });
 
-test("Testing scoreboard insert function w different amount passed tests and different execution time", () => {
+test("Testing scoreboard insert function w different amount passed tests and different usedTime", () => {
   let scoreboard: Participant[] = [];
   scoreboard.push({
-    stats: { executionTime: 1000, usedTime: 0 },
+    stats: { executionTime: 1000, usedTime: 10 },
     solution: "",
     socket: {
       userID: "",
@@ -437,7 +437,7 @@ test("Testing scoreboard insert function w different amount passed tests and dif
     },
   });
   scoreboard.push({
-    stats: { executionTime: 3000, usedTime: 0 },
+    stats: { executionTime: 3000, usedTime: 20 },
     solution: "",
     socket: {
       userID: "",
@@ -455,7 +455,7 @@ test("Testing scoreboard insert function w different amount passed tests and dif
     },
   });
   scoreboard.push({
-    stats: { executionTime: 4000, usedTime: 0 },
+    stats: { executionTime: 4000, usedTime: 40 },
     solution: "",
     socket: {
       userID: "",
@@ -474,7 +474,7 @@ test("Testing scoreboard insert function w different amount passed tests and dif
   });
 
   let newScoreboardEntry: Participant = {
-    stats: { executionTime: 2000, usedTime: 0 },
+    stats: { executionTime: 2000, usedTime: 30 },
     solution: "",
     socket: {
       userID: "",

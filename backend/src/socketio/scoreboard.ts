@@ -80,10 +80,10 @@ export function updateScoreboard(
       let gameCondition: boolean;
       if (gameMode == GAME_MODES[0]) {
         gameCondition =
-          scoreboardEntry.stats.executionTime < participant.stats.executionTime;
+          scoreboardEntry.stats.usedTime < participant.stats.usedTime;
       } else {
         gameCondition =
-          scoreboardEntry.stats.usedTime < participant.stats.usedTime;
+          scoreboardEntry.stats.executionTime < participant.stats.executionTime;
       }
 
       if (

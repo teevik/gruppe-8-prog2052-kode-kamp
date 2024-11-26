@@ -35,7 +35,7 @@ export default function CodeEditor({
   function handleEditorWillMount(monaco: Monaco) {
     monaco.languages?.typescript?.javascriptDefaults.addExtraLib(
       "declare function readline(): string;",
-      "kodekamp.d.ts",
+      "kodekamp.d.ts"
     );
   }
 
@@ -54,8 +54,6 @@ export default function CodeEditor({
         minimap: { enabled: false },
         // enables automatic layout
         automaticLayout: true,
-        // disable line numbers
-        lineNumbers: "off",
       }}
     />
   );

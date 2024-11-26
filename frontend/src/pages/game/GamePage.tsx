@@ -108,7 +108,7 @@ export default function SpeedCodingPage({
   }
 
   return (
-    <div className="layout">
+    <div className="layout gamePage">
       {showResultPage && (
         <ResultPage
           scoreboard={scoreboard}

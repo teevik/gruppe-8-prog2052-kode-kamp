@@ -1,9 +1,9 @@
 /* Header Section */
-.header {
+.gamePage .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 16px 24px;
   background: var(--bg-light);
   font-weight: bold;
   height: 40px;

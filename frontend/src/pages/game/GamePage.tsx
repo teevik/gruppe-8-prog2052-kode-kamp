@@ -156,7 +156,7 @@ export default function SpeedCodingPage({
 
           {/* Main Content Section */}
           <div className="mainContainer">
-            <Resizable axis={"x"}>
+            <Resizable axis={"x"} initial={600} min={300}>
               {({ position, separatorProps }) => (
                 <>
                   <div className="taskDescription" style={{ width: position }}>

@@ -36,8 +36,6 @@
   justify-content: top;
   text-align: left;
   overflow: scroll;
-  min-width: 300px;
-  width: 30%;
 }
 
 .separator {

@@ -1,17 +1,16 @@
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-import { GAME_MODES } from "../../../shared/const";
-
 import type { GameSocket, SocketServer } from "..";
+import { GAME_MODES } from "../../../shared/const";
 import {
   EMOJIS,
   LOBBY_TIMER_SECONDS,
   MAX_PLAYERS_PR_GAME,
   RANDOM_USERNAMES,
 } from "../const";
-import { User as UserSchema } from "../database/model/user";
+import { UserModel } from "../database/model/user";
 import { JWT_SECRET } from "../env";
-import { userSchema } from "../user";
+import { userJWTSchema } from "../schemas/userJWT";
 import { createGameRoom } from "./game";
 import type { Lobby } from "./types";
 
@@ -60,12 +59,12 @@ function initLobby(socket: GameSocket, io: SocketServer) {
     if (jwtToken !== "") {
       try {
         const userData = jwt.verify(jwtToken, JWT_SECRET);
-        const user = userSchema.parse(userData);
+        const user = userJWTSchema.parse(userData);
         socket.data.registeredUser = true;
         socket.data.userID = user.id;
         socket.data.userName = user.username;
 
-        const userDb = await UserSchema.findOne({ _id: user.id });
+        const userDb = await UserModel.findOne({ _id: user.id });
         if (userDb) {
           socket.data.points = userDb.points;
         }

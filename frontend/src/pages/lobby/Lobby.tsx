@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { GameMode } from "../../../../shared/const";
 import { SocketData } from "../../../../shared/types";
+import { useAuth } from "../../auth";
 import { Button } from "../../components/Button";
 import { Layout } from "../../components/Layout";
 import { socket } from "../../socket";
-import { useAuth } from "../../user";
 import ModeExplanation from "../mode-explanation/ModeExplanation";
 import "./Lobby.css";
 

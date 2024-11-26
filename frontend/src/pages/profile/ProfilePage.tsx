@@ -1,11 +1,11 @@
+import { useAuth } from "../../auth";
 import { Button } from "../../components/Button";
 import { Layout } from "../../components/Layout";
 import { ScoreRanking } from "../../components/ScoreRanking";
-import { useAuth } from "../../user";
 import "./ProfilePage.css";
 
 export default function ProfilePage() {
-  const { user, logOut } = useAuth();
+  const { user } = useAuth();
 
   const points = 47;
 

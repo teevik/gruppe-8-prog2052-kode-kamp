@@ -2,12 +2,12 @@ import { TRPCError } from "@trpc/server";
 import { sign as signJwt } from "jsonwebtoken";
 import { z } from "zod";
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
-import type { User } from "../../../shared/types";
+import type { UserJWT } from "../../../shared/types";
 import { EMAIL_REGEX, JWT_EXPIRESIN } from "../const";
-import { User as UserSchema } from "../database/model/user";
+import { UserModel } from "../database/model/user";
 import { JWT_SECRET } from "../env";
-import { publicProcedure, router } from "../trpc";
 import { sendVerifyEmail } from "../mailer/mailer";
+import { publicProcedure, router } from "../trpc";
 
 const register = publicProcedure
   .input(
@@ -29,18 +29,17 @@ const register = publicProcedure
 
     let userDoc = undefined;
     try {
-      const newUser = new UserSchema({ username, hashedPassword, email });
+      const newUser = new UserModel({ username, hashedPassword, email });
       userDoc = await newUser.save();
     } catch (error) {
       throw new TRPCError({ code: "CONFLICT" });
     }
 
     if (userDoc) {
-      const user: User = {
+      const user: UserJWT = {
         username: userDoc.username,
         id: userDoc._id.toString(),
         email: userDoc.email,
-        verified: userDoc.verified,
       };
 
       const jwtToken = getToken(user);
@@ -72,7 +71,7 @@ const login = publicProcedure
       userID = { username: user };
     }
 
-    const userDocument = await UserSchema.findOne(userID);
+    const userDocument = await UserModel.findOne(userID);
     if (!userDocument) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
@@ -89,20 +88,19 @@ const login = publicProcedure
       username: userDocument.username,
       id: userDocument._id.toString(),
       email: userDocument.email,
-      verified: userDocument.verified,
     });
 
     return jwtToken;
   });
 
-function getToken(user: User) {
+export function getToken(user: UserJWT) {
   const jwt = signJwt(user, JWT_SECRET, {
     expiresIn: JWT_EXPIRESIN,
   });
   return jwt;
 }
 
-function getEmailToken(userID: string) {
+export function getEmailToken(userID: string) {
   const jwt = signJwt({ userID: userID }, JWT_SECRET, {
     expiresIn: JWT_EXPIRESIN,
   });
@@ -113,5 +111,3 @@ export const authRouter = router({
   register,
   login,
 });
-
-export { getToken, getEmailToken };

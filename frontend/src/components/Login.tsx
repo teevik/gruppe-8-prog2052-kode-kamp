@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
+import { useAuth } from "../auth";
 import { REGISTER_ROUTE } from "../const";
 import { trpc } from "../trpc";
-import { useAuth } from "../user";
 import { PasswordInput } from "./PasswordInput";
 
 function Login() {

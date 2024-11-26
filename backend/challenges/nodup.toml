@@ -1,0 +1,48 @@
+title = "No Duplicates"
+license = "Creative Commons License (cc by)"
+
+attribution = [
+]
+
+description = '''
+<p>There is a game in which you try not to repeat a word while
+    your opponent tries to see if you have repeated one.</p>
+
+<p>"THE RAIN IN SPAIN" has no repeats.</p>
+
+<p>"IN THE RAIN AND THE SNOW" repeats THE.</p>
+
+<p>"THE RAIN IN SPAIN IN THE PLAIN" repeats THE and IN.</p>
+
+<p>Write a program to test a phrase.</p>
+'''
+
+input = '''
+<p>Input is a line containing words separated by single spaces,
+    where a word consists of one or more uppercase letters. A line
+    contains no more than <span class="tex2jax_process">$80$</span>
+    characters.</p>
+'''
+
+output = '''
+<p>The output is "yes" if no word is repeated, and "no" if one
+    or more words repeat.</p>
+'''
+
+template = '''
+let input = readline();
+
+// console.log(output);
+'''
+
+sampleTests = [
+  { input = ['THE RAIN IN SPAIN'], output = ['yes'] },
+  { input = ['IN THE RAIN AND THE SNOW'], output = ['no'] },
+  { input = ['THE RAIN IN SPAIN IN THE PLAIN'], output = ['no'] },
+]
+
+tests = [
+  { input = ['THE RAIN IN SPAIN'], output = ['yes'] },
+  { input = ['IN THE RAIN AND THE SNOW'], output = ['no'] },
+  { input = ['THE RAIN IN SPAIN IN THE PLAIN'], output = ['no'] },
+]

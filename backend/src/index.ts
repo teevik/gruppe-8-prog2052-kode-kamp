@@ -15,6 +15,7 @@ import type {
 import { PORT, RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
 import connectdb from "./database/db";
 import { authRouter } from "./routers/auth";
+import { userRouter } from "./routers/user";
 import { verifyHandler } from "./routers/verify";
 import { initLobby } from "./socketio/lobby";
 import { createContext, publicProcedure, router } from "./trpc";
@@ -45,6 +46,7 @@ app.use(express.static(path.join(root, "./public")));
 const appRouter = router({
   ping: publicProcedure.query(() => "pong"),
   auth: authRouter,
+  user: userRouter,
 });
 
 export type AppRouter = typeof appRouter;

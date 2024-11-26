@@ -15,7 +15,7 @@ import {
   TIME_AT_ENDSCREEN_SECONDS,
 } from "../const";
 import { submitCode } from "../consumers/coderunner";
-import { User } from "../database/model/user";
+import { UserModel } from "../database/model/user";
 import { getRandomChallenge } from "./challenge";
 import { emitLobbyUpdate, lobby } from "./lobby";
 import { updateScoreboard } from "./scoreboard";
@@ -161,7 +161,7 @@ function endGame(gameRoomID: string, players: Participant[], io: SocketServer) {
     if (player.socket.registeredUser) {
       //Give the user the amount of points based on amount of players
       const amountPoints = calculatePoints(players.length, index + 1);
-      const updatedUser = await User.updateOne(
+      const updatedUser = await UserModel.updateOne(
         { _id: player.socket.userID },
         { $inc: { points: amountPoints } }
       );

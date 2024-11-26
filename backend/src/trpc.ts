@@ -1,12 +1,12 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import { verify as verifyJwt } from "jsonwebtoken";
-import type { User } from "../../shared/types";
+import type { UserJWT } from "../../shared/types";
 import { JWT_SECRET } from "./env";
-import { userSchema } from "./user";
+import { userJWTSchema } from "./schemas/userJWT";
 
 export interface Context {
-  user?: User;
+  user?: UserJWT;
   // TODO add database
   // db: ...
 }
@@ -41,7 +41,7 @@ export function createContext(opts: CreateExpressContextOptions): Context {
     const payload = verifyJwt(token, JWT_SECRET);
 
     // Validate the payload incase the schema has changed since creating the JWT
-    const user = userSchema.parse(payload);
+    const user = userJWTSchema.parse(payload);
 
     return { user, ...context };
   } catch (e) {

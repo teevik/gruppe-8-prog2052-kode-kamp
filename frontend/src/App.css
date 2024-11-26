@@ -1,18 +1,16 @@
-:root {
-  --background: #0d0a16;
-  --semi-background: #ffffff1a;
-  --darker: #00000033;
-  --primary: #a493d6;
-  --secondary: #ff0000;
-
-  --default-text: #e4e0ee;
-  --background-text: #e4e0ee;
-
-  --max-width: 1300px;
-}
-
-@media (prefers-color-scheme: light) {
-}
+/*:root {*/
+/*  --background: #0d0a16;*/
+/*  --semi-background: #ffffff1a;*/
+/*  --darker: #00000033;*/
+/*  --primary: #a493d6;*/
+/*  --secondary: #ff0000;*/
+/**/
+/*  --default-text: #e4e0ee;*/
+/*  --background-text: #e4e0ee;*/
+/**/
+/*  --max-width: 1300px;*/
+/*}*/
+/**/
 
 body {
   margin: 0;

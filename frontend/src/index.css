@@ -10,19 +10,15 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Color variables */
-  --bg: #0d0a16;
-  --bg-alt: color-mix(in lab, var(--bg), #ffffff 7%);
-  --darker: #00000033;
-
-  --primary: #a493d6;
-  --secondary: #ff0000;
-  --red: #df5858;
-
   --fg: #e4e0ee;
-  --background-text: #e4e0ee;
+  --primary: #a493d6;
 
-  --success: green;
-  --error: red;
+  --bg: #0d0a16;
+  --bg-light: color-mix(in lab, var(--bg), #ffffff 7%);
+  --bg-dark: color-mix(in lab, var(--bg), #000000 30%);
+
+  --success: #58dfa5;
+  --error: #df5858;
   --warning: yellow;
 }
 

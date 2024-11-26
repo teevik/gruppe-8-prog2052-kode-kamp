@@ -1,63 +1,50 @@
-/* General container for the entire page */
-.gamePageContainer {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg);
-}
-
 /* Header Section */
-.gamePageHeader {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background-color: var(--bg-alt);
-}
-
-.gamePageHeaderTitle {
-  font-size: 1.5rem;
+  background: var(--bg-light);
   font-weight: bold;
-  color: var(--fg);
+  height: 40px;
 }
 
-.gamePageHeaderRow {
+.headerRow {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.gamePageHeaderMode {
-  font-size: 1rem;
-  color: var(--fg);
+.layout {
   display: flex;
-  align-items: center;
   flex-direction: column;
-}
-
-.gamePageHeaderMode * {
-  margin: 0;
+  height: 100vh;
 }
 
 /* Main content section */
-.gamePageMain {
-  margin: 0;
+.mainContainer {
   display: flex;
-  flex-grow: 1;
+  height: 100%;
 }
 
 /* Left Section: Task Description */
-.gamePageTaskDescription {
-  width: 25%;
-  background-color: var(--bg);
+.taskDescription {
+  background-color: var(--bg-dark);
   padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: top;
   text-align: left;
-  width: 50em;
+  overflow: scroll;
 }
 
-.gamePageEditor button {
+.separator {
+  background: transparent;
+  width: 7px;
+  cursor: col-resize;
+}
+
+.editor button {
   border: none;
   outline: none;
   padding: 0.5rem 1rem;
@@ -65,33 +52,29 @@
   margin-bottom: 1rem;
 }
 
-.gamePageEditor div.margin {
-  background: var(--darker);
+.editor div.margin {
+  background: var(--bg-dark);
 }
 
-.gamePageEditor div {
+.editor div {
   background: none;
   border: none;
   background: var(--bg);
 }
-.gamePageEditor div.overflow-guard {
+.editor div.overflow-guard {
   border-radius: 10px;
-  box-shadow: 0 0 10px 3px #111;
 }
 
-.gamePageTaskTitle {
+.taskTitle {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 16px;
 }
 
 /* Right Section: Code Editor */
-.gamePageEditor {
-  flex-grow: 1;
-  padding: 0 16px;
-  background-color: var(--bg-alt);
-  align-items: center;
-  justify-content: center;
+.editor {
+  padding-top: 10px;
+  flex: 1;
 }
 
 .testResults {
@@ -112,7 +95,7 @@
   max-width: 410px;
   position: relative;
   overflow: auto;
-  background-color: #333;
+  background: var(--bg-light);
   color: white;
 }
 

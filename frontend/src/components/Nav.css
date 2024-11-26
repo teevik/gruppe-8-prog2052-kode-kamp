@@ -1,6 +1,6 @@
 .header {
-  background-color: var(--bg-alt);
-  color: var(--default-text);
+  background-color: var(--bg-light);
+  color: var(--fg);
   padding: 10px 32px;
   display: flex;
   justify-content: center;

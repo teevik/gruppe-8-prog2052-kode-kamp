@@ -1,0 +1,46 @@
+.testResults {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+
+  .entry {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    background-color: var(--bg-light);
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--error);
+  }
+
+  .Success .title {
+    color: var(--success);
+  }
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+  .failed {
+    display: flex;
+    gap: 12px;
+
+    * {
+      flex: 1;
+    }
+  }
+
+  .differences {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}

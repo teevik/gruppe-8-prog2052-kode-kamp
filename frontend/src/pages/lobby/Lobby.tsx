@@ -55,8 +55,8 @@ export default function Lobby({
     setTotalPlayersLobby(totalPlayers);
   }
 
-  function startGameCountdown(counter: string) {
-    setCountdownStartGame(counter);
+  function startGameCountdown(counter: number) {
+    setCountdownStartGame(counter.toString());
   }
 
   return (

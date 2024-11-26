@@ -1,7 +1,9 @@
+import type { GameMode } from "./const";
+
 /**
  * Contains all type interfaces that are used on both frontend and backend
  */
-interface SocketData {
+export interface SocketData {
   userID: string;
   userName: string;
   emoji: string;
@@ -10,24 +12,24 @@ interface SocketData {
   points: number | undefined;
 }
 
-interface Participant {
+export interface Participant {
   socket: SocketData;
   stats: Stats;
   solution: string;
   results: TestResults;
 }
 
-interface Stats {
+export interface Stats {
   executionTime: number;
   usedTime: number;
 }
 
-interface Test {
+export interface Test {
   input: string[];
   output: string[];
 }
 
-interface Challenge {
+export interface Challenge {
   title: string;
   license: string;
   attribution: { name: string; url: string }[];
@@ -46,7 +48,7 @@ export type UserJWT = {
   email: string;
 };
 
-type TestResult =
+export type TestResult =
   | {
       kind: "Success";
     }
@@ -62,23 +64,38 @@ type TestResult =
       };
     };
 
-interface TestResults {
+export interface TestResults {
   totalTests: number;
   passedTests: number;
   executionTimeUs: number;
   results: TestResult[];
 }
 
-interface Milestone {
+export interface ServerToClientEvents {
+  lobbyJoined: (player: SocketData, players: SocketData[]) => void;
+  playerJoinedLobby: (playerData: SocketData) => void;
+  playerLeftLobby: (playerData: SocketData) => void;
+  gameJoined: (gameRoomID: string) => void;
+  gameMode: (mode: GameMode) => void;
+  gameStart: (challenge: Challenge, gameTimeSeconds: number) => void;
+  gameOver: (resultPageCountdown: number) => void;
+  countdown: (counter: number) => void;
+  task: (taskID: string) => void;
+  success: () => void;
+  runResults: (results: TestResults) => void;
+  updateScoreboard: (scores: Participant[]) => void;
+  lobbyUpdate: (amountPlayers: number, totalPlayers: number) => void;
+  lobbyCountdown: (counter: string) => void;
+}
+
+export interface ClientToServerEvents {
+  submitCode: (code: string) => void;
+  joinLobby: (jwtToken: string) => void;
+  leaveLobby: () => void;
+  runCode: (code: string) => void;
+}
+
+export interface Milestone {
   text: string;
   imageSrc: string;
 }
-
-export type {
-  Challenge,
-  Participant,
-  SocketData,
-  Test,
-  TestResults,
-  Milestone,
-};

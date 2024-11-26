@@ -5,19 +5,19 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import { Server as Httpserver } from "http";
 import path from "path";
-import { Server } from "socket.io";
+import { Server, Socket, type DefaultEventsMap } from "socket.io";
 import { VERIFY_ROUTE } from "../../shared/const";
-import type { SocketData } from "../../shared/types";
+import type {
+  ClientToServerEvents,
+  ServerToClientEvents,
+  SocketData,
+} from "../../shared/types";
 import { PORT, RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
 import connectdb from "./database/db";
 import { authRouter } from "./routers/auth";
 import { userRouter } from "./routers/user";
 import { verifyHandler } from "./routers/verify";
 import { initLobby } from "./socketio/lobby";
-import type {
-  ClientToServerEvents,
-  ServerToClientEvents,
-} from "./socketio/types";
 import { createContext, publicProcedure, router } from "./trpc";
 
 const app: Express = express();
@@ -74,6 +74,13 @@ let server: Httpserver = app.listen(PORT, () => {
 export type SocketServer = Server<
   ClientToServerEvents,
   ServerToClientEvents,
+  SocketData
+>;
+
+export type GameSocket = Socket<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  DefaultEventsMap,
   SocketData
 >;
 

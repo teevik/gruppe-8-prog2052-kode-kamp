@@ -1,4 +1,5 @@
 import { lazy, useEffect, useState } from "react";
+import { GameMode } from "../../../../shared/const";
 import { Challenge, SocketData } from "../../../../shared/types";
 import { socket } from "../../socket";
 import Lobby from "../lobby/Lobby";
@@ -12,7 +13,7 @@ const LandingPage = () => {
   const [players, setPlayers] = useState<SocketData[]>([]);
   const [player, setPlayer] = useState<SocketData | undefined>(undefined);
   const [challenge, setChallenge] = useState<Challenge | undefined>();
-  const [gameMode, setGameMode] = useState<string>("");
+  const [gameMode, setGameMode] = useState<GameMode>("First to finish"); // Show this until the game mode is received
 
   function updatePlayers(p: SocketData[]) {
     setPlayers(p);
@@ -22,7 +23,7 @@ const LandingPage = () => {
     setPlayer(p);
   }
 
-  function gameModeEvent(mode: string) {
+  function gameModeEvent(mode: GameMode) {
     setGameMode(mode);
   }
 
@@ -73,25 +74,20 @@ const LandingPage = () => {
     };
   }, [player, players, inGame]);
 
-  return (
-    <>
-      {inGame ? (
-        <GamePage
-          challenge={challenge}
-          gameMode={gameMode}
-          gameTime={gameTime}
-          player={player}
-        />
-      ) : (
-        <Lobby
-          // TODO fix typing
-          gameMode={gameMode as any}
-          updatePlayer={updatePlayer}
-          player={player}
-          players={players}
-        />
-      )}
-    </>
+  return inGame ? (
+    <GamePage
+      challenge={challenge}
+      gameMode={gameMode}
+      gameTime={gameTime}
+      player={player}
+    />
+  ) : (
+    <Lobby
+      gameMode={gameMode}
+      updatePlayer={updatePlayer}
+      player={player}
+      players={players}
+    />
   );
 };
 

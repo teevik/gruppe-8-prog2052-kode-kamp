@@ -17,8 +17,8 @@
   --bg-light: color-mix(in lab, var(--bg), #ffffff 7%);
   --bg-dark: color-mix(in lab, var(--bg), #000000 30%);
 
-  --success: green;
-  --error: red;
+  --success: #58dfa5;
+  --error: #df5858;
   --warning: yellow;
 }
 

@@ -19,6 +19,7 @@ export interface GameProps {
   gameMode: string;
   gameTime: number;
   player: SocketData | undefined;
+  defaultTestResults?: TestResults;
 }
 
 /**
@@ -32,6 +33,7 @@ export default function SpeedCodingPage({
   gameMode,
   gameTime,
   player,
+  defaultTestResults,
 }: GameProps) {
   const [code, setCode] = useState<string>(challenge?.template || "");
   const [amountTestsPassed, setAmountTestsPassed] = useState<string>("");
@@ -42,7 +44,9 @@ export default function SpeedCodingPage({
   const [showResultPage, setShowResultPage] = useState<boolean>(false);
   const [gameIsOver, setGameIsOver] = useState<boolean>(false);
 
-  const [testResults, setTestResults] = useState<TestResults | undefined>();
+  const [testResults, setTestResults] = useState<TestResults | undefined>(
+    defaultTestResults
+  );
 
   const [timeAtResultPage, setTimeAtResultPage] = useState<number>(0);
   function updateScoreboard(scores: Participant[]) {
@@ -160,11 +164,11 @@ export default function SpeedCodingPage({
               {({ position, separatorProps }) => (
                 <>
                   <div className="taskDescription" style={{ width: position }}>
-                    <div className="taskTitle">{challenge.title}</div>
-
                     {testResults && (
                       <TestResultsComponent testResults={testResults} />
                     )}
+
+                    <div className="taskTitle">{challenge.title}</div>
 
                     <div
                       dangerouslySetInnerHTML={{

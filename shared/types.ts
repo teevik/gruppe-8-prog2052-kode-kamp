@@ -77,9 +77,10 @@ interface Milestone {
 
 export type {
   Challenge,
+  Milestone,
   Participant,
   SocketData,
   Test,
+  TestResult,
   TestResults,
-  Milestone,
 };

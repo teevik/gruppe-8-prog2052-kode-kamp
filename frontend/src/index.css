@@ -20,6 +20,8 @@
   --success: #58dfa5;
   --error: #df5858;
   --warning: yellow;
+
+  --max-width: 1300px;
 }
 
 #root {

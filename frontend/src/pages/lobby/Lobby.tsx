@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import { SocketData } from "../../../../shared/types";
-import { Button } from "../../components/Button";
-import { socket } from "../../socket";
-import { useAuth } from "../../user";
-import ModeExplanation from "../mode-explanation/ModeExplanation";
-import { Footer } from "../../components/Footer";
-import Nav from "../../components/Nav";
-import "./Lobby.css";
-import { Layout } from "../../components/Layout";
 import { GameMode } from "../../../../shared/const";
+import { SocketData } from "../../../../shared/types";
+import { useAuth } from "../../auth";
+import { Button } from "../../components/Button";
+import { Layout } from "../../components/Layout";
+import { socket } from "../../socket";
+import ModeExplanation from "../mode-explanation/ModeExplanation";
+import "./Lobby.css";
 
 interface LobbyProps {
   gameMode: GameMode;
@@ -57,8 +55,8 @@ export default function Lobby({
     setTotalPlayersLobby(totalPlayers);
   }
 
-  function startGameCountdown(counter: string) {
-    setCountdownStartGame(counter);
+  function startGameCountdown(counter: number) {
+    setCountdownStartGame(counter.toString());
   }
 
   return (

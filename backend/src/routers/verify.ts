@@ -1,9 +1,8 @@
 import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { User as UserSchema } from "../database/model/user";
-import { userSchema } from "../user";
-import { JWT_SECRET } from "../env";
 import { CLIENT_URL } from "../const";
+import { UserModel } from "../database/model/user";
+import { JWT_SECRET } from "../env";
 
 import type { JwtPayload } from "jsonwebtoken";
 
@@ -17,7 +16,7 @@ export async function verifyHandler(
     const user = jwt.verify(jwtToken, JWT_SECRET);
 
     if (typeof user === "object" && user !== null && "userID" in user) {
-      const userDoc = await UserSchema.updateOne(
+      const userDoc = await UserModel.updateOne(
         { _id: (user as JwtPayload).userID },
         { verified: true }
       );

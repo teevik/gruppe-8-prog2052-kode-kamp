@@ -1,6 +1,6 @@
-import { Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
-import type { SocketServer } from "..";
+import type { GameSocket, SocketServer } from "..";
+import type { GameMode } from "../../../shared/const";
 import { GAME_MODES } from "../../../shared/const";
 import { calculatePoints } from "../../../shared/functions";
 import type {
@@ -8,7 +8,6 @@ import type {
   Participant,
   TestResults,
 } from "../../../shared/types";
-import type { GameMode } from "../../../shared/const";
 import {
   COUNTDOWN_LENGTH_SECONDS,
   GAME_LENGTH_MINUTES,
@@ -16,7 +15,7 @@ import {
   TIME_AT_ENDSCREEN_SECONDS,
 } from "../const";
 import { submitCode } from "../consumers/coderunner";
-import { User } from "../database/model/user";
+import { UserModel } from "../database/model/user";
 import { getRandomChallenge } from "./challenge";
 import { emitLobbyUpdate, lobby } from "./lobby";
 import { updateScoreboard } from "./scoreboard";
@@ -24,7 +23,7 @@ import type { Game } from "./types";
 
 function startGame(
   gameRoomID: string,
-  players: Socket[],
+  players: GameSocket[],
   gameMode: GameMode,
   io: SocketServer
 ) {
@@ -55,7 +54,7 @@ function startGame(
       }
     });
 
-    socket.on("submitCode", async (code: string) => {
+    socket.on("submitCode", async (code) => {
       //Server-side validation so that the user dont spam the scoreboard
       if (socket.data.complete) {
         return;
@@ -126,7 +125,7 @@ function createGameRoom(io: SocketServer) {
   let gameRoomID: string = uuidv4();
 
   //Move players into gameroom
-  let players: Socket[] = lobby.players.splice(0, MAX_PLAYERS_PR_GAME);
+  let players: GameSocket[] = lobby.players.splice(0, MAX_PLAYERS_PR_GAME);
 
   players.forEach((socket) => {
     socket.leave("lobby");
@@ -162,7 +161,7 @@ function endGame(gameRoomID: string, players: Participant[], io: SocketServer) {
     if (player.socket.registeredUser) {
       //Give the user the amount of points based on amount of players
       const amountPoints = calculatePoints(players.length, index + 1);
-      const updatedUser = await User.updateOne(
+      const updatedUser = await UserModel.updateOne(
         { _id: player.socket.userID },
         { $inc: { points: amountPoints } }
       );

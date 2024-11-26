@@ -3,20 +3,23 @@ import { httpBatchLink } from "@trpc/react-query";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
+import { AuthContextProvider, getAccessToken } from "./auth.tsx";
 import "./index.css";
 import { getUrl } from "./socket.ts";
 import { trpc } from "./trpc.ts";
-import { AuthContextProvider } from "./user.tsx";
 
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
       url: getUrl() + "/trpc",
-      // You can pass any HTTP headers you wish here
+
+      // Add authorization header
       async headers() {
+        const token = getAccessToken();
+        const authorizationBearer = token ? `Bearer ${token}` : undefined;
+
         return {
-          // TODO authentication
-          // authorization: getAuthCookie(),
+          authorization: authorizationBearer,
         };
       },
     }),
@@ -34,5 +37,5 @@ createRoot(document.getElementById("root")!).render(
         </AuthContextProvider>
       </QueryClientProvider>
     </trpc.Provider>
-  </StrictMode>,
+  </StrictMode>
 );

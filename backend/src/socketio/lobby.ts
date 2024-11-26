@@ -1,21 +1,18 @@
-import { Socket } from "socket.io";
-import { v4 as uuidv4 } from "uuid";
-import { GAME_MODES } from "../../../shared/const";
 import jwt from "jsonwebtoken";
-
-import type { SocketServer } from "..";
+import { v4 as uuidv4 } from "uuid";
+import type { GameSocket, SocketServer } from "..";
+import { GAME_MODES } from "../../../shared/const";
 import {
   EMOJIS,
   LOBBY_TIMER_SECONDS,
   MAX_PLAYERS_PR_GAME,
   RANDOM_USERNAMES,
 } from "../const";
+import { UserModel } from "../database/model/user";
+import { JWT_SECRET } from "../env";
+import { userJWTSchema } from "../schemas/userJWT";
 import { createGameRoom } from "./game";
 import type { Lobby } from "./types";
-import { JWT_SECRET } from "../env";
-import type { User } from "../../../shared/types";
-import { userSchema } from "../user";
-import { User as UserSchema } from "../database/model/user";
 
 // Function to randomly pick an emoji
 function getRandomEmoji(): string {
@@ -52,7 +49,7 @@ function lobbyCountdown(io: SocketServer) {
   }
 }
 
-function initLobby(socket: Socket, io: SocketServer) {
+function initLobby(socket: GameSocket, io: SocketServer) {
   console.log("client with socket.id: ", socket.id, " connected!");
   emitLobbyUpdate(io);
 
@@ -62,12 +59,12 @@ function initLobby(socket: Socket, io: SocketServer) {
     if (jwtToken !== "") {
       try {
         const userData = jwt.verify(jwtToken, JWT_SECRET);
-        const user = userSchema.parse(userData);
+        const user = userJWTSchema.parse(userData);
         socket.data.registeredUser = true;
         socket.data.userID = user.id;
         socket.data.userName = user.username;
 
-        const userDb = await UserSchema.findOne({ _id: user.id });
+        const userDb = await UserModel.findOne({ _id: user.id });
         if (userDb) {
           socket.data.points = userDb.points;
         }
@@ -90,7 +87,7 @@ function initLobby(socket: Socket, io: SocketServer) {
   });
 }
 
-function joinLobby(socket: Socket, io: SocketServer) {
+function joinLobby(socket: GameSocket, io: SocketServer) {
   socket.data.emoji = getRandomEmoji();
 
   // Add player to lobby
@@ -126,7 +123,7 @@ function joinLobby(socket: Socket, io: SocketServer) {
   });
 }
 
-function leaveLobby(socket: Socket, io: SocketServer) {
+function leaveLobby(socket: GameSocket, io: SocketServer) {
   lobby.players = lobby.players.filter((player) => player !== socket);
   io.to("lobby").emit("playerLeftLobby", socket.data);
   emitLobbyUpdate(io);
@@ -154,7 +151,7 @@ function resetLobbyCountdown(io: SocketServer) {
   io.emit("lobbyCountdown", "");
 }
 
-function playAsGuest(socket: Socket): Socket {
+function playAsGuest(socket: GameSocket): GameSocket {
   socket.data.registeredUser = false;
   socket.data.userID = uuidv4();
   socket.data.userName =

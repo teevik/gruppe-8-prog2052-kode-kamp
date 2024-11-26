@@ -1,0 +1,20 @@
+meta {
+  name: isVerified
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{trpc}}/user.isVerified
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwtToken}}
+}
+
+body:json {
+  {
+  }
+}

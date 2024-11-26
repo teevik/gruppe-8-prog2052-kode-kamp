@@ -1,10 +1,10 @@
+import type { SendMailOptions, Transporter } from "nodemailer";
 import nodemailer from "nodemailer";
-import type { Transporter, SendMailOptions } from "nodemailer";
-import { SERVER_URL } from "../const";
-import type { User } from "../../../shared/types";
-import { getEmailToken } from "../routers/auth";
-import { EMAIL_USER, EMAIL_PASS } from "../env";
 import { VERIFY_ROUTE } from "../../../shared/const";
+import type { UserJWT } from "../../../shared/types";
+import { SERVER_URL } from "../const";
+import { EMAIL_PASS, EMAIL_USER } from "../env";
+import { getEmailToken } from "../routers/auth";
 
 const transporter: Transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -20,7 +20,7 @@ const verifyEmailHTML = (jwtToken: string, username: string) =>
     SERVER_URL + VERIFY_ROUTE
   }/${jwtToken}">Click this link to verify your account at Kodekamp!✅</a>`;
 
-export function sendVerifyEmail(recipient: User): Promise<void> {
+export function sendVerifyEmail(recipient: UserJWT): Promise<void> {
   const jwtToken: string = getEmailToken(recipient.id);
 
   const emailOptions: SendMailOptions = {

@@ -6,18 +6,19 @@ import rateLimit from "express-rate-limit";
 import { Server as Httpserver } from "http";
 import path from "path";
 import { Server } from "socket.io";
+import { VERIFY_ROUTE } from "../../shared/const";
 import type { SocketData } from "../../shared/types";
-import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL, PORT } from "./const";
+import { PORT, RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
 import connectdb from "./database/db";
 import { authRouter } from "./routers/auth";
+import { userRouter } from "./routers/user";
+import { verifyHandler } from "./routers/verify";
 import { initLobby } from "./socketio/lobby";
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
 } from "./socketio/types";
 import { createContext, publicProcedure, router } from "./trpc";
-import { verifyHandler } from "./routers/verify";
-import { VERIFY_ROUTE } from "../../shared/const";
 
 const app: Express = express();
 
@@ -45,6 +46,7 @@ app.use(express.static(path.join(root, "./public")));
 const appRouter = router({
   ping: publicProcedure.query(() => "pong"),
   auth: authRouter,
+  user: userRouter,
 });
 
 export type AppRouter = typeof appRouter;

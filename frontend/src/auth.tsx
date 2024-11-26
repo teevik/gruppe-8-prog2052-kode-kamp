@@ -9,18 +9,18 @@ import {
   useState,
 } from "react";
 import { z, ZodType } from "zod";
-import type { User } from "../../shared/types";
+import type { UserJWT } from "../../shared/types";
 import { ACCESS_TOKEN } from "./const";
+import { trpc } from "./trpc";
 
 /** Zod schema for ensuring token payload is valid */
-const userSchema: ZodType<User> = z.object({
+const userJwtSchema: ZodType<UserJWT> = z.object({
   id: z.string(),
   username: z.string(),
   email: z.string(),
-  verified: z.boolean(),
 });
 
-function userFromToken(token: string | null): User | null {
+function userFromToken(token: string | null): UserJWT | null {
   if (!token) return null;
 
   try {
@@ -37,7 +37,7 @@ function userFromToken(token: string | null): User | null {
     }
 
     // Validate token payload
-    const user = userSchema.parse(payload);
+    const user = userJwtSchema.parse(payload);
     return user;
   } catch (e) {
     return null;
@@ -45,7 +45,7 @@ function userFromToken(token: string | null): User | null {
 }
 
 /** Get access token from localStorage */
-function getAccessToken(): string | null {
+export function getAccessToken(): string | null {
   return localStorage.getItem(ACCESS_TOKEN);
 }
 
@@ -61,20 +61,34 @@ function setAccessToken(token: string | null) {
 /** Auth context type */
 interface AuthContextType {
   token: string | null;
-  user: User | null;
+  user: UserJWT | null;
+  isVerified: boolean;
   setToken: (token: string) => void;
   logOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+function useIsVerified(isLoggedIn: boolean): boolean {
+  const query = trpc.user.isVerified.useQuery(undefined, {
+    enabled: isLoggedIn,
+    retry: false,
+    initialData: true,
+  });
+
+  // Show as verified
+  return query.data;
+}
+
 /** Auth context provider, must be at the top of react tree */
 export function AuthContextProvider(props: { children: ReactNode }) {
   const [token, setToken] = useState(() => getAccessToken());
+  const trpcUtils = trpc.useUtils();
 
-  // Update localStorage when token changes
+  // Update localStorage and invalidate queries when token changes
   useEffect(() => {
     setAccessToken(token);
+    trpcUtils.invalidate();
   }, [token]);
 
   // Decode user from token
@@ -85,9 +99,17 @@ export function AuthContextProvider(props: { children: ReactNode }) {
     setToken(null);
   }, []);
 
+  const isVerified = useIsVerified(isAuthenticated);
+
   return (
     <AuthContext.Provider
-      value={{ token: isAuthenticated ? token : null, user, setToken, logOut }}
+      value={{
+        token: isAuthenticated ? token : null,
+        user,
+        isVerified,
+        setToken,
+        logOut,
+      }}
     >
       {props.children}
     </AuthContext.Provider>

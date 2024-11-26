@@ -8,4 +8,4 @@ const userSchema = new Schema({
   verified: { type: Boolean, default: false },
 });
 
-export const User = model("User", userSchema);
+export const UserModel = model("User", userSchema);

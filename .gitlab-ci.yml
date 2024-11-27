@@ -59,6 +59,9 @@ deploy:
     # Disable host key checking
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
 
+    # Reset DOCKER_HOST
+    - unset DOCKER_HOST
+
   script:
     - docker context create kodekamp --docker "host=ssh://${MANAGER_HOST}"
     - docker context use kodekamp

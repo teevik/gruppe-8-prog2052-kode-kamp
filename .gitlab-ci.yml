@@ -1,5 +1,6 @@
 stages: # List of stages for jobs, and their order of execution
   - test
+  - deploy
 
 test frontend and backend:
   resource_group: all
@@ -35,3 +36,22 @@ test code-runner:
     - cd code-runner
     - cargo build --verbose
     - cargo test --verbose
+
+deploy:
+  resource_group: all
+  image: docker:27
+  stage: deploy
+
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == "docker-stack"'
+  - when: manual
+
+  # cache:
+  #   key: frontend-cache
+  #   paths:
+  #     - frontend/node_modules
+  #   key: backend-cache
+  #   paths:
+  #     - backend/node_modules
+  script:
+    - docker compose build

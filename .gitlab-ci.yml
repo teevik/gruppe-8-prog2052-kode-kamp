@@ -1,5 +1,6 @@
 stages: # List of stages for jobs, and their order of execution
   - test
+  - deploy
 
 test frontend and backend:
   resource_group: all
@@ -35,3 +36,26 @@ test code-runner:
     - cd code-runner
     - cargo build --verbose
     - cargo test --verbose
+
+deploy:
+  resource_group: all
+  image: docker:17
+  stage: deploy
+
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored at SSH_KEY path to the agent store
+    - chmod 400 "$SSH_KEY"
+    - ssh-add "$SSH_KEY"
+
+    # Create the SSH directory and give it the right permissions
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+  script:
+    ssh ${MANAGER_HOST} "ls"

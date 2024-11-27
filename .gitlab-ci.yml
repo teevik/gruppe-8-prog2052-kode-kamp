@@ -56,4 +56,7 @@ deploy:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
+    # Disable host key checking
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
+
   script: ssh ${MANAGER_HOST} "ls"

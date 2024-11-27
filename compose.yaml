@@ -1,28 +1,41 @@
 services:
-  db:
-    image: mongo:4.4.6
-    volumes:
-      - ./data:/data/db
-
-  code-runner:
-    image: 127.0.0.1:5000/code-runner
-    build: ./code-runner
-
   web:
     depends_on:
       - db
       - code-runner
 
+    deploy:
+      update_config:
+        order: start-first
+
     image: 127.0.0.1:5000/web
     build: .
 
     ports:
-      - "${PORT:?error}:3000"
+      - "${PORT:-80}:3000"
+
     environment:
       - NODE_ENV=production
       - PORT=3000
       - SERVER_URL=http://10.212.173.135
       - DATABASE_URL=mongodb://db:27017/kode-kamp
       - CODE_RUNNER_URL=http://code-runner:3000
-      - JWT_SECRET=awdawd
-# TODO docker secrets
+      - JWT_SECRET=${JWT_SECRET:?error}
+      - EMAIL_USER=${EMAIL_USER:?error}
+      - EMAIL_PASS=${EMAIL_PASS:?error}
+
+  code-runner:
+    image: 127.0.0.1:5000/code-runner
+    build: ./code-runner
+
+    deploy:
+      mode: replicated
+      replicas: 3
+
+  db:
+    image: mongo:4.4.6
+    volumes:
+      - db-data:/data/db
+
+volumes:
+  db-data:

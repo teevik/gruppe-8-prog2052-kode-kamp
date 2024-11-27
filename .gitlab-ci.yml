@@ -38,7 +38,7 @@ stages: # List of stages for jobs, and their order of execution
 
 deploy:
   resource_group: all
-  image: docker:17
+  image: docker:27-cli
   stage: deploy
 
   before_script:

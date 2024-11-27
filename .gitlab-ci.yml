@@ -39,7 +39,7 @@ test code-runner:
 
 deploy:
   resource_group: all
-  image: docker:27
+  image: docker:27-dind-rootless
   stage: deploy
 
   rules:

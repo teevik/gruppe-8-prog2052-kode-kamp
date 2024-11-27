@@ -5,7 +5,7 @@ import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
 import type { UserJWT } from "../../../shared/types";
 import { EMAIL_REGEX, JWT_EXPIRESIN } from "../const";
 import { UserModel } from "../database/model/user";
-import { JWT_SECRET } from "../env";
+import { env } from "../env";
 import { sendVerifyEmail } from "../mailer/mailer";
 import { publicProcedure, router } from "../trpc";
 
@@ -17,10 +17,10 @@ const register = publicProcedure
         .string()
         .min(
           MIN_PASSWORD_LENGTH,
-          `Must be ${MIN_PASSWORD_LENGTH} or more characters long`
+          `Must be ${MIN_PASSWORD_LENGTH} or more characters long`,
         ),
       email: z.string().email().min(1, "Email is required"),
-    })
+    }),
   )
   .mutation(async ({ input }) => {
     const { username, password, email } = input;
@@ -59,7 +59,7 @@ const login = publicProcedure
     z.object({
       user: z.string().min(1, "Username or email is required"),
       password: z.string(),
-    })
+    }),
   )
   .mutation(async ({ input }) => {
     const { user, password } = input;
@@ -78,7 +78,7 @@ const login = publicProcedure
 
     const correctPassword: boolean = await Bun.password.verify(
       password,
-      userDocument.hashedPassword
+      userDocument.hashedPassword,
     );
     if (!correctPassword) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -94,14 +94,14 @@ const login = publicProcedure
   });
 
 export function getToken(user: UserJWT) {
-  const jwt = signJwt(user, JWT_SECRET, {
+  const jwt = signJwt(user, env.JWT_SECRET, {
     expiresIn: JWT_EXPIRESIN,
   });
   return jwt;
 }
 
 export function getEmailToken(userID: string) {
-  const jwt = signJwt({ userID: userID }, JWT_SECRET, {
+  const jwt = signJwt({ userID: userID }, env.JWT_SECRET, {
     expiresIn: JWT_EXPIRESIN,
   });
   return jwt;

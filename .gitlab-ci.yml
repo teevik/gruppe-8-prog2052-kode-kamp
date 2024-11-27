@@ -54,4 +54,5 @@ deploy:
   #   paths:
   #     - backend/node_modules
   script:
+    - unset DOCKER_HOST
     - docker compose build

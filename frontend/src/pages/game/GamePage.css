@@ -36,6 +36,7 @@
   justify-content: top;
   text-align: left;
   overflow: scroll;
+  user-select: none;
 }
 
 .separator {

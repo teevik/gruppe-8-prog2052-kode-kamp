@@ -2,12 +2,14 @@ import { useAuth } from "../../auth";
 import { Button } from "../../components/Button";
 import { Layout } from "../../components/Layout";
 import { ScoreRanking } from "../../components/ScoreRanking";
+import { trpc } from "../../trpc";
 import "./ProfilePage.css";
 
 export default function ProfilePage() {
   const { user } = useAuth();
-
-  const points = 47;
+  const { data: points } = trpc.user.points.useQuery(undefined, {
+    initialData: 0,
+  });
 
   return (
     <Layout showNav showFooter>

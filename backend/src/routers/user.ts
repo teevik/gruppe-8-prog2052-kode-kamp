@@ -13,6 +13,18 @@ const isVerified = authenticatedProcedure.query(async ({ ctx }) => {
   return userDocument.verified;
 });
 
+const points = authenticatedProcedure.query(async ({ ctx }) => {
+  const { user } = ctx;
+
+  const userDocument = await UserModel.findById(user.id);
+  if (!userDocument) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  return userDocument.points;
+});
+
 export const userRouter = router({
   isVerified,
+  points,
 });

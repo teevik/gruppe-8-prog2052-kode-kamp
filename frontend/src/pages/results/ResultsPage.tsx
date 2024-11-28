@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { atomOneDark, CodeBlock } from "react-code-blocks";
-import CountDown, { formatSeconds } from "../../components/CountDown";
-import type { Participant, SocketData } from "../../../../shared/types";
 import { GAME_MODES } from "../../../../shared/const";
-import "./ResultsPage.css";
-import { Button } from "../../components/Button";
 import { calculatePoints } from "../../../../shared/functions";
-import { LinkButton } from "../../components/LinkButton";
+import type { Participant, SocketData } from "../../../../shared/types";
+import { Button } from "../../components/Button";
+import { formatSeconds } from "../../components/CountDown";
+import "./ResultsPage.css";
 
 export interface ResultPageProps {
   scoreboard: Participant[] | undefined;
@@ -103,9 +102,15 @@ export default function ResultsPage({
             ))}
         </ul>
         <div className="buttonsContainer">
-          <LinkButton variant="secondary" to="/">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              location.reload();
+            }}
+          >
             Home
-          </LinkButton>
+          </Button>
+
           <Button
             onClick={() => {
               location.reload();

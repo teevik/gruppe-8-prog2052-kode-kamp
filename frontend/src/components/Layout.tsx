@@ -15,7 +15,7 @@ export function Layout(props: LayoutProps) {
     <div className="layout">
       {props.showNav && <Nav />}
 
-      <main className={classNames("main", props.className)}>
+      <main className={classNames("main-kodekamp", props.className)}>
         {props.children}
       </main>
 

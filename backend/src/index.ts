@@ -12,13 +12,14 @@ import type {
   ServerToClientEvents,
   SocketData,
 } from "../../shared/types";
-import { PORT, RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
+import { RATE_LIMIT_MAX, RATE_LIMIT_MINUTE_INTERVAL } from "./const";
 import connectdb from "./database/db";
 import { authRouter } from "./routers/auth";
 import { userRouter } from "./routers/user";
 import { verifyHandler } from "./routers/verify";
 import { initLobby } from "./socketio/lobby";
 import { createContext, publicProcedure, router } from "./trpc";
+import { env } from "./env";
 
 const app: Express = express();
 
@@ -58,7 +59,7 @@ app.use(
   createExpressMiddleware({
     router: appRouter,
     createContext,
-  })
+  }),
 );
 
 app.get(`${VERIFY_ROUTE}/:jwtToken`, verifyHandler);
@@ -67,8 +68,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(root, "./public/index.html"));
 });
 
-let server: Httpserver = app.listen(PORT, () => {
-  console.log(`Server is listening on port: ${PORT}`);
+let server: Httpserver = app.listen(env.PORT, () => {
+  console.log(`Server is listening on port: ${env.PORT}`);
 });
 
 export type SocketServer = Server<
@@ -91,7 +92,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, SocketData>(
       origin: "http://localhost:5173",
       methods: ["GET", "POST"],
     },
-  }
+  },
 );
 
 io.on("connection", (socket) => initLobby(socket, io));

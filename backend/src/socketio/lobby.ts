@@ -9,7 +9,7 @@ import {
   RANDOM_USERNAMES,
 } from "../const";
 import { UserModel } from "../database/model/user";
-import { JWT_SECRET } from "../env";
+import { env } from "../env";
 import { userJWTSchema } from "../schemas/userJWT";
 import { createGameRoom } from "./game";
 import type { Lobby } from "./types";
@@ -58,7 +58,7 @@ function initLobby(socket: GameSocket, io: SocketServer) {
 
     if (jwtToken !== "") {
       try {
-        const userData = jwt.verify(jwtToken, JWT_SECRET);
+        const userData = jwt.verify(jwtToken, env.JWT_SECRET);
         const user = userJWTSchema.parse(userData);
         socket.data.registeredUser = true;
         socket.data.userID = user.id;
@@ -98,7 +98,7 @@ function joinLobby(socket: GameSocket, io: SocketServer) {
   socket.emit(
     "lobbyJoined",
     socket.data,
-    lobby.players.map((player) => player.data)
+    lobby.players.map((player) => player.data),
   );
 
   //Emit to entire lobby that player has joined (does not emit to itself)

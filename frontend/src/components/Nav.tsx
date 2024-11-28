@@ -16,7 +16,7 @@ export default function Nav() {
         {/* Link to the home page */}
         <h1>
           <Link to="/" className="link">
-            Kode Kamp
+            KodeKamp
           </Link>
         </h1>
         <div className="buttonArray">

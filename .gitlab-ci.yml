@@ -1,5 +1,6 @@
 stages: # List of stages for jobs, and their order of execution
   - test
+  - deploy
 
 test frontend and backend:
   resource_group: all
@@ -21,7 +22,6 @@ test frontend and backend:
     - npm install
     - npm run check
     - npm run test
-    
 
 test code-runner:
   resource_group: all
@@ -35,3 +35,39 @@ test code-runner:
     - cd code-runner
     - cargo build --verbose
     - cargo test --verbose
+
+deploy:
+  resource_group: all
+  image: docker:27-cli
+  stage: deploy
+
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+
+    # - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored at SSH_KEY path to the agent store
+    - chmod 400 "$SSH_KEY"
+    - ssh-add "$SSH_KEY"
+
+    # Create the SSH directory and give it the right permissions
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    # Disable host key checking
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
+
+    # Reset DOCKER_HOST
+    - unset DOCKER_HOST
+
+  script:
+    - docker context create kodekamp --docker "host=ssh://${MANAGER_HOST}"
+    - docker context use kodekamp
+    - docker compose build
+    - docker compose push
+    - docker stack deploy -c ./compose.yaml --detach=false kodekamp

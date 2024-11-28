@@ -50,7 +50,6 @@ function lobbyCountdown(io: SocketServer) {
 }
 
 function initLobby(socket: GameSocket, io: SocketServer) {
-  console.log("client with socket.id: ", socket.id, " connected!");
   emitLobbyUpdate(io);
 
   socket.on("joinLobby", async (jwtToken) => {
@@ -81,10 +80,6 @@ function initLobby(socket: GameSocket, io: SocketServer) {
       handleLobbyCountdown(io);
     }
   });
-
-  socket.on("disconnect", () => {
-    console.log("client with socket.id: ", socket.id, " disconnected");
-  });
 }
 
 function joinLobby(socket: GameSocket, io: SocketServer) {
@@ -98,7 +93,7 @@ function joinLobby(socket: GameSocket, io: SocketServer) {
   socket.emit(
     "lobbyJoined",
     socket.data,
-    lobby.players.map((player) => player.data),
+    lobby.players.map((player) => player.data)
   );
 
   //Emit to entire lobby that player has joined (does not emit to itself)
@@ -119,7 +114,6 @@ function joinLobby(socket: GameSocket, io: SocketServer) {
   //Listen for disconnect event and remove from lobby
   socket.on("disconnect", () => {
     leaveLobby(socket, io);
-    console.log("client with socket.id", socket.id, " disconnected");
   });
 }
 

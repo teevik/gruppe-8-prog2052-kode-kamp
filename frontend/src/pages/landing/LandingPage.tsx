@@ -45,7 +45,6 @@ const LandingPage = () => {
   }
 
   function gameStart(ch: Challenge, gameTime: number) {
-    console.log("Game started! Task: ", ch);
     setChallenge(ch);
     setGameTime(gameTime);
     setInGame(true);

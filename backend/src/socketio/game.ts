@@ -167,13 +167,6 @@ function endGame(gameRoomID: string, players: Participant[], io: SocketServer) {
       );
       if (!updatedUser.acknowledged) {
         throw new Error("Failed to update points of a player");
-      } else {
-        console.log(
-          "Oppdaterte poeng!",
-          player.socket.userName,
-          " ",
-          amountPoints
-        );
       }
     }
   });

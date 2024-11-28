@@ -7,5 +7,4 @@ export const milestones: Milestone[] = [
   { text: "Pro", imageSrc: "/ranking/pro.png" },
   { text: "CTO", imageSrc: "/ranking/ulrik.png" },
   { text: "FAANG", imageSrc: "/ranking/faang.png" },
-  { text: "FRODEKODER", imageSrc: "/ranking/frode.png" },
 ];

@@ -1,7 +1,7 @@
 import GamePage from "../GamePage";
 import challenge from "./challenge.toml";
 
-export function GamePageMock() {
+export default function GamePageMock() {
   return (
     <GamePage
       challenge={challenge as any}

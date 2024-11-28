@@ -5,6 +5,7 @@ import { useAuth } from "../auth";
 import { REGISTER_ROUTE } from "../const";
 import { trpc } from "../trpc";
 import { PasswordInput } from "./PasswordInput";
+import { LinkButton } from "./LinkButton";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -29,7 +30,7 @@ function Login() {
 
     const validation: LoginValidation = loginInputValidation(
       username,
-      password
+      password,
     );
     if (validation.valid) {
       submitLogin();
@@ -101,9 +102,9 @@ function Login() {
 
         <h2>New user?</h2>
 
-        <Link to={REGISTER_ROUTE}>
-          <button>Register</button>
-        </Link>
+        <LinkButton variant="secondary" to={REGISTER_ROUTE}>
+          Register
+        </LinkButton>
       </form>
     </div>
   );
@@ -124,7 +125,7 @@ export type LoginValidation =
 
 export function loginInputValidation(
   user: string,
-  password: string
+  password: string,
 ): LoginValidation {
   // Username validation
   if (user === "") {

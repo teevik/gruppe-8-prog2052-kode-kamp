@@ -61,7 +61,7 @@ function Register() {
       username,
       email,
       password,
-      passwordcheck
+      passwordcheck,
     );
 
     if (valid) {
@@ -144,7 +144,9 @@ function Register() {
 
         <h2>Already a user?</h2>
 
-        <LinkButton to={LOGIN_ROUTE}>Login</LinkButton>
+        <LinkButton variant="secondary" to={LOGIN_ROUTE}>
+          Login
+        </LinkButton>
       </form>
     </div>
   );
@@ -153,7 +155,7 @@ export function registerInputValidation(
   username: string,
   email: string,
   password: string,
-  passwordcheck: string
+  passwordcheck: string,
 ): [string, string, boolean] {
   // Email validation
   if (email === "") {
@@ -163,7 +165,7 @@ export function registerInputValidation(
   // From https://emailregex.com/index.html
   if (
     !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-      email
+      email,
     )
   ) {
     return ["email", "Please enter a valid email address", false];

@@ -1,7 +1,7 @@
 import { env } from "./env";
 
 const MAX_PLAYERS_PR_GAME: number = 8;
-const COUNTDOWN_LENGTH_SECONDS: number = 5;
+const COUNTDOWN_LENGTH_SECONDS: number = 15;
 const TIME_AT_ENDSCREEN_SECONDS: number = 180;
 const GAME_LENGTH_MINUTES: number = 10;
 const LOBBY_TIMER_SECONDS: number = 30;

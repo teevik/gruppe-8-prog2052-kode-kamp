@@ -28,7 +28,7 @@ h3 {
   left: 0;
   right: 0;
   z-index: -1;
-  background-color: var(--bg-alt);
+  background-color: var(--bg-light);
   animation: lower linear;
 }
 

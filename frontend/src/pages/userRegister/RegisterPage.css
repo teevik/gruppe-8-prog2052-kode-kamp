@@ -1,6 +1,5 @@
-/* Container styling */
 .RegisterPageBox {
-  background-color: #333; /* Dark background */
+  background-color: var(--bg-light);
   padding: 2rem;
   margin: 2rem auto;
   width: 300px;
@@ -10,58 +9,46 @@
   text-align: center;
 }
 
-/* Heading */
 .RegisterPageBox h2 {
   margin-bottom: 1.5rem;
-  color: #ffffff;
 }
 
-/* Form box styling */
 .userBox {
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
-/* Form input styling */
 .userBox input {
   width: 80%;
   padding: 0.75rem;
-  margin-bottom: 0.5rem;
-  border: 1px solid #555555;
-  background-color: #444444; /* Dark input background */
-  color: #ffffff; /* Text color */
+  border: none;
+  background-color: var(--bg);
+  color: var(--fg);
+  outline: none;
   border-radius: 5px;
   font-size: 1rem;
 }
 
-/* Input focus state */
-.userBox input:focus {
-  border-color: #61dafb; /* Light blue border on focus */
-}
-
-/* Error label styling */
 .errorLabel {
-  color: #ff6b6b; /* Red color for error messages */
-  font-size: 0.85rem;
+  color: #ff6b6b;
+  font-size: 1rem;
   margin-bottom: 1rem;
-  display: block; /* Show on a new line */
+  display: block;
 }
 
-/* Submit button */
 .inputButton {
   width: 100%;
   padding: 0.75rem;
-  background-color: #61dafb; /* Button background */
-  color: #333333; /* Dark text */
+  background-color: var(--primary);
+  color: var(--bg);
   border: none;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: 0.2s linear;
 }
 
-/* Button hover state */
 .inputButton:hover {
-  background-color: #4fa6d8; /* Darken the button on hover */
+  transform: scale(1.02);
 }

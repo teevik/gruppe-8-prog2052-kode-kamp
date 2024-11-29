@@ -1,6 +1,6 @@
-import type { Participant } from "../../../shared/types";
-import { GAME_MODES } from "../../../shared/const";
 import type { GameMode } from "../../../shared/const";
+import { GAME_MODES } from "../../../shared/const";
+import type { Participant } from "../../../shared/types";
 
 /**
  * Function that updates the scoreboard based on the results of the new
@@ -107,8 +107,6 @@ export function updateScoreboard(
       newScoreboard.push(scoreboardEntry);
     }
   }
-
-  console.log("new scoreboard", newScoreboard);
 
   return newScoreboard;
 }

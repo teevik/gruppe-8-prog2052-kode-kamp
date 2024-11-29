@@ -50,7 +50,6 @@ export default function SpeedCodingPage({
 
   const [timeAtResultPage, setTimeAtResultPage] = useState<number>(0);
   function updateScoreboard(scores: Participant[]) {
-    console.log("Scoreboard is updated", scores);
     setScoreboard(scores);
   }
 

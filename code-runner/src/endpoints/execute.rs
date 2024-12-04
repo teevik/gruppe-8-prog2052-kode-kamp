@@ -41,6 +41,7 @@ pub struct ExecutionResult {
     pub results: Vec<CodeRunOutput>,
 }
 
+/// Execute the code with the given tests
 #[utoipa::path(
     post,
     path = "/execute",

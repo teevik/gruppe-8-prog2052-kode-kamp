@@ -9,9 +9,6 @@ use tokio::net::TcpListener;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-// NVM: bytte til glommio
-// En hoved thread som sender i queue
-
 /// Return JSON version of an OpenAPI schema
 #[utoipa::path(
     get,
@@ -37,8 +34,6 @@ async fn openapi() -> Json<utoipa::openapi::OpenApi> {
 )]
 struct ApiDoc;
 
-// TODO: Error handling, thread per core
-
 #[tokio::main]
 async fn main() {
     let port = env::var("PORT")
@@ -55,7 +50,6 @@ async fn main() {
     let app = axum::Router::new()
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
         .route("/execute", post(execute::execute))
-        // .route("/api-docs/openapi.json", get(openapi))
         .route("/", get(|| async { Redirect::temporary("/swagger-ui/") }));
 
     println!("Listening on: http://{}", socket_address);

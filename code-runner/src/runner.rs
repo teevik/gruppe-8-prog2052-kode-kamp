@@ -8,6 +8,7 @@ thread_local! {
   static OUTPUT: RefCell<Vec<String>> = RefCell::new(Vec::new());
 }
 
+/// Operation to read a line from the input
 #[op2]
 fn readline<'a>(scope: &'a mut v8::HandleScope) -> Result<v8::Local<'a, v8::Value>, AnyError> {
     let next_line = INPUT.with_borrow_mut(|input| input.pop_front());
@@ -22,6 +23,7 @@ fn readline<'a>(scope: &'a mut v8::HandleScope) -> Result<v8::Local<'a, v8::Valu
     Ok(value)
 }
 
+/// Operation to print a string to the output
 #[op2(fast)]
 fn print(#[string] data: String) {
     OUTPUT.with_borrow_mut(|output| output.push(data));
@@ -37,6 +39,7 @@ extension! {
 
 const MAX_HEAP_SIZE: usize = 1024 * 1024 * 512; // 512 MB
 
+/// Prebuilt snapshot of the deno runtime
 static RUNTIME_SNAPSHOT: &[u8] =
     include_bytes!(concat!(env!("OUT_DIR"), "/CODE_RUNNER_SNAPSHOT.bin"));
 
@@ -46,6 +49,7 @@ pub struct CodeRunResult {
     pub execution_time: Duration,
 }
 
+/// Run the given code with the given input, and return the output and error if any
 pub fn run_code(code: String, input: Vec<String>) -> CodeRunResult {
     let create_params = v8::CreateParams::default().heap_limits(0, MAX_HEAP_SIZE);
 
@@ -90,6 +94,7 @@ pub fn run_code(code: String, input: Vec<String>) -> CodeRunResult {
     }
 }
 
+/// Run all tests, and return the execution result
 pub fn run_tests(request: ExecutionRequest) -> ExecutionResult {
     let mut execution_time = Duration::ZERO;
 

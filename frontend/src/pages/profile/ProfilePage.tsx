@@ -6,6 +6,11 @@ import { ScoreRanking } from "../../components/ScoreRanking";
 import { trpc } from "../../trpc";
 import "./ProfilePage.css";
 
+/**
+ * ProfilePage is a React component that renders the user's profile page.
+ * It displays the user's information, allows the user to delete their account,
+ * and shows the user's current ranking and points.
+ */
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { user, logOut } = useAuth();
@@ -14,6 +19,10 @@ export default function ProfilePage() {
   });
   const deleteUserMutation = trpc.user.delete.useMutation();
 
+  /**
+   * Handles the account deletion process by confirming with the user,
+   * calling the delete mutation, logging out, and navigating to the home page.
+   */
   async function onDeleteAccount() {
     if (window.confirm("Are you sure you want to delete your account?")) {
       await deleteUserMutation.mutateAsync();
@@ -32,14 +41,17 @@ export default function ProfilePage() {
           <p>Username: {user?.username}</p>
           <p>Email: {user?.email}</p>
 
+          {/* Button to delete account */}
           <Button onClick={onDeleteAccount} variant="danger">
             Delete account
           </Button>
         </div>
         <h2>Ranking</h2>
         <p>Points: {points}</p>
+        {/* Displays the user's score ranking based on points */}
         <ScoreRanking progress={points} />
       </div>
     </Layout>
   );
 }
+

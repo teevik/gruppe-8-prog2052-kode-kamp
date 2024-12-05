@@ -7,6 +7,11 @@ import { trpc } from "../trpc";
 import { PasswordInput } from "./PasswordInput";
 import { LinkButton } from "./LinkButton";
 
+/**
+ * Login component handles user authentication.
+ * It provides input fields for username and password,
+ * validates the inputs, and submits the login request.
+ */
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,13 +21,16 @@ function Login() {
   const navigate = useNavigate();
   const login = trpc.auth.login.useMutation();
   const { user, setToken } = useAuth();
-
   const [viewPassword, setViewPassword] = useState<boolean>(false);
 
   useEffect(() => {
     if (user) navigate("/");
   }, [user, navigate]);
 
+  /**
+   * Handles the button click event, validates input, and submits login request.
+   * @param e - The form event.
+   */
   const onButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Prevent form submission (default behavior)
     setUsernameError("");
@@ -35,14 +43,17 @@ function Login() {
     if (validation.valid) {
       submitLogin();
     } else {
-      if (validation.type == "user") {
+      if (validation.type === "user") {
         setUsernameError(validation.message);
-      } else if (validation.type == "password") {
+      } else if (validation.type === "password") {
         setPasswordError(validation.message);
       }
     }
   };
 
+  /**
+   * Submits the login request and handles the response.
+   */
   async function submitLogin() {
     try {
       const res = await login.mutateAsync({
@@ -53,13 +64,12 @@ function Login() {
       setServerErrorMessage("");
       if (res) {
         setToken(res);
-
         navigate("/");
       }
     } catch (err: any) {
-      if (err.data.httpStatus == 500) {
+      if (err.data.httpStatus === 500) {
         setServerErrorMessage("Oops. Something went wrong. Try again later.");
-      } else if (err.data.httpStatus == 401) {
+      } else if (err.data.httpStatus === 401) {
         setServerErrorMessage("Incorrect username/email or password");
       }
     }
@@ -80,7 +90,6 @@ function Login() {
             onChange={(e) => setUsername(e.target.value)}
             className="userBox"
           />
-
           <label className="errorLabel">{usernameError}</label>
         </div>
 
@@ -110,6 +119,9 @@ function Login() {
   );
 }
 
+/**
+ * Type defining the structure of the login validation response.
+ */
 export type LoginValidation =
   | {
       type: "user";
@@ -123,6 +135,12 @@ export type LoginValidation =
     }
   | { type: ""; valid: boolean };
 
+/**
+ * Validates the login inputs for username and password.
+ * @param user - The username or email entered by the user.
+ * @param password - The password entered by the user.
+ * @returns An object indicating validation status and error messages.
+ */
 export function loginInputValidation(
   user: string,
   password: string,
@@ -156,3 +174,4 @@ export function loginInputValidation(
 }
 
 export default Login;
+

@@ -1,3 +1,11 @@
+/**
+ * This component is the main lobby page where users can join and leave the lobby, and see how many players are currently in the lobby
+ * @param gameMode The game mode of the current lobby
+ * @param updatePlayer A function that updates the user's player data
+ * @param players An array of all players in the lobby
+ * @param player The user's player data
+ * @returns A component that displays the lobby and allows users to join and leave
+ */
 import { useEffect, useState } from "react";
 import { GameMode } from "../../../../shared/const";
 import { SocketData } from "../../../../shared/types";
@@ -15,6 +23,7 @@ interface LobbyProps {
   player: SocketData | undefined;
 }
 
+
 export default function Lobby({
   gameMode,
   updatePlayer,
@@ -28,6 +37,7 @@ export default function Lobby({
   const [totalPlayersLobby, setTotalPlayersLobby] = useState(0);
   const { token } = useAuth();
 
+  // Set up socket event listeners
   useEffect(() => {
     socket.on("lobbyCountdown", setCountdownLobby);
     socket.on("lobbyUpdate", lobbyUpdate);
@@ -41,26 +51,31 @@ export default function Lobby({
     };
   }, [countdownLobby]);
 
+  // Join lobby function
   const joinLobby = () => {
     socket.emit("joinLobby", token || "");
   };
 
+  // Leave lobby function
   const leaveLobby = () => {
     socket.emit("leaveLobby");
     updatePlayer(undefined);
   };
 
+  // Update lobby function
   function lobbyUpdate(amountPlayers: number, totalPlayers: number) {
     setAmountPlayersLobby(amountPlayers);
     setTotalPlayersLobby(totalPlayers);
   }
 
+  // Start game countdown function
   function startGameCountdown(counter: number) {
     setCountdownStartGame(counter.toString());
   }
 
   return (
     <>
+      {/* If the game has started, show the game mode explanation component */}
       {countdownStartGame !== "" && (
         <ModeExplanation
           gameMode={gameMode}
@@ -69,18 +84,21 @@ export default function Lobby({
         />
       )}
 
+      {/* If the game has not started, show the lobby page */}
       {countdownStartGame == "" && (
         <Layout showNav showFooter className="landingPage">
           <header>
             <h1>KodeKamp Lobby</h1>
             <p>Compete together, grow together</p>
           </header>
+
           {/* Lobby section, placeholder for real one for now, fix some way of adding the game mode and mby showing some other info, like difficulty, if there is time */}
           <div className="lobbyContainer">
             <div className="lobbyHeader">
-              <h3>🧑‍🤝‍🧑 Public lobby</h3>
+              <h3> Public lobby</h3>
               <p>Join the upcoming challenge and compete with others</p>
             </div>
+
             {/* Players section, placeholder for real one for now, here we see how many players are in the lobby, could just be a number out of 4 or 8 based on lobby size for now */}
 
             <div className="playerGrid">
@@ -124,3 +142,4 @@ export default function Lobby({
     </>
   );
 }
+

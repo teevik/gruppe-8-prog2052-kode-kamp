@@ -1,3 +1,6 @@
+/**
+ * Properties for the PasswordInput component.
+ */
 interface PasswordInputProps {
   password: string;
   setPassword: (pwd: string) => void;
@@ -7,6 +10,11 @@ interface PasswordInputProps {
   labelText: string;
 }
 
+/**
+ * A React component that renders an input field for a password.
+ * The component displays a label, an input field for the password, and a button to toggle the visibility of the password.
+ * The component also displays an error message if the password is invalid.
+ */
 export function PasswordInput({
   password,
   setPassword,
@@ -45,3 +53,4 @@ export function PasswordInput({
     </div>
   );
 }
+

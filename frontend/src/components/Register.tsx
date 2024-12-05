@@ -22,7 +22,7 @@ import { PasswordInput } from "./PasswordInput";
  * If the input is invalid, the function returns an error message.
  * If the input is valid, the function returns an empty string and a boolean indicating that the input is valid.
  */
-function registerInputValidation(
+export function registerInputValidation(
   username: string,
   email: string,
   password: string,

@@ -1,7 +1,21 @@
+/**
+ * A component that renders the results of a challenge.
+ * The component displays the test results in a scrollable div.
+ * If the test result is a failure, it displays a diff of the expected and actual output.
+ * If the test result is a success, it displays a success message.
+ * If the test result is an error, it displays the error message.
+ */
 import classNames from "classnames";
 import { TestResult, TestResults } from "../../../shared/types";
 import "./TestResults.css";
 
+/**
+ * A component that renders the result of a single test.
+ * The component takes a test result and an index as props.
+ * If the test result is a failure, it displays a diff of the expected and actual output.
+ * If the test result is a success, it displays a success message.
+ * If the test result is an error, it displays the error message.
+ */
 interface ResultByKindProps {
   testResult: TestResult;
   index: number;
@@ -48,10 +62,19 @@ function ResultByKind(props: ResultByKindProps) {
   }
 }
 
+/**
+ * A component that renders the results of a challenge.
+ * The component takes the test results as a prop.
+ * It renders a scrollable div with the test results.
+ */
 interface TestResultsProps {
   testResults: TestResults;
 }
 
+/**
+ * The main component of the test results page.
+ * The component renders the test results in a scrollable div.
+ */
 export default function TestResultsComponent({
   testResults,
 }: TestResultsProps) {
@@ -68,3 +91,4 @@ export default function TestResultsComponent({
     </>
   );
 }
+

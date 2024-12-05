@@ -7,6 +7,11 @@ import { Button } from "../../components/Button";
 import { formatSeconds } from "../../components/CountDown";
 import "./ResultsPage.css";
 
+/**
+ * The ResultsPage component renders the scoreboard and submission code blocks.
+ * It also contains logic for displaying the solution code blocks on click.
+ * The component is used in the results page after a game has finished.
+ */
 export interface ResultPageProps {
   scoreboard: Participant[] | undefined;
   gameMode: string;
@@ -15,6 +20,11 @@ export interface ResultPageProps {
   player: SocketData | undefined;
 }
 
+/**
+ * The ResultsPage component renders the scoreboard and submission code blocks.
+ * It also contains logic for displaying the solution code blocks on click.
+ * The component is used in the results page after a game has finished.
+ */
 export default function ResultsPage({
   scoreboard,
   gameMode,
@@ -23,7 +33,7 @@ export default function ResultsPage({
   player,
 }: ResultPageProps) {
   const [solution, setSolution] = useState<string>("");
-  const [showSolution, setDisplaySolution] = useState<boolean>();
+  const [showSolution, setDisplaySolution] = useState<boolean>(false);
   const [solutionNumber, setSolutionNumber] = useState<number>(0);
 
   return (
@@ -120,7 +130,7 @@ export default function ResultsPage({
           </Button>
         </div>
       </section>
-      {/* TODO: add link to the "/"" page (landing) */}
     </div>
   );
 }
+

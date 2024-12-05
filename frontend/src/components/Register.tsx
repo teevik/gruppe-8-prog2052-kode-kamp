@@ -1,3 +1,10 @@
+/**
+ * The Register component renders a form for registering a new user.
+ * The form requires a valid email address, a username, and a password.
+ * The component also renders a button to submit the form.
+ * If the form is invalid, the component renders an error message.
+ * If the form is valid, the component navigates to the verification page.
+ */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
@@ -8,6 +15,62 @@ import { LOGIN_ROUTE } from "../const";
 import { LinkButton } from "./LinkButton";
 import { PasswordInput } from "./PasswordInput";
 
+/**
+ * The registerInputValidation function validates the input fields for the register form.
+ * The function takes in the username, email, password, and password confirmation as arguments.
+ * The function returns an array with the first element being the type of error, the second element being the error message, and the third element being a boolean indicating whether the input is valid or not.
+ * If the input is invalid, the function returns an error message.
+ * If the input is valid, the function returns an empty string and a boolean indicating that the input is valid.
+ */
+export function registerInputValidation(
+  username: string,
+  email: string,
+  password: string,
+  passwordcheck: string,
+): [string, string, boolean] {
+  // Email validation
+  if (email === "") {
+    return ["email", "Please enter your email", false];
+  }
+
+  // From https://emailregex.com/index.html
+  if (
+    !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email,
+    )
+  ) {
+    return ["email", "Please enter a valid email address", false];
+  }
+
+  // Username validation
+  if (username === "") {
+    return ["username", "Please enter a username", false];
+  }
+
+  // Password validation
+  if (password === "") {
+    return ["password", "Please enter a password", false];
+  }
+
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return [
+      "password",
+      `Password must be ${MIN_PASSWORD_LENGTH} characters or longer`,
+      false,
+    ];
+  }
+
+  if (password !== passwordcheck) {
+    return ["password", "Passwords do not match", false];
+  }
+
+  // If all validations pass
+  return ["success", "", true];
+}
+
+/**
+ * The Register component renders a form for registering a new user.
+ */
 function Register() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -151,50 +214,6 @@ function Register() {
     </div>
   );
 }
-export function registerInputValidation(
-  username: string,
-  email: string,
-  password: string,
-  passwordcheck: string,
-): [string, string, boolean] {
-  // Email validation
-  if (email === "") {
-    return ["email", "Please enter your email", false];
-  }
-
-  // From https://emailregex.com/index.html
-  if (
-    !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-      email,
-    )
-  ) {
-    return ["email", "Please enter a valid email address", false];
-  }
-
-  // Username validation
-  if (username === "") {
-    return ["username", "Please enter a username", false];
-  }
-
-  // Password validation
-  if (password === "") {
-    return ["password", "Please enter a password", false];
-  }
-
-  if (password.length < MIN_PASSWORD_LENGTH) {
-    return [
-      "password",
-      `Password must be ${MIN_PASSWORD_LENGTH} characters or longer`,
-      false,
-    ];
-  }
-
-  if (password !== passwordcheck) {
-    return ["password", "Passwords do not match", false];
-  }
-
-  // If all validations pass
-  return ["success", "", true];
-}
 
 export default Register;
+

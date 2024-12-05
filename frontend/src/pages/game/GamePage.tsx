@@ -119,6 +119,7 @@ export default function SpeedCodingPage({
       )}
       {challenge && !showResultPage && (
         <>
+          {/* Header Section */}
           <div className="header">
             <h2>KodeKamp: {gameMode}</h2>
 
@@ -162,6 +163,7 @@ export default function SpeedCodingPage({
             <Resizable axis={"x"} initial={600} min={300}>
               {({ position, separatorProps }) => (
                 <>
+                  {/* Left Section: Task Description */}
                   <div className="taskDescription" style={{ width: position }}>
                     {testResults && (
                       <TestResultsComponent testResults={testResults} />
@@ -231,13 +233,6 @@ export default function SpeedCodingPage({
                       width: `calc(100% - ${position}px`,
                     }}
                   >
-                    {/* {amountTestsPassed !== "" && ( */}
-                    {/*   <p className="testResults"> */}
-                    {/*     Tests passed: ${amountTestsPassed} */}
-                    {/*   </p> */}
-                    {/* )} */}
-
-                    {/* {submittedCode && <div className="loader"></div>} */}
                     <CodeEditor
                       code={code}
                       setCode={setCode}

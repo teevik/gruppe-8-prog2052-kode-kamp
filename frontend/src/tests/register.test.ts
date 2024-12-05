@@ -1,6 +1,6 @@
-import {test, expect} from "vitest";
+import { expect, test } from "vitest";
+import { MIN_PASSWORD_LENGTH } from "../../../shared/const";
 import { registerInputValidation } from "../components/Register";
-import {MIN_PASSWORD_LENGTH} from "../../../shared/const"
 
 let username = "John Doe";
 let password = "12345678";

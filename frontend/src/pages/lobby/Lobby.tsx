@@ -23,7 +23,6 @@ interface LobbyProps {
   player: SocketData | undefined;
 }
 
-
 export default function Lobby({
   gameMode,
   updatePlayer,
@@ -95,7 +94,7 @@ export default function Lobby({
           {/* Lobby section, placeholder for real one for now, fix some way of adding the game mode and mby showing some other info, like difficulty, if there is time */}
           <div className="lobbyContainer">
             <div className="lobbyHeader">
-              <h3> Public lobby</h3>
+              <h3>Public lobby</h3>
               <p>Join the upcoming challenge and compete with others</p>
             </div>
 
@@ -142,4 +141,3 @@ export default function Lobby({
     </>
   );
 }
-

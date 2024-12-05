@@ -15,13 +15,13 @@ You can download Node.js [here](https://nodejs.org/).
 First we need to install all of the node modules with:
 
 ```bash
-  npm install
+npm install
 ```
 
 or
 
 ```bash
-  npm i
+npm i
 ```
 
 After everything is installed we can run the application two ways,
@@ -31,7 +31,7 @@ After everything is installed we can run the application two ways,
 To only run the frontend part of our application we need to run
 
 ```bash
-  npm run dev
+npm run dev
 ```
 
 and we will get a local link, usually: http://localhost:5173/
@@ -42,7 +42,7 @@ Here we can navigate to our version of the application
 To run the frontend component with the backend, we need to open a second terminal and run:
 
 ```bash
-  npm run dev
+npm run dev
 ```
 
 in the ./backend direcotry whilst we are running the fronend part in the ./frontend directory

@@ -13,6 +13,7 @@ import type { Participant } from "../../../shared/types";
  *
  * Space complexity O(n)
  *
+ * @deprecated
  * @param scoreboardEntry
  * @param currentScoreboard
  * @return The updated scoreboard

@@ -8,7 +8,7 @@ import type { JwtPayload } from "jsonwebtoken";
 
 export async function verifyHandler(
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response> {
   const { jwtToken } = req.params;
 
@@ -18,7 +18,7 @@ export async function verifyHandler(
     if (typeof user === "object" && user !== null && "userID" in user) {
       const userDoc = await UserModel.updateOne(
         { _id: (user as JwtPayload).userID },
-        { verified: true },
+        { verified: true }
       );
 
       if (!userDoc.acknowledged) {
@@ -28,10 +28,10 @@ export async function verifyHandler(
         return res;
       }
     } else {
-      return res.sendStatus(400); // Invalid token structure
+      return res.sendStatus(400);
     }
   } catch (error) {
     console.error("JWT verification failed:", error);
-    return res.sendStatus(401); // Unauthorized
+    return res.sendStatus(401);
   }
 }

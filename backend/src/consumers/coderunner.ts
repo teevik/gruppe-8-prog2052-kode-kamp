@@ -3,9 +3,8 @@ import { env } from "../env";
 
 async function submitCode(
   code: string,
-  tests: Test[],
+  tests: Test[]
 ): Promise<TestResults | undefined> {
-  //Send code
   try {
     const req = await fetch(`${env.CODE_RUNNER_URL}/execute`, {
       method: "POST",
@@ -30,7 +29,6 @@ async function submitCode(
     console.log(e);
     return undefined;
   }
-  //Parse results
 }
 
 export { submitCode };

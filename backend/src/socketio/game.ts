@@ -21,6 +21,14 @@ import { emitLobbyUpdate, lobby } from "./lobby";
 import { updateScoreboard } from "./scoreboard";
 import type { Game } from "./types";
 
+/**
+ * Function to start a game with all players that are currently in the lobby when the lobby countdown is over
+ *
+ * @param gameRoomID ID of the websocket room that is used for the game
+ * @param players The players that was in the lobby and are now being moved to a game
+ * @param gameMode The given gamemode of the current game
+ * @param io The socket server that all the players/websocket clients are connected to
+ */
 function startGame(
   gameRoomID: string,
   players: GameSocket[],
@@ -103,16 +111,8 @@ function startGame(
       }
     });
   });
-  //Listen for game events (and disconnect), and broadcast the events to the same room
-  //When code is submitted, pass the code to code runner,
-  //if the code is accepted by the code runner
-  //emit to all sockets that a user has completed
 
   //Start timeout to finish the game
-  //When the game is finished, emit gameOver event to all clients, together with data for scores and scoreboard
-  //Also register statistics for all sockets that has a userID, use the userID to update stats in the database
-  //Start new timeout for terminating the game by making all sockets to leave the current room
-
   setTimeout(() => {
     //Check if game is not already ended if all players have left
     if (!gameEnded) {
@@ -121,6 +121,11 @@ function startGame(
   }, GAME_LENGTH_MINUTES * 60 * 1000);
 }
 
+/**
+ * Function to initialize a new game from the lobby
+ *
+ * @param io The socket server that all the players/websocket clients are connected to
+ */
 function createGameRoom(io: SocketServer) {
   let gameRoomID: string = uuidv4();
 
@@ -154,9 +159,14 @@ function createGameRoom(io: SocketServer) {
   lobby.gameMode = GAME_MODES[Math.floor(Math.random() * GAME_MODES.length)];
 }
 
+/**
+ * Function to end a completed game
+ *
+ * @param gameRoomID The websocket room that are going to be ended
+ * @param players All the players that participated in the game that currently were completed
+ * @param io The socket server that all the players/websocket clients are connected to
+ */
 function endGame(gameRoomID: string, players: Participant[], io: SocketServer) {
-  //TODO: update stats and give points
-
   players.forEach(async (player, index) => {
     if (player.socket.registeredUser) {
       //Give the user the amount of points based on amount of players

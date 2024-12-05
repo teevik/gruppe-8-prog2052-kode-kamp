@@ -1,11 +1,17 @@
 import type { Test, TestResults } from "../../../shared/types";
 import { env } from "../env";
 
+/**
+ * Function to the send the code to the code-runner through HTTP request
+ *
+ * @param code Javascript code from the player
+ * @param tests List of all tests that the code will be tested for
+ * @returns Either the testresults, or undefined to indicate that something went wrong with the request
+ */
 async function submitCode(
   code: string,
-  tests: Test[],
+  tests: Test[]
 ): Promise<TestResults | undefined> {
-  //Send code
   try {
     const req = await fetch(`${env.CODE_RUNNER_URL}/execute`, {
       method: "POST",
@@ -30,7 +36,6 @@ async function submitCode(
     console.log(e);
     return undefined;
   }
-  //Parse results
 }
 
 export { submitCode };

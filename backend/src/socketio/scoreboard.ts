@@ -13,6 +13,7 @@ import type { Participant } from "../../../shared/types";
  *
  * Space complexity O(n)
  *
+ * @deprecated
  * @param scoreboardEntry
  * @param currentScoreboard
  * @return The updated scoreboard
@@ -53,7 +54,7 @@ export function binaryUpdateScoreboard(
 /**
  * Function that updates the scoreboard based on the results of the new
  * scoreboard-entry (game-participant with corresponding game results) by inserting
- * the scoreboard-entry into the correct position regarding the execution time of the code
+ * the scoreboard-entry into the correct position
  *
  * Time complexity
  * Best: O(n)

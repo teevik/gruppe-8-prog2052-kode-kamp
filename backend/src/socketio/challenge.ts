@@ -43,9 +43,12 @@ fs.readdirSync(challengePath).forEach((file) => {
   }
 });
 
-export { challenges };
-
+/**
+ * Function that returns a randomly chosen challenge
+ * @returns The randomly chosen challenge
+ */
 export function getRandomChallenge(): Challenge {
-  //Function that returns a randomly chosen challenge
   return challenges[Math.floor(Math.random() * challenges.length)];
 }
+
+export { challenges };

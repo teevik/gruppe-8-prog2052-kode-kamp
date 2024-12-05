@@ -19,6 +19,12 @@ const verifyEmailHTML = (jwtToken: string, username: string) =>
     env.SERVER_URL + VERIFY_ROUTE
   }/${jwtToken}">Click this link to verify your account at Kodekamp!✅</a>  `;
 
+/**
+ * Function to send a verification email to a user that have registered an account
+ *
+ * @param recipient Information of the user that have just registered an account including the email
+ * @returns Returns a promise to eventually handle any errors on the caller
+ */
 export function sendVerifyEmail(recipient: UserJWT): Promise<void> {
   const jwtToken: string = getEmailToken(recipient.id);
 

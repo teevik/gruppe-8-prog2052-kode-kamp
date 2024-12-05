@@ -30,14 +30,6 @@ const limiter = rateLimit({
 });
 
 connectdb();
-// const testUser = new User({username: "testuser", points: 0, hashedPassword: "fefef", email: "hello@gmail.com"});
-// testUser.save();
-
-// sendVerifyEmail({
-//   username: "Ulrik",
-//   email: "ulrik.hesmyr@gmail.com",
-//   id: "testid",
-// });
 
 app.use(limiter);
 

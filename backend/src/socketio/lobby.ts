@@ -28,6 +28,11 @@ let lobbyCountdownCounter: number = LOBBY_TIMER_SECONDS;
 
 let lobbyInterval: ReturnType<typeof setTimeout> | null = null;
 
+/**
+ * Function to handle the lobby countdown to when a game is going to start
+ *
+ * @param io The socket server that all the players/websocket clients are connected to
+ */
 function lobbyCountdown(io: SocketServer) {
   //Emit countdown event to all cients
   let countDownValue = `${lobbyCountdownCounter}s`;
@@ -49,12 +54,17 @@ function lobbyCountdown(io: SocketServer) {
   }
 }
 
+/**
+ * Socket event listener function that are applied on the initial connection to the websocket server
+ *
+ * @param socket The websocket that has connected to the server and are applied with socket event listeners
+ * @param io The socket server that all the players/websocket clients are connected to
+ */
 function initLobby(socket: GameSocket, io: SocketServer) {
   emitLobbyUpdate(io);
 
   socket.on("joinLobby", async (jwtToken) => {
-    //This is so that we can track the stats of the player
-
+    //Join the lobby as a registered user if the user is registered, otherwise joins as guest
     if (jwtToken !== "") {
       try {
         const userData = jwt.verify(jwtToken, env.JWT_SECRET);
